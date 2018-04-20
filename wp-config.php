@@ -1,4 +1,7 @@
 <?php
+/** Enable W3 Total Cache */
+define('WP_CACHE', true); // Added by W3 Total Cache
+
 /**
  * The base configuration for WordPress
  *
@@ -26,7 +29,7 @@ define('DB_NAME', 'wp_bepankhang');
 define('DB_USER', 'root');
 
 /** MySQL database password */
-define('DB_PASSWORD', 'mysqlHaoilaHa');
+define('DB_PASSWORD', '');
 
 /** MySQL hostname */
 define('DB_HOST', 'localhost');
@@ -87,3 +90,5 @@ if ( !defined('ABSPATH') )
 
 /** Sets up WordPress vars and included files. */
 require_once(ABSPATH . 'wp-settings.php');
+//Disable File Edits
+define('DISALLOW_FILE_EDIT', true);
