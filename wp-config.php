@@ -21,7 +21,7 @@ define('WP_CACHE', true); // Added by W3 Total Cache
  * @package WordPress
  */
 
-define('FS_METHOD', 'direct');
+//define('FS_METHOD', 'direct');
 
 
 // ** MySQL settings - You can get this info from your web host ** //
@@ -32,7 +32,7 @@ define('DB_NAME', 'wp_bepankhang');
 define('DB_USER', 'root');
 
 /** MySQL database password */
-define('DB_PASSWORD', '');
+define('DB_PASSWORD', 'mysqlHaoilaHa');
 
 /** MySQL hostname */
 define('DB_HOST', 'localhost');
