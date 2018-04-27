@@ -72,9 +72,9 @@ jQuery(document).ready(function($){
     
     $("#slider-range").slider({
         range: true,
-        min: 3000000,
-        max: 30000000,
-        values: [8000000, 15000000],
+        min: 5000000,
+        max: 50000000, 
+        values: [9000000, 30000000],
         slide: function (event, ui) {
             $("#amount").val(formatNumber(ui.values[0]) + " - " + formatNumber(ui.values[1]));
         }

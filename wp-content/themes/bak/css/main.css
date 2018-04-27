@@ -343,6 +343,9 @@ li:hover .sub-menu-1{
 .home #main-body{
     padding-bottom: 30px;
 }
+#main-body.active{
+    margin-top:220px;
+}
 #product-category .su-menu{    
     height: 0;
     overflow: hidden;
@@ -439,6 +442,12 @@ li:hover .sub-menu-1{
 
 #related-products .thumb{
     position: relative;
+     -webkit-box-shadow: 2px 3px 10px 0px rgba(0,0,0,0.57);
+    -moz-box-shadow: 2px 3px 10px 0px rgba(0,0,0,0.57);
+    box-shadow: 2px 3px 10px 0px rgba(0,0,0,0.57);
+    margin-bottom: 20px;
+    padding: 10px;
+    height: 220px;
 }
 #related-products .info{
     position: absolute;
@@ -557,6 +566,12 @@ h1, h2{
 }
 #main-content img{
     margin: 20px 0;
+}
+.pro-main img.df{
+    width: 400px;
+    height: auto;
+    display: block;
+    margin: auto;
 }
 .main-p-articles .article{
     margin-bottom: 10px;
@@ -712,7 +727,17 @@ table.spec i{
     height: 100%;
 }
 #chot-ha{
-    font-size: 24px;
+    font-size: 18px;
+    line-height: 24px;
+    background: #3f94a8;
+    color:#FFF;
+    padding: 10px;
+}
+#chot-ha a{
+    color:#f7930f;
+}
+.pro-main{
+    margin-top: 15px; 
 }
 #best-sell-products .product{
     border-bottom: 1px dotted #eee;

@@ -10,12 +10,13 @@ function parallax() {
     var scrollPos = $(window).scrollTop();	
     
     // header
-	if(scrollPos >230){
-        $('#main-header').removeClass('unactive');
-		$('#main-header').addClass('active');    
+	if(scrollPos >230){        
+        $('#main-header, #main-body').removeClass('unactive');
+		$('#main-header, #main-body').addClass('active');    
+        
 	}else{
-		$('#main-header').removeClass('active');
-		$('#main-header').addClass('unactive');
+		$('#main-header, #main-body').removeClass('active');
+		$('#main-header, #main-body').addClass('unactive');
 	}
     
     

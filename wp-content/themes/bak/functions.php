@@ -2,8 +2,8 @@
 DEFINE('PATH_TO_IMAGES', get_template_directory_uri().'/images/');
 DEFINE('AK_DT_BAN', '02838625420');
 DEFINE('AK_DT_BAN_SHOW', '02838 625 420');
-DEFINE('AK_HOTLINE', '0999999999');
-DEFINE('AK_HOTLINE_SHOW', '0909 999 999');
+DEFINE('AK_HOTLINE', '0963391379');
+DEFINE('AK_HOTLINE_SHOW', '0963 39 1379');
 require_once(get_template_directory().'/aio_image_resize.php');
 
 
@@ -146,7 +146,7 @@ function searchProduct(){
      $products = get_posts($arr);   
     //var_dump($products);
     /* copy from product page */
-    $html = '';
+    $html = '<div class="col-sm-12"><h3>Kết quả tìm kiếm:</h3></div>';
     foreach ($products as $product){ 
         $html.= '<div class="col-sm-4 col-xs-12">';
             $html.= '<div class="prod">';
@@ -173,3 +173,14 @@ function searchProduct(){
 }
 add_action( 'wp_ajax_searchProduct', 'searchProduct' );
 add_action( 'wp_ajax_nopriv_searchProduct', 'searchProduct' );
+
+
+function create_shortcode_chot_ha() {      
+    global $post;
+    $html ='';
+    $html.='<h4 id="chot-ha">';
+        $html.='Nếu bạn quan tâm đến '.$post->post_title.', hoặc cần tìm hiểu thêm thông tin về các dòng bếp từ khác, xin vui lòng liên hệ với <a href="http://bepankhang.com/lien-he/">Bếp An Khang</a> để được hỗ trợ và tư vấn nhiệt tình nhất. Hy vọng bạn sẽ tìm được 1 chiếc bếp ưng ý.';
+    $html .='</h4>';
+    return $html;
+}
+add_shortcode( 'chot_ha', 'create_shortcode_chot_ha' );
