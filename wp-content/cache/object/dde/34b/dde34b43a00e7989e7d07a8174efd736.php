@@ -1,1 +1,0 @@
-«øâZ<?php exit; ?>a:1:{s:7:"content";a:10:{s:23:"types-site-kind-disable";b:1;s:15:"toolset_options";b:1;s:23:"wpcf_dismissed_messages";b:1;s:29:"_transient_timeout_doing_cron";b:1;s:21:"dismissed_update_core";b:1;s:12:"wpseo_onpage";b:1;s:9:"wpseo-gsc";b:1;s:29:"toolset_admin_notices_manager";b:1;s:19:"aiowps_temp_configs";b:1;s:23:"auto_core_update_failed";b:1;}}
