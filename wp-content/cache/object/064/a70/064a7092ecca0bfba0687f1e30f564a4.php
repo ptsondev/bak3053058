@@ -1,1 +1,0 @@
-gÃ„Z<?php exit; ?>a:1:{s:7:"content";s:141:"{"common.install":1524221577,"minify.hide_minify_help":true,"common.next_support_us_invitation":1525137427,"common.support_us_invitations":1}";}
