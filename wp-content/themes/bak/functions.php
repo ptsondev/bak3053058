@@ -70,31 +70,28 @@ function check_current_page(&$active){
     if(isset($queried_object->ID) && $queried_object->ID==34){
         $active='san-pham';
         $arr['/san-pham']='Sản Phẩm';    
-    }
-    if(isset($queried_object->post_type) && $queried_object->post_type=='product'){
+    }else if(isset($queried_object->post_type) && $queried_object->post_type=='product'){
         $active='san-pham';
         $arr['/san-pham']='Sản Phẩm';
         $arr[get_permalink($queried_object->ID)] = $queried_object->post_title;
-    }
-    if(isset($queried_object->taxonomy) && ($queried_object->taxonomy=='brand' || $queried_object->taxonomy=='product-category')){
+    }else if(isset($queried_object->taxonomy) && ($queried_object->taxonomy=='brand' || $queried_object->taxonomy=='product-category')){
         $active='san-pham';
         $arr['/san-pham']='Sản Phẩm';
         $arr[get_term_link($queried_object)] = $queried_object->name;
-    }    
-    if(isset($queried_object->ID) && $queried_object->ID==54){
+    }else if(isset($queried_object->ID) && $queried_object->ID==54){
         $active='qna';
         $arr['/qna']='Câu hỏi thường gặp';        
-    }
-    if(isset($queried_object->post_type) && $queried_object->post_type=='qna'){
+    }else if(isset($queried_object->post_type) && $queried_object->post_type=='qna'){
         $active='qna';
         $arr['/qna']='Câu hỏi thường gặp';        
         $arr[get_permalink($queried_object->ID)] = $queried_object->post_title;
-    }
-    if(isset($queried_object->ID) && $queried_object->ID==46){
-        $active='lien-he';
-        $arr['/lien-he']='Liên Hệ';
-    }
-    
+    }else{
+        $tmp = str_replace( home_url(), "", get_permalink($queried_object->ID));
+        $tmp = substr($tmp, 0, -1);
+        //var_dump($tmp);die;
+        $arr[$tmp] = $queried_object->post_title;
+        //$arr['/lien-he']='Lien HE';
+    }    
     return $arr;
 }
 
@@ -173,6 +170,38 @@ function searchProduct(){
 }
 add_action( 'wp_ajax_searchProduct', 'searchProduct' );
 add_action( 'wp_ajax_nopriv_searchProduct', 'searchProduct' );
+
+function addToCart(){
+    $pid =  htmlspecialchars($_REQUEST['pid']);    
+    $existed = 0;
+    $cart = array($pid);
+    if(isset($_SESSION['cart'])){
+        $cart = $_SESSION['cart'];
+        if(!in_array($pid, $cart)){
+            $cart[]=$pid;
+        }else{
+            $existed = 1;
+        }
+    }
+    $_SESSION['cart'] = $cart;    
+    echo $existed;
+    die;
+}
+add_action( 'wp_ajax_addToCart', 'addToCart' );
+add_action( 'wp_ajax_nopriv_addToCart', 'addToCart' );
+
+function removeFromCart(){
+    $pid =  htmlspecialchars($_REQUEST['pid']);        
+    if(isset($_SESSION['cart'])){
+        $cart = $_SESSION['cart'];
+        $cart = array_diff($cart, array($pid));
+        $_SESSION['cart'] = $cart;
+    }            
+    die;
+}
+add_action( 'wp_ajax_removeFromCart', 'removeFromCart' );
+add_action( 'wp_ajax_nopriv_removeFromCart', 'removeFromCart' );
+
 
 
 function create_shortcode_chot_ha() {      

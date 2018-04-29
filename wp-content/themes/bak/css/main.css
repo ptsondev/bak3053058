@@ -79,9 +79,17 @@ h2{
 #main-header.active a{
     font-size: 16px;
 }
+#main-header.active #cart{
+        width: 50px;
+        height: 50px;
+        padding-top: 13px;
+        padding-left: 22px;
+        position: relative;
+    margin-left: 30px;
+}
 #main-menu {
     float: right;
-    margin-top: 50px;
+    margin-top: 70px;
 }
 #main-menu li{
     display: inline-block;
@@ -794,6 +802,97 @@ table.spec i{
     border: none;
     padding: 5px;
 }
+#btnAddToCart{
+    background: #f7930f;
+    color:#FFF;
+    padding: 5px 15px;
+     -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    text-align: center;
+    display: inline-block;
+    cursor: pointer;
+}
+#btnAddToCart.added{
+    background: #3f94a8;
+}
+#cart{
+    background: url(../images/cart.png) no-repeat;
+    background-size: 100% 100%;
+    display: inline-block;
+    width: 60px;
+    height: 60px;
+    padding-top: 17px;
+    padding-left: 25px;
+    float: right;
+    color: #3f94a8;
+    font-size: 14px;
+    position: absolute;
+    right: 20px;
+    top: 0;
+}
+#menu-region{
+    position: relative;
+}
+#order-confirm .step{
+    background: #FFF;
+    padding:1px 10px;
+    margin-right: 20px;
+     -webkit-border-radius: 60px;
+    -moz-border-radius: 60px;
+    border-radius: 60px;
+    color: #3f94a8;
+}
+#order-confirm h3{
+    background: #3f94a8;
+    color: #FFF;
+    padding: 10px;
+    text-transform: uppercase;
+}
+#order-products .total .btitle{
+    text-align: right;
+}
+#order-products .total{
+    color:#3f94a8;
+    font-weight: bold;
+    font-size: 18px;
+}
+#order-products .index{
+    text-align: center;
+}
+#order-products .item{
+    border-bottom: 1px dotted #ccc;
+    display: inline-block;
+    width: 100%;
+    padding-bottom: 10px;
+}
+#order-products .title,
+#order-products .index,
+#order-products .price,
+#order-products .remove{
+    padding-top: 10px;
+}
+.btnRemoveItem{
+    cursor: pointer;
+}
+#order-form input,
+#order-form textarea{
+    width: 100%;
+    margin: 5px 0;
+    padding: 5px;
+    border:1px solid #ccc;
+}
+#order-form textarea{
+    height: 100px;
+}
+#order-form input[type=submit]{
+    background:#3f94a8;
+    border: none;
+    padding: 10px;
+    color:#FFF;
+    text-transform: uppercase;
+    font-size: 18px;
+}
 @media (max-width: 768px){   
     #main-header .row-1{
         font-size: 14px;
@@ -809,7 +908,10 @@ table.spec i{
         display: none;
     }
     #main-header.active  #site-name{
-        margin-top: 7px;
+        text-align: left;
+        padding-left: 20px;
+        padding-top: 6px;
+        display: inline-block;
     }
     #btnShowMenu{
         display: inline-block;
@@ -817,6 +919,16 @@ table.spec i{
         bottom: 10px;
         right: 10px;
         cursor: pointer;
+        font-size: 30px;
+    }
+    #main-header.active #cart{
+        position: fixed;
+        top: 0px;
+        right: 40px;
+    }
+    #main-header.active #btnShowMenu{
+        font-size: 30px;
+        bottom: 0;
     }
     #main-menu{
         display: none;
@@ -889,5 +1001,21 @@ table.spec i{
     #best-sell-products .v_s_price{
         display: inline-block;
         float: right;
+    }
+    #cart{
+        width: 50px;
+        height: 50px;
+        padding-top: 14px;
+        padding-left: 22px;
+        top: -110px;
+        right: 10px;
+        font-size: 13px;
+    }
+    .btnRemoveItem{
+        top:-40px;
+        right: 10px;
+        position: absolute;
+        font-size: 40px;
+        color:#3f94a8;
     }
 }

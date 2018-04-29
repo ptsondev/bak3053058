@@ -20,6 +20,7 @@
                             <?php 
                                     echo bak_social_share();
                                                        
+                                    $pid = get_the_ID();
                                     $brands = get_the_terms(get_the_ID(), 'brand');
                                     if(is_array($brands)){
                                         $brand = array_shift($brands);                                        
@@ -39,7 +40,23 @@
                                     $giaSell = is_numeric($s_price)? bak_display_money($s_price):'Liên Hệ';
                                     echo '<div><b>Giá sale: </b><span class="v_s_price">'.$giaSell.'</span></div>';
                                     echo '<div><b>Khuyến mãi: </b><span class="v_promotion">'.$promotion.'</span></div>';
-                                    echo '<div><b>Bảo hành: </b><span class="v_guarantee">'.$guarantee.'</span></div>';                                       
+                                    echo '<div><b>Bảo hành: </b><span class="v_guarantee">'.$guarantee.'</span></div>';     
+                                
+                                    // check already in cart
+                            $existed = false;
+                            if(isset($_SESSION['cart'])){
+                                $cart = $_SESSION['cart'];
+                                if(in_array($pid, $cart)){
+                                    $existed = true;                                   
+                                }
+                            }
+                            
+                            if($existed){
+                                echo '<div id="btnAddToCart" class="added" data-pid="'.get_the_ID().'"><i class="fas fa-cart-arrow-down"></i> Đã vào giỏ hàng</div>';       
+                            }else{
+                                    echo '<div id="btnAddToCart" data-pid="'.get_the_ID().'"><i class="fas fa-cart-arrow-down"></i> Cho vào giỏ hàng</div>';       
+                            }
+                            echo '<div id="cartStatus"></div>';
                                 ?>
                         </div>
                         <div class="clearfix"></div>

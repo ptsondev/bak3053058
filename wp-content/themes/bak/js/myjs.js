@@ -105,7 +105,62 @@ jQuery(document).ready(function($){
         });          
     });
 
+    $('#btnAddToCart').click(function(){
+        var pid = $(this).data('pid');
+        $.ajax({
+            url: ajaxurl,
+            data: {
+                action:'addToCart',
+                pid:pid
+            },
+            async: false,
+            success:function(data) {
+                if(data=="0"){
+                    $('#cartStatus').html('<span style="color:#23527c;">Đã thêm sản phẩm này vào giỏ hàng</span>');
+                    $('#btnAddToCart').addClass('added');
+                     var numCart = parseInt($('#numCart').text());
+                    numCart+=1;
+                    $('#numCart').text(numCart);
+                }else{
+                    $('#cartStatus').html('<span style="color:red;">Sản phẩm này đã có trong giỏ hàng</span>');                    
+                }                 
+            }
+        });              
+    });
     
+    $('.btnRemoveItem').click(function(){
+        var pid = $(this).data('pid');        
+        $.ajax({
+            url: ajaxurl,
+            data: {
+                action:'removeFromCart',
+                pid:pid
+            },
+            async: false,
+            success:function(data) {                
+            }
+        });  
+        $(this).parents('.item').remove();
+        var total = 0;
+        $('.txtPrice').each(function(){
+            total += parseInt($(this).val());
+        })
+        $('#order-products .total-price').text(formatNumber(total));
+        var numCart = parseInt($('#numCart').text());
+        numCart-=1;
+        $('#numCart').text(numCart);
+        if(numCart==0){
+            $('#order-products .block').html('Bạn hiện chưa chọn mua sản phẩm nào, xin tham khảo qua các dòng <a href="/san-pham">sản phẩm</a> trước khi đặt hàng nhé');
+        }
+    });
+   
+    $('#order-form form').on('submit', function(e){
+        var text = $('#order-form textarea').val();
+        text += $('#order-products').html();
+        $('#order-form textarea').val(text);
+        e.preventDefault();
+        return false;
+    });
 });
 
 function formatNumber (num) {
