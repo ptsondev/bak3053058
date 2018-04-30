@@ -102,10 +102,10 @@
     "objectcache.purge.all": false,
     "pgcache.configuration_overloaded": false,
     "pgcache.enabled": "1",
-    "pgcache.comment_cookie_ttl": 1800,
+    "pgcache.comment_cookie_ttl": "1800",
     "pgcache.debug": false,
     "pgcache.engine": "file_generic",
-    "pgcache.file.gc": 3600,
+    "pgcache.file.gc": "3600",
     "pgcache.file.nfs": false,
     "pgcache.file.locking": false,
     "pgcache.lifetime": 3600,
@@ -123,11 +123,11 @@
     "pgcache.redis.password": "",
     "pgcache.redis.dbid": 0,
     "pgcache.cache.query": false,
-    "pgcache.cache.home": true,
-    "pgcache.cache.feed": false,
-    "pgcache.cache.nginx_handle_xml": false,
-    "pgcache.cache.ssl": true,
-    "pgcache.cache.404": false,
+    "pgcache.cache.home": "1",
+    "pgcache.cache.feed": "0",
+    "pgcache.cache.nginx_handle_xml": "0",
+    "pgcache.cache.ssl": "1",
+    "pgcache.cache.404": "0",
     "pgcache.cache.headers": [
         "Last-Modified",
         "Content-Type",
@@ -135,8 +135,8 @@
         "P3P",
         "Link"
     ],
-    "pgcache.compatibility": false,
-    "pgcache.remove_charset": false,
+    "pgcache.compatibility": "0",
+    "pgcache.remove_charset": "0",
     "pgcache.accept.uri": [
         "sitemap(_index)?\\.xml(\\.gz)?",
         "([a-z0-9_\\-]+)?sitemap\\.xsl",
@@ -148,69 +148,71 @@
         "wp-locations.php"
     ],
     "pgcache.accept.qs": [
-
+        ""
     ],
-    "pgcache.late_init": false,
-    "pgcache.late_caching": false,
-    "pgcache.mirrors.enabled": false,
+    "pgcache.late_init": "0",
+    "pgcache.late_caching": "0",
+    "pgcache.mirrors.enabled": "0",
     "pgcache.mirrors.home_urls": [
-
+        ""
     ],
     "pgcache.reject.front_page": false,
-    "pgcache.reject.logged": true,
-    "pgcache.reject.logged_roles": false,
+    "pgcache.reject.logged": "1",
+    "pgcache.reject.logged_roles": "1",
     "pgcache.reject.roles": [
-
+        "administrator",
+        "editor"
     ],
     "pgcache.reject.uri": [
         "wp-.*\\.php",
-        "index\\.php"
+        "index\\.php",
+        "gio-hang"
     ],
     "pgcache.reject.categories": [
-
+        ""
     ],
     "pgcache.reject.tags": [
-
+        ""
     ],
     "pgcache.reject.authors": [
-
+        ""
     ],
     "pgcache.reject.custom": [
-
+        ""
     ],
     "pgcache.reject.ua": [
-
+        ""
     ],
     "pgcache.reject.cookie": [
         "wptouch_switch_toggle"
     ],
     "pgcache.reject.request_head": false,
     "pgcache.purge.front_page": false,
-    "pgcache.purge.home": true,
-    "pgcache.purge.post": true,
-    "pgcache.purge.comments": false,
-    "pgcache.purge.author": false,
-    "pgcache.purge.terms": false,
-    "pgcache.purge.archive.daily": false,
-    "pgcache.purge.archive.monthly": false,
-    "pgcache.purge.archive.yearly": false,
-    "pgcache.purge.feed.blog": true,
-    "pgcache.purge.feed.comments": false,
-    "pgcache.purge.feed.author": false,
-    "pgcache.purge.feed.terms": false,
+    "pgcache.purge.home": "1",
+    "pgcache.purge.post": "1",
+    "pgcache.purge.comments": "0",
+    "pgcache.purge.author": "0",
+    "pgcache.purge.terms": "0",
+    "pgcache.purge.archive.daily": "0",
+    "pgcache.purge.archive.monthly": "0",
+    "pgcache.purge.archive.yearly": "0",
+    "pgcache.purge.feed.blog": "1",
+    "pgcache.purge.feed.comments": "0",
+    "pgcache.purge.feed.author": "0",
+    "pgcache.purge.feed.terms": "0",
     "pgcache.purge.feed.types": [
         "rss2"
     ],
-    "pgcache.purge.postpages_limit": 10,
+    "pgcache.purge.postpages_limit": "10",
     "pgcache.purge.pages": [
-
+        ""
     ],
     "pgcache.purge.sitemap_regex": "([a-z0-9_\\-]*?)sitemap([a-z0-9_\\-]*)?\\.xml",
-    "pgcache.prime.enabled": false,
-    "pgcache.prime.interval": 900,
-    "pgcache.prime.limit": 10,
+    "pgcache.prime.enabled": "0",
+    "pgcache.prime.interval": "900",
+    "pgcache.prime.limit": "10",
     "pgcache.prime.sitemap": "",
-    "pgcache.prime.post.enabled": false,
+    "pgcache.prime.post.enabled": "0",
     "pgcache.rest": "",
     "pgcache.cookiegroups.enabled": false,
     "pgcache.cookiegroups.groups": {

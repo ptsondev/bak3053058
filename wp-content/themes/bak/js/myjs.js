@@ -154,11 +154,25 @@ jQuery(document).ready(function($){
         }
     });
    
-    $('#order-form form').on('submit', function(e){
-        var text = $('#order-form textarea').val();
-        text += $('#order-products').html();
-        $('#order-form textarea').val(text);
-        e.preventDefault();
+    $('#order-form form').on('submit', function(e){       
+        text ='';
+        $('#order-products .item').each(function(){
+            text += $(this).find('.title').text()+' --- '+$(this).find('.price').text()+'\r\n'; 
+        });
+        text += $('#order-products .total .btitle').text()+' --- '+$('#order-products .total .total-price').text();
+        $('#order-form textarea[name=detail]').val(text);
+        //e.preventdefault; return false;
+        $.ajax({
+            url: ajaxurl,
+            data: {
+                action:'emptyCart',                
+            },
+            async: false,
+            success:function(data) {
+                
+            }
+        });
+        window.location.href = "http://bepankhang.com";
         return false;
     });
 });

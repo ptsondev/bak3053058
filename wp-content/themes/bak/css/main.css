@@ -885,6 +885,9 @@ table.spec i{
 #order-form textarea{
     height: 100px;
 }
+#order-form textarea[name=detail]{
+    display: none;
+}
 #order-form input[type=submit]{
     background:#3f94a8;
     border: none;

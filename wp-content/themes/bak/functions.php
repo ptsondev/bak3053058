@@ -203,6 +203,15 @@ add_action( 'wp_ajax_removeFromCart', 'removeFromCart' );
 add_action( 'wp_ajax_nopriv_removeFromCart', 'removeFromCart' );
 
 
+function emptyCart(){
+    if(isset($_SESSION['cart'])){
+        unset($_SESSION['cart']);
+    }       
+    echo 1;
+    die;
+}
+add_action( 'wp_ajax_emptyCart', 'emptyCart' );
+add_action( 'wp_ajax_nopriv_emptyCart', 'emptyCart' );
 
 function create_shortcode_chot_ha() {      
     global $post;
