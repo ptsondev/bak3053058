@@ -1,3 +1,18 @@
+<?php
+
+$ip= $_SERVER['REMOTE_ADDR'];
+    $url = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+    $google_ad = 0;
+    //gclid
+    if(strpos($url, 'gclid')!=FALSE){
+        $google_ad = 1;
+    }
+$db = connect_db();
+    $db->queryNoResult('INSERT INTO k_visit(IP, url, time, google_ad) VALUES("'.$ip.'", "'.$url.'", "'.time().'", '.$google_ad.')');
+    detect_click_tac($ip);
+
+
+?>
 <!DOCTYPE html>
 <html style="margin-top:0!important;" <?php language_attributes(); ?>>
 
@@ -55,7 +70,7 @@
   attribution="setup_tool"
   page_id="272758219930982"
   logged_in_greeting="Xin chào. Bếp An Khang đã sẵn sàng để phục vụ quý khách."
-  logged_out_greeting="Xin chào. Bếp An Khang đã sẵn sàng để phục vụ quý khách.">
+  logged_out_greeting="Xin chào. Bếp An Khang hân hạnh phục vụ quý khách.">
 </div>
     
     <?php 
@@ -122,6 +137,8 @@
                                                                        
                                 </ul>-->
                             </li>
+                            <?php $class=($active=='san-pham-ban-chay')?'active':''; ?>
+                            <li class="<?php echo $class; ?>"><a href="/san-pham-ban-chay">Bán chạy</a></li>
                             <?php $class=($active=='qna')?'active':''; ?>
                             <li class="<?php echo $class; ?>"><a href="/qna">Câu hỏi thường gặp</a></li>
                             <!--<li><a href="/kien-thuc-lien-quan">Tin Tức</a></li>-->

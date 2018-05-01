@@ -36,7 +36,7 @@
 </div>-->
 
 <?php     
-    if(isset($_SESSION['active']) && $_SESSION['active']=='san-pham'){
+    if(isset($_SESSION['active']) && ($_SESSION['active']=='san-pham' || $_SESSION['active']=='san-pham-ban-chay')){
         // nhung trang ve bep tu thi hien khung search san pham
         get_template_part('search-area'); 
     }

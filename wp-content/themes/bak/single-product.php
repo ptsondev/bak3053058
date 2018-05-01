@@ -62,6 +62,20 @@
                         <div class="clearfix"></div>
                         <div class="pro-main col-xs-12">
                             <?php the_content();?>
+                            
+                              <div id="product-schema">
+                                <?php $des = get_post_meta($pid, '_yoast_wpseo_metadesc', true); ?>
+                                <div itemscope itemtype="http://schema.org/Product">
+                                        <meta itemprop="description" content="<?php echo $des; ?>">
+                                    <link itemprop="url" href="<?php echo get_permalink(); ?>" rel="author"/>
+                                    <a itemprop="url" href="<?php echo get_permalink(); ?>"><span itemprop="name"><strong><?php the_title(); ?></strong></span></a>
+                                    <span itemscope itemtype="http://schema.org/Brand" ><span itemprop="name"><?php echo $brand->name; ?></span></span>
+                                    <span>Model: <span itemprop="model"><?php echo $code; ?></span></span>
+                                    <span itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+                                        <span itemprop="price"><?php echo $giaSell; ?></span>                                        
+                                    </span>
+                                </div>
+                            </div>
                         </div>
                         
                          <div class="fb-comments" data-href="<?php echo get_permalink();?>" data-numposts="5"></div>
