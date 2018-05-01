@@ -75,25 +75,25 @@
                     <div class="row">
                         <div class="col-sm-4">
                             <div class="prod">
-                                <a href="http://bepankhang.com/san-pham/bep-tu-cata-ib-603-bk/">
-                                    <img src="http://bepankhang.com/wp-content/uploads/2018/04/bep-tu-cata-ib-772.png" />
-                                    <div class="title">CATA IB 772</div>
+                                <a href="http://bepankhang.com/san-pham/bep-tu-doi-chefs-eh-dih321/">
+                                    <img src="http://bepankhang.com/wp-content/uploads/2018/04/bep-tu-doi-chefs-DIH321.png" />
+                                    <div class="title">BẾP TỪ ĐÔI CHEFS EH-DIH321</div>
                                 </a>
                             </div>
                         </div>
                         <div class="col-sm-4">
                             <div class="prod">
-                                <a href="http://bepankhang.com/san-pham/bep-tu-doi-chefs-eh-dih2000a/">
-                                    <img src="http://bepankhang.com/wp-content/uploads/2018/04/bep-tu-doi-chefs-eh-dih2000a.jpg" />
-                                    <div class="title">CHEFS EH-DIH2000A</div>
+                                <a href="http://bepankhang.com/san-pham/bep-tu-bosch-ppi82560ms/">
+                                    <img src="http://bepankhang.com/wp-content/uploads/2018/05/bep-tu-bosh-ppi82560ms.jpg" />
+                                    <div class="title">BẾP TỪ BOSCH PPI82560MS</div>
                                 </a>    
                             </div>
                         </div>
                         <div class="col-sm-4">
                             <div class="prod">
-                                <a href="http://bepankhang.com/san-pham/bep-tu-bosch-pvs851fb1e/">
-                                    <img src="http://bepankhang.com/wp-content/uploads/2018/04/bep-tu-bosch-PVS851FB1E.jpg" />
-                                    <div class="title">BOSCH PVS851FB1E</div>
+                                <a href="http://bepankhang.com/san-pham/bep-tu-teka-iz-7210/">
+                                    <img src="http://bepankhang.com/wp-content/uploads/2018/04/bep-tu-teka-ir-7210.jpg" />
+                                    <div class="title">BẾP TỪ TEKA IZ 7210</div>
                                 </a>
                             </div>
                         </div>
