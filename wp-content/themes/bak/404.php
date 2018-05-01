@@ -1,30 +1,23 @@
 <?php
 /**
  * The template for displaying 404 pages (not found)
- *
- * @package WordPress
- * @subpackage Twenty_Fifteen
- * @since Twenty Fifteen 1.0
  */
+?>
 
-get_header(); ?>
+<?php get_header(); ?>                                                                                                                       
+<div id="main-body">
+    <div class="container main-wrapper">
+        <div class="row">
+            <div class="col-sm-9 col-xs-12" id="">
+            Trang bạn đang truy cập hiện không tồn tại. Vui lòng thử với url khác, hoặc xem các sản phẩm khác của <a href="/">Bếp An Khang</a><br />
 
-	<div id="primary" class="content-area">
-		<main id="main" class="site-main" role="main">
-
-			<section class="error-404 not-found">
-				<header class="page-header">
-					<h1 class="page-title"><?php _e( 'Oops! That page can&rsquo;t be found.', 'twentyfifteen' ); ?></h1>
-				</header><!-- .page-header -->
-
-				<div class="page-content">
-					<p><?php _e( 'It looks like nothing was found at this location. Maybe try a search?', 'twentyfifteen' ); ?></p>
-
-					<?php get_search_form(); ?>
-				</div><!-- .page-content -->
-			</section><!-- .error-404 -->
-
-		</main><!-- .site-main -->
-	</div><!-- .content-area -->
-
+                Xin cảm ơn!
+            </div>
+            
+            <div class="col-sm-3 col-xs-12" id="main-sidebar">
+                <?php get_sidebar(); ?>
+            </div>
+        </div>
+    </div>
+</div>
 <?php get_footer(); ?>

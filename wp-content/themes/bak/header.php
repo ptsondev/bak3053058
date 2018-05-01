@@ -9,12 +9,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!--<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.9/css/all.css">-->
-    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:400,400i,700&amp;subset=vietnamese" rel="stylesheet">
+    <!--<link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:400,400i,700&amp;subset=vietnamese" rel="stylesheet">-->
     
     <link rel="stylesheet" href="<?php echo get_template_directory_uri(); ?>/css/Font-Awesome-master/web-fonts-with-css/css/fontawesome-all.min.css">    
     <link rel="stylesheet" href="<?php echo get_template_directory_uri(); ?>/css/bootstrap.css">
     <link rel="stylesheet" href="<?php echo get_template_directory_uri(); ?>/css/fonts/fonts.css">
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="<?php echo get_template_directory_uri(); ?>/css/jquery-ui.css">    
     <link rel="stylesheet" href="<?php echo get_template_directory_uri(); ?>/css/main.css">
 
     <link rel="shortcut icon" type="image/png" href="<?php echo get_template_directory_uri(); ?>/images/bep-an-khang.ico"/>
@@ -25,12 +25,12 @@
     <script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/js/jquery.bighover.js"></script>
     <script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/js/jquery.mousewheel.js"></script>
-    <script type="text/javascript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/js/jquery-ui.js"></script>
     <script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/js/parallax.js"></script>
 
     <script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/js/myjs.js"></script>
 
-    <?php //wp_head(); ?>
+    <?php wp_head(); ?>
     <?php
          echo '<script type="text/javascript">
            var ajaxurl = "' . admin_url('admin-ajax.php') . '";

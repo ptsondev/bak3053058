@@ -21,7 +21,12 @@
                 
                foreach ($products as $product){ 
                     echo '<div class="col-sm-4 col-xs-12">';
+                    $show = get_post_meta($product->ID, 'wpcf-show', true);
+                    
                     echo '<div class="prod">';
+                       if(is_array($show) && count($show)>0){
+                            echo '<div class="best-seller"></div>';
+                        }
                         echo '<div class="thumb"><a href="'.get_permalink($product->ID).'">';
                             echo '<img src="'.bak_get_thumbnail($product->ID, 400, 300).'" />';
                         echo '</a></div>';

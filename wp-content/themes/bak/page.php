@@ -1,24 +1,4 @@
-<?php                                                                                                                                        
-<div id="breadcrumb">
-    <div class="container">
-        <ol itemscope="" itemtype="http://schema.org/BreadcrumbList">
-            <li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem">
-                <a href="" itemscope="" itemtype="http://schema.org/Thing" itemprop="item">
-                    <span itemprop="name">Bếp An Khang</span>
-                </a> ›
-                <meta itemprop="position" content="2">
-            </li>
-            <li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem">
-                <a href="" itemscope="" itemtype="http://schema.org/Thing" itemprop="item">
-                    <span itemprop="name">Dòng ABC</span>
-                </a>
-                <meta itemprop="position" content="3">
-            </li>
-        </ol>
-    </div>
-</div>
-
-
+<?php get_header(); ?>                                                                                                                                     
 
 <div id="main-body">
     <div class="container main-wrapper">

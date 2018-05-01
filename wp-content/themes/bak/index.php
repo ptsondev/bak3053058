@@ -39,7 +39,7 @@
                     
                 </div>
                 <div id="slide-des">
-                    <h2>Bếp điện từ An Khang</h2>
+                    <h2>Bếp An Khang</h2>
                     <h4>Trải nghiệm 1 phong cách nấu nướng hoàn toàn mới.</h4>
                     <h4>Tận hưởng cảm giác relax ngay trong nhà bếp của bạn.</h4>
                 </div>
