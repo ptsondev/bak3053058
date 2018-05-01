@@ -62,7 +62,7 @@ function check_current_page(&$active){
         return;
     }
     $queried_object = get_queried_object();
-    //var_dump($queried_object);
+    //var_dump($queried_object);die;
     
     $arr = array();
     $arr['/']='Bếp An Khang';
@@ -86,11 +86,16 @@ function check_current_page(&$active){
         $arr['/qna']='Câu hỏi thường gặp';        
         $arr[get_permalink($queried_object->ID)] = $queried_object->post_title;
     }else{
-        $tmp = str_replace( home_url(), "", get_permalink($queried_object->ID));
-        $tmp = substr($tmp, 0, -1);
-        //var_dump($tmp);die;
-        $arr[$tmp] = $queried_object->post_title;
-        //$arr['/lien-he']='Lien HE';
+        if($queried_object->post_type!='attachment'){            
+            $tmp = str_replace( home_url(), "", get_permalink($queried_object->ID));
+            $arr[$tmp] = $queried_object->post_title;
+            $tmp = substr($tmp, 1, -1);
+            $active=$tmp;
+            //var_dump($tmp);die;
+            
+            //$arr['/lien-he']='Lien HE';
+            //var_dump($arr);die;
+        }
     }    
     return $arr;
 }

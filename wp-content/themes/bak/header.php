@@ -40,13 +40,23 @@
 
 <body <?php body_class($res_class); ?>>
     <div id="fb-root"></div>
+<!-- Load Facebook SDK for JavaScript -->
+<div id="fb-root"></div>
 <script>(function(d, s, id) {
   var js, fjs = d.getElementsByTagName(s)[0];
   if (d.getElementById(id)) return;
   js = d.createElement(s); js.id = id;
-  js.src = 'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.12&appId=498951056967865&autoLogAppEvents=1';
+  js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js#xfbml=1&version=v2.12&autoLogAppEvents=1';
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));</script>
+
+<!-- Your customer chat code -->
+<div class="fb-customerchat"
+  attribution="setup_tool"
+  page_id="272758219930982"
+  logged_in_greeting="Xin chào. Bếp An Khang đã sẵn sàng để phục vụ quý khách."
+  logged_out_greeting="Xin chào. Bếp An Khang đã sẵn sàng để phục vụ quý khách.">
+</div>
     
     <?php 
         $active = '';
@@ -115,6 +125,8 @@
                             <?php $class=($active=='qna')?'active':''; ?>
                             <li class="<?php echo $class; ?>"><a href="/qna">Câu hỏi thường gặp</a></li>
                             <!--<li><a href="/kien-thuc-lien-quan">Tin Tức</a></li>-->
+                            <?php $class=($active=='dieu-khoan')?'active':''; ?>
+                            <li class="<?php echo $class; ?>"><a href="/dieu-khoan">Điều Khoản</a></li>
                             <?php $class=($active=='lien-he')?'active':''; ?>
                             <li class="<?php echo $class; ?>"><a href="/lien-he">Liên Hệ</a></li>
                         </div>

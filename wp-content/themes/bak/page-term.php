@@ -7,7 +7,7 @@
 
 <div id="main-body">
     <div class="container main-wrapper">
-        <h1>Chính sách bán hàng</h1>
+        <h1>Điều Khoản</h1>
         <div class="row">
             <div id="terms" class="col-sm-9 col-xs-12">
                 <h3 class="block-title"><span class="step">1</span>Hình thức mua hàng</h3>
