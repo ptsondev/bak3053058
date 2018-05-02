@@ -87,7 +87,7 @@ $db = connect_db();
                     <span class="location col-sm-6 col-xs-12"><i class="fa fa-home" aria-hidden="true"></i> 151 Tô Hiến Thành, Phường 13, Quận 10, TP HCM</span>
                     <span class="time col-sm-3 col-xs-6"><i class="fas fa-clock" aria-hidden="true"></i> 8:00 am - 8:00 pm</span>
                     <span class="hotline col-sm-3 col-xs-6"><i class="fa fa-phone" aria-hidden="true"></i>
-                        <a href="tel:<?php echo AK_DT_BAN; ?>"><?php echo AK_DT_BAN_SHOW; ?></a>
+                        <a href="tel:<?php echo AK_HOTLINE; ?>"><?php echo AK_HOTLINE_SHOW; ?></a>
                     </span>
                 </div>
             </div>

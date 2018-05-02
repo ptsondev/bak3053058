@@ -91,9 +91,9 @@
                         </div>
                         <div class="col-sm-4">
                             <div class="prod">
-                                <a href="http://bepankhang.com/san-pham/bep-tu-teka-iz-7210/">
-                                    <img src="http://bepankhang.com/wp-content/uploads/2018/04/bep-tu-teka-ir-7210.jpg" />
-                                    <div class="title">BẾP TỪ TEKA IZ 7210</div>
+                                <a href="http://bepankhang.com/san-pham/bep-tu-cata-ib-772/">
+                                    <img src="http://bepankhang.com/wp-content/uploads/2018/04/bep-tu-cata-ib-772.png" />
+                                    <div class="title">BẾP TỪ CATA IB 772</div>
                                 </a>
                             </div>
                         </div>
