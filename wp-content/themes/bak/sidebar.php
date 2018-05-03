@@ -49,7 +49,8 @@
 <?php 
     $products = get_posts(array(
         'post_type' => 'product',        
-        'numberposts' => 5,
+        'numberposts' => 10,
+        'order' =>'ASC',
         'meta_query' => array(
             array(
                 'key' => 'wpcf-show',

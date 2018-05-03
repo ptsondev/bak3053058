@@ -947,6 +947,11 @@ h3.block-title .step {
     top: 10px;
     z-index: 999;
 }
+
+.pro-main table td{
+    border: 1px solid #ccc;
+    padding: 5px;
+}
 @media (max-width: 768px){   
     #main-header .row-1{
         font-size: 14px;
