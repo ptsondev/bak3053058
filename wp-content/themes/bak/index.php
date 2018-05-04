@@ -136,7 +136,7 @@
         </div>
 
 
-        
+        <!--
 <div id="about-us">
     <div class="container">
         <h2>Giới thiệu về Bếp An Khang</h2>
@@ -151,4 +151,5 @@
         </div>
     </div>
 </div>
+-->
 <?php get_footer(); ?>

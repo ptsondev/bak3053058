@@ -21,7 +21,7 @@
                                     echo bak_social_share();
                                                        
                                     $pid = get_the_ID();
-                                    $brands = get_the_terms(get_the_ID(), 'brand');
+                                    $brands = get_the_terms(get_the_ID(), 'product-category');
                                     if(is_array($brands)){
                                         $brand = array_shift($brands);                                        
                                         echo '<div><b>Hãng sản xuất: </b><span class="v_brand"><a href="'.get_term_link($brand).'">'.$brand->name.'</a></span></div>';
@@ -79,7 +79,7 @@
                         </div>
                         
                          <div class="fb-comments" data-href="<?php echo get_permalink();?>" data-numposts="5"></div>
-                        <div class="col-xs-12" id="related-products">
+                        <div class="col-xs-12" id="related-product">
                             <?php
                                     $curID = get_the_ID();                                                                    
                                     $products = get_posts(array(
@@ -88,7 +88,7 @@
                                       'numberposts' => -1,
                                       'tax_query' => array(
                                         array(
-                                          'taxonomy' => 'brand',
+                                          'taxonomy' => 'product-category',
                                           'field' => 'id',
                                           'terms' => $brand->term_id,
                                           'include_children' => false
@@ -99,27 +99,11 @@
                                                          
                             
                                 <h2>Sản phẩm cùng thương hiệu</h2>
-                                <div class="row">
+                                <div class="list-products row">
                                     <?php 
                                     foreach ($products as $product){ 
-                                        echo '<div class="col-sm-4 col-xs-12">';
-                                            echo '<div class="thumb"><a href="'.get_permalink($product->ID).'">';
-                                                echo '<img src="'.bak_get_thumbnail($product->ID, 400, 300).'" />';
-                                                echo '<div class="info">';
-                                                    echo '<div class="title">'.$product->post_title.'</div>';
-                                                    $d_price = get_post_meta($product->ID, 'wpcf-product_display_price', true);
-                                                    $s_price = get_post_meta($product->ID, 'wpcf-product_sell_price', true);
-                                                    $giaSell = is_numeric($s_price)? bak_display_money($s_price):'Liên Hệ';
-                                        
-                                                    echo '<div class="v_d_price">'.bak_display_money($d_price).'</div>';
-                                                    echo '<div class="v_s_price">'.$giaSell.'</div>';
-                                                echo '</div>';
-                                            echo'</a></div>';
-                                            //echo '<div class="title"><a href="'.get_permalink($product->ID).'">';
-                                            //    echo $product->post_title;
-                                            //echo '</a></div>';
-                                        echo '</div>';
-                                    } //end foreach 
+                                        display_product_item($product);                                        
+                                    }
                                     ?>
                                 </div>
                         </div>

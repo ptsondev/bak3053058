@@ -33,6 +33,16 @@ jQuery(document).ready(function($){
         $('#main-menu').toggle(); 
     });
     
+    $('#main-menu .lev-0').click(function(e){
+        var showwing = $(this).find('ul').is(":visible");
+        $('#main-menu .sub-menu').hide();
+        if(showwing){
+            $(this).find('ul').hide();
+        }else{
+            $(this).find('ul').show();
+        }
+    });
+    
 	$(".rslides").responsiveSlides({
         nav: true,
         prevText: "<div id='btn-slide-prev' class='btn-slide-controls'> < </div>",
@@ -70,40 +80,19 @@ jQuery(document).ready(function($){
     
     $('.pro-thumb img').bighover({width:800});
     
+    var price_start = $('#price_start').val();
+    var price_end = $('#price_end').val();
     $("#slider-range").slider({
         range: true,
         min: 5000000,
         max: 50000000, 
-        values: [9000000, 30000000],
+        values: [price_start, price_end],
         slide: function (event, ui) {
             $("#amount").val(formatNumber(ui.values[0]) + " - " + formatNumber(ui.values[1]));
         }
     });
     $("#amount").val(formatNumber($("#slider-range").slider("values", 0)) + " - " + formatNumber($("#slider-range").slider("values", 1)));
-    
-    $('#btnSearch').click(function(){
-        var brand=$('#slBrand').val();
-        var key=$('#txtKey').val();
-        var numCook=$('#slNumCook').val();
-        var min = $("#slider-range").slider("values", 0);
-        var max = $("#slider-range").slider("values", 1);        
-        $.ajax({
-            url: ajaxurl,
-            data: {
-                action:'searchProduct',
-                brand:brand,
-                key:key,
-                numCook:numCook,
-                min:min,
-                max:max
-            },
-            async: false,
-            success:function(data) {
-                $('#list-product-area').html(data);
-                $(window).scrollTop(200);
-            }
-        });          
-    });
+        
 
     $('#btnAddToCart').click(function(){
         var pid = $(this).data('pid');

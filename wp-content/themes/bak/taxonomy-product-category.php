@@ -7,6 +7,8 @@
                 <div id="list-product-area" class="list-products row"></div>
                 <?php 
                     $term =get_queried_object();
+                    $include_children = ($term->parent==0)?true:false;
+                //var_dump($term);
                     echo '<h1>'.$term->name.'</h1>';
                 ?>
                 <div class="list-products row">
@@ -19,29 +21,13 @@
                                           'taxonomy' => 'product-category',
                                           'field' => 'term_name',
                                           'terms' => $term,
-                                          'include_children' => false
+                                          'include_children' => $include_children,
                                         )
                                       )
                 ));    
                 
                foreach ($products as $product){ 
-                    echo '<div class="col-sm-4 col-xs-12">';
-                    echo '<div class="prod">';
-                        echo '<div class="thumb"><a href="'.get_permalink($product->ID).'">';
-                            echo '<img src="'.bak_get_thumbnail($product->ID, 400, 300).'" />';
-                        echo '</a></div>';
-                        echo '<div class="info">';
-                            echo '<div class="title">'.$product->post_title.'</div>';
-                                $d_price = get_post_meta($product->ID, 'wpcf-product_display_price', true);
-                                $s_price = get_post_meta($product->ID, 'wpcf-product_sell_price', true);
-                                $giaSell = is_numeric($s_price)? bak_display_money($s_price):'Liên Hệ';
-                            echo '<div class="price">';
-                                echo '<div class="v_d_price">'.bak_display_money($d_price).'</div>';
-                                echo '<div class="v_s_price">'.$giaSell.'</div>';
-                            echo '</div>';                            
-                        echo '</div>';                        
-                    echo '</div>';
-                   echo '</div>';
+                   display_product_item($product);                   
                } //end foreach                                       
             ?>
                 </div>

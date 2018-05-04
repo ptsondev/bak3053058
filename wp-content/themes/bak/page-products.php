@@ -13,14 +13,24 @@
                 <h1>Sản phẩm</h1>
                 <div id="list-product-area" class="list-products row">
             <?php
-                $products = get_posts(array(
-                    'post_type' => 'product',
-                    'numberposts' => -1,
-                    'order' =>'ASC'
-                ));    
-                
-               foreach ($products as $product){ 
+                    
+                    $paged = (get_query_var('paged')) ? get_query_var('paged') : 1; 
+
+                    //var_dump($paged);
+                     $args = array(
+                            'showposts' => 3,
+                            'paged' => $paged,
+                            'post_type' => 'product' ,
+                            'order' =>'ASC'
+                        );
+                    
+               
+                $wp_query = new WP_Query($args);
+                    
+               while ($wp_query->have_posts()){ 
+                   $wp_query->the_post();
                     echo '<div class="col-sm-4 col-xs-12">';
+                   $product = get_post(get_the_ID());
                     $show = get_post_meta($product->ID, 'wpcf-show', true);
                     
                     echo '<div class="prod">';
@@ -42,9 +52,18 @@
                         echo '</div>';                        
                     echo '</div>';
                    echo '</div>';
-               } //end foreach                                     
+               } //end while                                     
             ?>
                 </div>
+                
+                <div id="page-paginate">
+                        <?php if(function_exists('wp_simple_pagination')) {                
+                            echo wp_simple_pagination();
+                        } 
+                        wp_reset_query();
+                        ?> 
+                </div>
+                
             </div>
 
             <div class="col-sm-3 col-xs-12" id="main-sidebar">

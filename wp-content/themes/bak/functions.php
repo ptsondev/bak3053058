@@ -5,11 +5,12 @@ DEFINE('AK_DT_BAN_SHOW', '02838 625 420');
 DEFINE('AK_HOTLINE', '0963391379');
 DEFINE('AK_HOTLINE_SHOW', '0963 39 1379');
 require_once(get_template_directory().'/aio_image_resize.php');
+require_once(get_template_directory().'/simple_html_dom.php');
 
 
 function connect_db(){
     require_once 'EasyMySQLi.inc.php'; 
-    $db = new EasyMySQLi('localhost', 'root', 'mysqlHaoilaHa', 'wp_bepankhang'); 
+    $db = new EasyMySQLi('localhost', 'root', '', 'wp_bepankhang'); 
     $db->set_charset("utf8");
     return $db;
 }
@@ -91,45 +92,57 @@ function check_current_page(&$active){
     $arr = array();
     $arr['/']='Bếp An Khang';
     
-    if(isset($queried_object->ID) && $queried_object->ID==34){
-        $active='san-pham';
-        $arr['/san-pham']='Sản Phẩm';    
-    }else if(isset($queried_object->post_type) && $queried_object->post_type=='product'){
-        $active='san-pham';
-        $arr['/san-pham']='Sản Phẩm';
-        $arr[get_permalink($queried_object->ID)] = $queried_object->post_title;
-    }else if(isset($queried_object->taxonomy) && ($queried_object->taxonomy=='brand' || $queried_object->taxonomy=='product-category')){
-        $active='san-pham';
-        $arr['/san-pham']='Sản Phẩm';
-        $arr[get_term_link($queried_object)] = $queried_object->name;
-    }else if(isset($queried_object->ID) && $queried_object->ID==54){
-        $active='qna';
-        $arr['/qna']='Câu hỏi thường gặp';        
-    }else if(isset($queried_object->post_type) && $queried_object->post_type=='qna'){
-        $active='qna';
-        $arr['/qna']='Câu hỏi thường gặp';        
-        $arr[get_permalink($queried_object->ID)] = $queried_object->post_title;
+    if(isset($queried_object->post_type) && $queried_object->post_type=='product'){
+        $cat = wp_get_post_terms($queried_object->ID, 'product-category');
+        $cat = $cat[0];
+        if($cat->parent!=0){
+            $parent = get_term($cat->parent);    
+            $arr[get_term_link($parent)]=$parent->name;
+            $active = get_term_link($parent);
+        }
+        $arr[get_term_link($cat)]=$cat->name;
+        $arr[get_permalink($queried_object->ID)]=$queried_object->post_title;
+        
+    }else if(isset($queried_object->taxonomy) && $queried_object->taxonomy=='product-category'){
+        
+        if($queried_object->parent!=0){
+            $parent = get_term($queried_object->parent);    
+            $arr[get_term_link($parent)]=$parent->name;
+            $active = get_term_link($parent);
+        }
+        $arr[get_term_link($queried_object)]=$queried_object->name;
     }else{
         if($queried_object->post_type!='attachment'){            
             $tmp = str_replace( home_url(), "", get_permalink($queried_object->ID));
             $arr[$tmp] = $queried_object->post_title;
             $tmp = substr($tmp, 1, -1);
-            $active=$tmp;
-            //var_dump($tmp);die;
-            
-            //$arr['/lien-he']='Lien HE';
-            //var_dump($arr);die;
+            $active=$tmp;        
         }
     }    
     return $arr;
 }
 
 function searchProduct(){
-    $key = htmlspecialchars($_REQUEST['key']);
-    $brand = htmlspecialchars($_REQUEST['brand']);
-    $numCook = htmlspecialchars($_REQUEST['numCook']);
-    $min = htmlspecialchars($_REQUEST['min']);
-    $max = htmlspecialchars($_REQUEST['max']);
+    $key = '';
+    $numCook = $brand = -1;
+    $min = 0;
+    $max = 999999999;
+    
+    if(isset($_REQUEST['key'])){
+        $key = htmlspecialchars($_REQUEST['key']);
+    }
+    if(isset($_REQUEST['slBrand'])){
+        $brand = htmlspecialchars($_REQUEST['slBrand']);
+    }
+    if(isset($_REQUEST['slNumCook'])){
+        $numCook = htmlspecialchars($_REQUEST['slNumCook']);    
+    }    
+    if(isset($_REQUEST['amount'])){
+        $amount = str_replace(',', '', htmlspecialchars($_REQUEST['amount']));
+        $tmp = explode(' - ',$amount);
+        $min = $tmp[0];
+        $max = $tmp[1];        
+    }
     // search product by these variables
     $arr = array(
         'post_type' => 'product',        
@@ -155,11 +168,12 @@ function searchProduct(){
         );
     }
     if(!empty($key)){
-        $arr['meta_query'][]=array(
+        /*$arr['meta_query'][]=array(
                 'key' => 'wpcf-product_code',
                 'value' => $key,
                 'compare' => 'LIKE',                
-        );
+        );*/
+        $arr['s']=$key;
     }
     if($numCook!=-1){
         $arr['meta_query'][]=array(
@@ -167,34 +181,18 @@ function searchProduct(){
                 'value' => $numCook,                         
         );
     }
-    // con thieu so bep nau
+   
     
-     $products = get_posts($arr);   
-    //var_dump($products);
-    /* copy from product page */
-    $html = '<div class="col-sm-12"><h3>Kết quả tìm kiếm:</h3></div>';
+    $products = get_posts($arr);   
+   
+    echo '<div class="row list-products">';
     foreach ($products as $product){ 
-        $html.= '<div class="col-sm-4 col-xs-12">';
-            $html.= '<div class="prod">';
-                $html.= '<div class="thumb"><a href="'.get_permalink($product->ID).'">';
-                    $html.= '<img src="'.bak_get_thumbnail($product->ID, 400, 300).'" />';
-                        $html.= '</a></div>';
-                    $html.= '<div class="info">';
-                    $html.= '<div class="title">'.$product->post_title.'</div>';
-                        $d_price = get_post_meta($product->ID, 'wpcf-product_display_price', true);
-                        $s_price = get_post_meta($product->ID, 'wpcf-product_sell_price', true);
-                        $giaSell = is_numeric($s_price)? bak_display_money($s_price):'Liên Hệ';
-                    $html.= '<div class="price">';
-                        $html.= '<div class="v_d_price">'.bak_display_money($d_price).'</div>';
-                        $html.= '<div class="v_s_price">'.$giaSell.'</div>';
-                    $html.= '</div>';                            
-                $html.= '</div>';                        
-            $html.= '</div>';
-        $html.= '</div>';
-    } //end copy
+        display_product_item($product);
+    }
+    echo '</div>';
+    
     
     echo $html;
-    die;
     
 }
 add_action( 'wp_ajax_searchProduct', 'searchProduct' );
@@ -251,3 +249,47 @@ function create_shortcode_chot_ha() {
     return $html;
 }
 add_shortcode( 'chot_ha', 'create_shortcode_chot_ha' );
+
+/**
+*   Lấy những thương hiệu của 1 loại sản phẩm
+*/
+function get_brand_by_product_type($type_id){
+    $db = connect_db();    
+    $result = $db->queryAllRows('SELECT DISTINCT(term_taxonomy_id) FROM bak_term_relationships 
+    WHERE term_taxonomy_id IN (SELECT term_id FROM bak_term_taxonomy WHERE taxonomy="brand") 
+    AND object_id IN (SELECT object_id FROM bak_term_relationships WHERE term_taxonomy_id=?)', $type_id);  
+    $arrTID = array();
+    foreach($result as $i){
+        $arrTID[]=$i['term_taxonomy_id'];        
+    }
+    return $arrTID;
+}
+
+function display_product_item($product){
+     $show = get_post_meta($product->ID, 'wpcf-show', true);
+     echo '<div class="col-sm-4 col-xs-12">';
+        echo '<div class="prod">';
+            if(is_array($show) && count($show)>0){
+                echo '<div class="best-seller"></div>';
+            }
+            echo '<div class="thumb"><a href="'.get_permalink($product->ID).'">';
+                echo '<img src="'.bak_get_thumbnail($product->ID, 400, 300).'" />';
+            echo '</a></div>';
+            echo '<div class="info">';
+                echo '<div class="title">'.$product->post_title.'</div>';
+                    $d_price = get_post_meta($product->ID, 'wpcf-product_display_price', true);
+                    $s_price = get_post_meta($product->ID, 'wpcf-product_sell_price', true);
+                    $percent = round(($d_price - $s_price)/($d_price)*100);                    
+                    $giaSell = is_numeric($s_price)? bak_display_money($s_price):'Liên Hệ';
+                echo '<div class="price">';
+                    if(!empty($s_price)){
+                        echo '<div class="saleoff">'.$percent.'%</div>';
+                    }
+                    echo '<div class="v_d_price">'.bak_display_money($d_price).'</div>';
+                    echo '<div class="v_s_price">'.$giaSell.'</div>';
+                echo '</div>';                            
+            echo '</div>';                        
+        echo '</div>';
+    echo '</div>';
+}
+

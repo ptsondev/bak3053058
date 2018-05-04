@@ -77,6 +77,7 @@ $db = connect_db();
         $active = '';
         $breadcrumb = check_current_page($active);     
         $_SESSION['active']=$active;
+    
     ?>
     
     <div id="main-header">
@@ -84,8 +85,14 @@ $db = connect_db();
         <div class="row-1">
             <div class="container main-wrapper">
                 <div class="row">
-                    <span class="location col-sm-6 col-xs-12"><i class="fa fa-home" aria-hidden="true"></i> 151 Tô Hiến Thành, Phường 13, Quận 10, TP HCM</span>
-                    <span class="time col-sm-3 col-xs-6"><i class="fas fa-clock" aria-hidden="true"></i> 8:00 am - 8:00 pm</span>
+                    <span class="col-sm-9 col-xs-6" id="primary-menu">
+                        <li><a href="/home">Trang Chủ</a></li>
+                        <li><a href="/bep-an-khang">Bếp An Khang</a></li>
+                        <li><a href="/san-pham-ban-chay">Bán chạy</a></li>
+                        <li><a href="/qna">Câu hỏi thường gặp</a></li>
+                        <li><a href="/dieu-khoan">Điều khoản</a></li>
+                        <li><a href="/lien-he">Liên hệ</a></li>
+                    </span>
                     <span class="hotline col-sm-3 col-xs-6"><i class="fa fa-phone" aria-hidden="true"></i>
                         <a href="tel:<?php echo AK_HOTLINE; ?>"><?php echo AK_HOTLINE_SHOW; ?></a>
                     </span>
@@ -103,49 +110,42 @@ $db = connect_db();
                         <div id="btnShowMenu"><i class="fas fa-bars"></i></div>
                     </div>
                     <div id="menu-region" class="col-sm-10 col-xs-12">
+                        <div id="header-search">
+                            <form action="/tim-kiem" method="get">
+                                <input type="text" id="hKey" name="key" placeholder="Tìm sản phẩm theo tên hoặc model" />
+                                <input type="submit" id="hSubmit" name="hSubmit" value="" />
+                            </form>
+                        </div>
                         <a href="/gio-hang"><div id="cart">
                             <?php if(isset($_SESSION['cart'])){ echo '(<span id="numCart">'.count($_SESSION['cart']).'</span>)'; }?>
                         </div></a>
                         <div id="main-menu">
-                            <?php $class=($active=='home')?'active':''; ?>
-                            <li class="<?php echo $class; ?>"><a href="/">Trang Chủ</a></li>
-                            <?php $class=($active=='san-pham')?'active':''; ?>
-                            <li class="<?php echo $class; ?>">
-                                <a href="/san-pham">Sản Phẩm</a>
-                                <!--<ul class="sub-menu sub-menu-1">
+                            
                                     <?php 
                                         $terms = get_terms( 'product-category', array(
-                                            'hide_empty'=>0
-                                        ));                                    
+                                            'hide_empty'=>0,
+                                            'parent'=>0
+                                        )); 
                                         foreach($terms as $term){
-                                            echo '<li>';
-                                                echo '<a href="'.get_term_link($term).'">'.$term->name.'</a>';
-                                                $children = get_terms( 'nhom-san-pham', array(
-                                                    'hide_empty'=>1, 
-                                                    'parent'=>$term->term_id 
-                                                ));
-                                                if(is_array($children)){
-                                                    echo '<ul class="sub-menu sub-menu-2">';
-                                                    foreach($children as $child){                                  
-                                                        echo '<li><a href="'.get_term_link($child).'">'.$child->name.'</a></li>';
-                                                    }   
+                                            $class = ($active==$term->slug)?'active':'';
+                                            echo '<li class="lev-0 '.$class.'">';
+                                                //echo $term->name;
+                                                echo '<a href="#main-header">'.$term->name.'</a>';
+                                                $children = get_terms( 'product-category', array(
+                                                    'hide_empty'=>0,
+                                                    'parent'=>$term->term_id
+                                                )); 
+                                                if(!empty($children)){
+                                                    echo '<ul class="sub-menu sub-menu-1">';
+                                                        foreach($children as $child){
+                                                            echo '<li class="lev-1"><a href="'.get_term_link($child).'">'.$child->name.'</a></li>';
+                                                        }
                                                     echo '</ul>';
-                                                }                                                
-                                            echo '</li>';
-                                        }
+                                                }
+                                            echo '</li>';                                            
+                                        }                                        
                                     ?>
-                                                                       
-                                </ul>-->
-                            </li>
-                            <?php $class=($active=='san-pham-ban-chay')?'active':''; ?>
-                            <li class="<?php echo $class; ?>"><a href="/san-pham-ban-chay">Bán chạy</a></li>
-                            <?php $class=($active=='qna')?'active':''; ?>
-                            <li class="<?php echo $class; ?>"><a href="/qna">Câu hỏi thường gặp</a></li>
-                            <!--<li><a href="/kien-thuc-lien-quan">Tin Tức</a></li>-->
-                            <?php $class=($active=='dieu-khoan')?'active':''; ?>
-                            <li class="<?php echo $class; ?>"><a href="/dieu-khoan">Điều Khoản</a></li>
-                            <?php $class=($active=='lien-he')?'active':''; ?>
-                            <li class="<?php echo $class; ?>"><a href="/lien-he">Liên Hệ</a></li>
+                                                                                                    
                         </div>
                     </div>
                 </div>

@@ -1,48 +1,12 @@
-<!--<div id="product-category" class="block">
-    <h3>Thương hiệu</h3>
-    <?php 
-        $terms = get_terms( 'brand', array(
-            'hide_empty'=>0
-        ));                                    
-                                        
-        foreach($terms as $term){
-            echo '<li class="c1">';
-                echo '<a href="'.get_term_link($term).'">'.$term->name.'</a>';
-                /*
-                $products = get_posts(array(
-                    'post_type' => 'product',
-                    'numberposts' => -1,
-                    'tax_query' => array(
-                        array(
-                            'taxonomy' => 'brand',
-                            'field' => 'term_name',
-                            'terms' => $term,
-                            'include_children' => true
-                        )
-                    )
-                ));    
-                if(is_array($products) && !empty($products)){
-                    echo '<ul class="su-menu su-menu-2">';
-                    foreach ($products as $product){                             
-                        echo '<li><a href="'.get_permalink($product->ID).'">'.$product->post_title.'</a></li>';
-                    }
-                    echo '</ul>';
-                }
-               */
-            echo '</li>';
-        }
-                   
-    ?>   
-</div>-->
-
-<?php     
-    if(isset($_SESSION['active']) && ($_SESSION['active']=='san-pham' || $_SESSION['active']=='san-pham-ban-chay')){
-        // nhung trang ve bep tu thi hien khung search san pham
+<?php   
+    $queried_object = get_queried_object();
+    //var_dump($queried_object);
+    if(isset($queried_object->ID) && $queried_object->ID==297){
+        // hien o trang tim kiem san pham
         get_template_part('search-area'); 
     }
     
 ?>
-
 
 <div id="best-sell-products">
     <h3 class="block-title">Bán chạy nhất</h3>
@@ -77,3 +41,4 @@
     }
 ?>
 </div>
+
