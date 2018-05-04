@@ -2,7 +2,7 @@
 
 function connect_db(){
     require_once 'EasyMySQLi.inc.php'; 
-    $db = new EasyMySQLi('localhost', 'root', '', 'wp_bepankhang'); 
+    $db = new EasyMySQLi('localhost', 'root', 'mysqlHaoilaHa', 'wp_bepankhang'); 
     $db->set_charset("utf8");
     return $db;
 }
