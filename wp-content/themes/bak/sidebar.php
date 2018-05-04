@@ -3,7 +3,7 @@
     //var_dump($queried_object);
     if(isset($queried_object->ID) && $queried_object->ID==297){
         // hien o trang tim kiem san pham
-        get_template_part('search-area'); 
+        //get_template_part('search-area'); 
     }
     
 ?>

@@ -1091,7 +1091,7 @@ h3.block-title .step {
         text-align: left;
         padding-left: 20px;
         padding-top: 6px;
-        display: inline-block;
+        display: none;
     }
     #btnShowMenu{
         display: inline-block;
@@ -1197,5 +1197,35 @@ h3.block-title .step {
         position: absolute;
         font-size: 40px;
         color:#3f94a8;
+    }
+    #primary-menu li{
+        width: 100%;
+    }
+    #hKey{
+        width: 90%;
+        padding: 5px;
+        border: 1px solid #ccc;
+        display: block;
+        margin: auto;
+    }
+    #hSubmit{
+        right: 7%;
+    }
+    #header-search {
+        float: none;
+        margin-right: 0;     
+    }
+    .sub-menu{
+        width: 100%;        
+    }
+    #main-menu li.lev-1{
+        padding-left: 10px;
+    }
+    #about-us-footer .container{
+        padding: 0;
+    }
+    #btnAddToCart{
+        width: 100%;
+        margin: 10px 0;
     }
 }

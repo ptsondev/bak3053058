@@ -85,7 +85,7 @@ $db = connect_db();
         <div class="row-1">
             <div class="container main-wrapper">
                 <div class="row">
-                    <span class="col-sm-9 col-xs-6" id="primary-menu">
+                    <span class="col-sm-7 col-xs-6" id="primary-menu">
                         <li><a href="/home">Trang Chủ</a></li>
                         <li><a href="/bep-an-khang">Bếp An Khang</a></li>
                         <li><a href="/san-pham-ban-chay">Bán chạy</a></li>
@@ -93,7 +93,8 @@ $db = connect_db();
                         <li><a href="/dieu-khoan">Điều khoản</a></li>
                         <li><a href="/lien-he">Liên hệ</a></li>
                     </span>
-                    <span class="hotline col-sm-3 col-xs-6"><i class="fa fa-phone" aria-hidden="true"></i>
+                    <span class="hotline col-sm-5 col-xs-6"><i class="fa fa-phone" aria-hidden="true"></i>
+                        <a href="tel:<?php echo AK_DT_BAN; ?>"><?php echo AK_DT_BAN_SHOW; ?></a> | 
                         <a href="tel:<?php echo AK_HOTLINE; ?>"><?php echo AK_HOTLINE_SHOW; ?></a>
                     </span>
                 </div>
