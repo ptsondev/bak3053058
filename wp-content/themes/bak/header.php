@@ -86,8 +86,8 @@ $db = connect_db();
             <div class="container main-wrapper">
                 <div class="row">
                     <span class="col-sm-7 col-xs-6" id="primary-menu">
-                        <li><a href="/home">Trang Chủ</a></li>
-                        <li><a href="/bep-an-khang">Bếp An Khang</a></li>
+                        <li><a href="/">Trang Chủ</a></li>
+                        <!--<li><a href="/bep-an-khang">Bếp An Khang</a></li>-->
                         <li><a href="/san-pham-ban-chay">Bán chạy</a></li>
                         <li><a href="/qna">Câu hỏi thường gặp</a></li>
                         <li><a href="/dieu-khoan">Điều khoản</a></li>

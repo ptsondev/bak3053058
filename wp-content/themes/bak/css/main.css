@@ -1217,6 +1217,7 @@ h3.block-title .step {
     }
     .sub-menu{
         width: 100%;        
+        z-index: 99999;
     }
     #main-menu li.lev-1{
         padding-left: 10px;

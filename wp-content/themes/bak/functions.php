@@ -122,6 +122,7 @@ function check_current_page(&$active){
     return $arr;
 }
 
+
 function searchProduct(){
     $key = '';
     $numCook = $brand = -1;
@@ -146,7 +147,7 @@ function searchProduct(){
     // search product by these variables
     $arr = array(
         'post_type' => 'product',        
-        'numberposts' => 0,
+        'numberposts' => -1,
         'meta_query' => array(
             array(
                 'key' => 'wpcf-product_sell_price',
@@ -160,10 +161,10 @@ function searchProduct(){
     if($brand!=-1){
         $arr['tax_query']=array(
             array(
-                'taxonomy' => 'brand',
+                'taxonomy' => 'product-category',
                 'field' => 'term_ID',
                 'terms' => $brand,
-                'include_children' => false
+                'include_children' => true
             )
         );
     }

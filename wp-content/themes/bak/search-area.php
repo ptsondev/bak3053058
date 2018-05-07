@@ -2,28 +2,37 @@
     <form action="/tim-kiem" method="get">
     <h3>Tìm kiếm nâng cao</h3>
     <div class="filter">
-        <label>Thương hiệu</label>
+        <label>Nhóm sản phẩm</label>
         <select id="slBrand" name="slBrand">    
-            <option value="-1">--- Tất cả ---</option>
             <?php 
-                $brand = -1;
+                $brand = 7; // bep tu
                 if(isset($_REQUEST['slBrand'])){
                     $brand = $_REQUEST['slBrand'];
                 }
-            
-                $terms = get_terms( 'brand', array(
-                    'hide_empty'=>0
-                ));                                                    
-                foreach($terms as $term){                
-                    $select = ($brand==$term->term_id)?'selected':'';
-                    echo '<option '.$select.' value="'.$term->term_id.'">'.$term->name.'</option>';
+                $terms = get_terms( 'product-category', array(
+                    'hide_empty'=>0,
+                    'parent'=>0
+                )); 
+                foreach($terms as $term){
+                    $class = ($brand==$term->term_id)?'selected':'';
+                    echo '<option '.$class.' value="'.$term->term_id.'">'.$term->name.'</option>';
+                    $children = get_terms( 'product-category', array(
+                        'hide_empty'=>0,
+                        'parent'=>$term->term_id
+                    )); 
+                    if(!empty($children)){
+                        foreach($children as $child){
+                            $class = ($brand==$child->term_id)?'selected':'';
+                            echo '<option '.$class.' value="'.$child->term_id.'"> - '.$child->name.'</option>';
+                        }                       
+                    }
                 }
             ?>
         </select>
     </div>
     
     <div class="filter">
-        <label>Model</label> <input type="text" id="txtKey" name="key" value="<?php echo $_REQUEST['key']?>" />
+        <label>Tên sản phẩm / Model</label> <input type="text" id="txtKey" name="key" value="<?php echo $_REQUEST['key']?>" />
     </div>
     
     <div class="filter">

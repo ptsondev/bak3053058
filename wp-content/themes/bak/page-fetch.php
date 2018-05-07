@@ -9,7 +9,7 @@ die;
 // khong bat khi khong xai den
 
 
-DEFINE('CAT_ID', 61); // nhớ tự thay cái này
+DEFINE('CAT_ID', 63); // nhớ tự thay cái này
 
 $title='Bếp điện âm Bosch PKF645E14E';
 $content = 'some content';

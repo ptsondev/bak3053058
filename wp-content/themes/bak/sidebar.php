@@ -1,15 +1,15 @@
 <?php   
     $queried_object = get_queried_object();
     //var_dump($queried_object);
-    if(isset($queried_object->ID) && $queried_object->ID==297){
+    //if(isset($queried_object->ID) && $queried_object->ID==297){
         // hien o trang tim kiem san pham
-        //get_template_part('search-area'); 
-    }
+        get_template_part('search-area'); 
+    //}
     
 ?>
 
 <div id="best-sell-products">
-    <h3 class="block-title">Bán chạy nhất</h3>
+    <h3 class="block-title">Bếp từ bán chạy</h3>
 <?php 
     $products = get_posts(array(
         'post_type' => 'product',        
@@ -42,3 +42,19 @@
 ?>
 </div>
 
+<div id="knowledges">
+    <h3 class="block-title">Câu hỏi thường gặp</h3>
+    <?php 
+        $qnas = get_posts(array(
+                    'post_type' => 'qna',                    
+                    'numberposts' => -1,                    
+                ));    
+                //var_dump($articles);
+                foreach($qnas as $qna){
+                        
+                            echo '<div class="title"><a href="'.get_permalink($qna->ID).'">'.$qna->post_title.'</a></div>';
+                            
+                    
+                }
+    ?>
+</div>

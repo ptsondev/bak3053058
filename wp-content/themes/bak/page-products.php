@@ -14,12 +14,11 @@
                 <div id="list-product-area" class="list-products row">
             <?php
                     
-                    $paged = (get_query_var('paged')) ? get_query_var('paged') : 1; 
+                    //$paged = (get_query_var('paged')) ? get_query_var('paged') : 1; 
 
                     //var_dump($paged);
                      $args = array(
-                            'showposts' => 3,
-                            'paged' => $paged,
+                            'numberposts' => -1,
                             'post_type' => 'product' ,
                             'order' =>'ASC'
                         );
