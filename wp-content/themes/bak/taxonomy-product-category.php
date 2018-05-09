@@ -25,11 +25,32 @@
                                         )
                                       )
                 ));    
-                
+           
+
+    
+
+            $script = '<script type="application/ld+json">
+{ "@context":"http://schema.org",
+  "@type":"ItemList",
+  "itemListElement":[';
+    
+                    $i=1;
                foreach ($products as $product){ 
-                   display_product_item($product);                   
-               } //end foreach                                       
+                   display_product_item($product); 
+                   $script .= '
+                    {
+      "@type":"ListItem",
+      "position":'.$i++.',
+      "url":"'.get_permalink($product->ID).'"
+    },';
+               } //end foreach      
+                    
+                    $script = rtrim($script,',');
+
+                    $script.= ']}</script>';
+                    echo $script;
             ?>
+                    
                 </div>
             </div>
 

@@ -9,38 +9,59 @@
                 
                 <?php while ( have_posts() ) : the_post(); ?>
                 <article>
-                    <h1>
-                        <?php the_title(); ?>
-                    </h1>
+                    
+                        <?php 
+                        
+                            echo '<div itemscope itemtype="http://schema.org/Product">';
+                            echo '<h1 itemprop="name">'.get_the_title().'</h1>';
+                            
+                        ?>
+                        
+                    
                     <div class="pro-head row">
                         <div class="pro-thumb col-sm-5 col-xs-12">
-                            <?php the_post_thumbnail(); ?>
+                            <?php 
+                            echo '<img itemprop="image" src="'.get_the_post_thumbnail_url().'" alt="'.get_the_title().'" />';                                
+                            ?>
                         </div>
                         <div class="pro-info col-sm-7 col-xs-12">                            
                             <?php 
-                                    echo bak_social_share();
+                                echo bak_social_share();
+                                                  
+                                $des = get_post_meta($pid, '_yoast_wpseo_metadesc', true);
+                                
+                                echo '<meta itemprop="description" content="'.$des.'" />';
+                                    
                                                        
                                     $pid = get_the_ID();
                                     $brands = get_the_terms(get_the_ID(), 'product-category');
                                     if(is_array($brands)){
                                         $brand = array_shift($brands);                                        
-                                        echo '<div><b>Hãng sản xuất: </b><span class="v_brand"><a href="'.get_term_link($brand).'">'.$brand->name.'</a></span></div>';
+                                        echo '<div><b>Hãng sản xuất: </b><span class="v_brand" itemprop="brand"><a href="'.get_term_link($brand).'">'.$brand->name.'</a></span></div>';
                                     }
                                     $d_price = get_post_meta(get_the_ID(), 'wpcf-product_display_price', true);
                                     $s_price = get_post_meta(get_the_ID(), 'wpcf-product_sell_price', true);
                                     $code = get_post_meta(get_the_ID(), 'wpcf-product_code', true);
                                     $promotion = get_post_meta(get_the_ID(), 'wpcf-product_promotion', true);
                                     $guarantee = get_post_meta(get_the_ID(), 'wpcf-product_guarantee', true);
+                                                                                      
                             
-                                    
-                                    echo '<div><b>Model: </b><span class="v_code">'.$code.'</span></div>';
+                                    echo '<div><b>Tên sản phẩm: </b><a itemprop="url" href="'. get_permalink().'">'.get_the_title().'</a></div>';
+                            
+                                    echo '<link itemprop="url" href="<?php echo get_permalink(); ?>" rel="author"/>';
+                            
                                     if($d_price){
                                         echo '<div><b>Giá: </b><span class="v_d_price">'.bak_display_money($d_price).'</span></div>';
                                     }
                                     $giaSell = is_numeric($s_price)? bak_display_money($s_price):'Liên Hệ';
-                                    echo '<div><b>Giá sale: </b><span class="v_s_price">'.$giaSell.'</span></div>';
+                                    echo '<div itemprop="offers" itemscope itemtype="http://schema.org/Offer"><div><b>Giá sale: </b>    <meta itemprop="priceCurrency" content="VND" /><span class="v_s_price" itemprop="price" content="'. $s_price.'">'.$giaSell.'</span> (Gọi để có giá tốt)</div>';
+                                    echo '<div><b>Tình Trạng: </b> <span > <link itemprop="availability" href="http://schema.org/InStock" />Còn hàng</span</div></div>';
                                     echo '<div><b>Khuyến mãi: </b><span class="v_promotion">'.$promotion.'</span></div>';
-                                    echo '<div><b>Bảo hành: </b><span class="v_guarantee">'.$guarantee.'</span></div>';     
+                                    echo '<div><b>Bảo hành: </b><span class="v_guarantee">'.$guarantee.'</span></div>';    
+                                   
+                            
+                                echo '</div>';
+                          
                                 
                                     // check already in cart
                             $existed = false;
@@ -57,25 +78,19 @@
                                     echo '<div id="btnAddToCart" data-pid="'.get_the_ID().'"><i class="fas fa-cart-arrow-down"></i> Cho vào giỏ hàng</div>';       
                             }
                             echo '<div id="cartStatus"></div>';
+                          
+                            
                                 ?>
                         </div>
                         <div class="clearfix"></div>
                         <div class="pro-main col-xs-12">
-                            <?php the_content();?>
-                            
-                              <div id="product-schema">
-                                <?php $des = get_post_meta($pid, '_yoast_wpseo_metadesc', true); ?>
-                                <div itemscope itemtype="http://schema.org/Product">
-                                        <meta itemprop="description" content="<?php echo $des; ?>">
-                                    <link itemprop="url" href="<?php echo get_permalink(); ?>" rel="author"/>
-                                    <a itemprop="url" href="<?php echo get_permalink(); ?>"><span itemprop="name"><strong><?php the_title(); ?></strong></span></a>
-                                    <span itemscope itemtype="http://schema.org/Brand" ><span itemprop="name"><?php echo $brand->name; ?></span></span>
-                                    <span>Model: <span itemprop="model"><?php echo $code; ?></span></span>
-                                    <span itemprop="offers" itemscope itemtype="http://schema.org/Offer">
-                                        <span itemprop="price"><?php echo $giaSell; ?></span>                                        
-                                    </span>
-                                </div>
-                            </div>
+                            <?php 
+                                the_content();
+                                if(function_exists("kk_star_ratings")){ 
+                                        echo '<div class="row pull-right">'.kk_star_ratings($pid).'</div>'; 
+                                    } 
+                            ?>
+                                                       
                         </div>
                         
                          <div class="fb-comments" data-href="<?php echo get_permalink();?>" data-numposts="5"></div>

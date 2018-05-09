@@ -69,7 +69,6 @@ h2{
     height: 25px;
 }
 #site-name{
-    font-family: 'filebold';
     text-transform: uppercase;
     color:#000;
     display: block;
@@ -391,7 +390,7 @@ h2{
     left: 0;
     top: 30px;
     width: 200px;
-    z-index: 9;   
+    z-index: 9999;   
     padding: 0;
     display: none;
     border: 1px solid #ccc;

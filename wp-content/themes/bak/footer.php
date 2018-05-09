@@ -20,6 +20,21 @@
                             <div class="item email" itemprop="email"><i class="fas fa-envelope-open"></i> 
                                 <a href="mailto:info.bepankhang@gmail.com">info.bepankhang@gmail.com</a></div>
                 </div>
+                
+                <script type="application/ld+json">
+                    {
+                      "@context": "http://schema.org",
+                      "@type": "Organization",
+                      "url": "https://bepankhang.com",
+                      "logo": "https://bepankhang.com/wp-content/themes/bak/images/logo.png",
+                      "contactPoint": [{
+                        "@type": "ContactPoint",
+                        "telephone": "+84 963 391379",
+                        "contactType": "customer service"
+                      }]
+                    }
+                </script>
+                
             </div>
             
             <div id="footer-terms" class="col-sm-3 col-xs-12">

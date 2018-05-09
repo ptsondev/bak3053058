@@ -51,6 +51,18 @@ $db = connect_db();
            var ajaxurl = "' . admin_url('admin-ajax.php') . '";
          </script>';
         ?>
+    
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-49884691-5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-49884691-5');
+</script>
+
+    
 </head>
 
 <body <?php body_class($res_class); ?>>
@@ -105,8 +117,8 @@ $db = connect_db();
             <div class="container main-wrapper">
                 <div class="row">
                     <div id="site-logo" class="col-sm-2 col-xs-12">
-                        <a href="/"><img src="<?php echo PATH_TO_IMAGES; ?>logo.png" alt="Bếp từ An Khang" /></a>
-                        <did id="site-name">Bep An Khang</did>
+                        <a href="/"><img src="<?php echo PATH_TO_IMAGES; ?>logo.png" alt="Bếp An Khang" /></a>
+                        <did id="site-name">Bếp An Khang</did>
                         <div id="site-slogan">Nâng Tầm Bếp Việt</div>
                         <div id="btnShowMenu"><i class="fas fa-bars"></i></div>
                     </div>
@@ -137,9 +149,10 @@ $db = connect_db();
                                                     'parent'=>$term->term_id
                                                 )); 
                                                 if(!empty($children)){
+                                                    $nofollow = ($term->term_id!=7)?'rel="nofollow"':'';
                                                     echo '<ul class="sub-menu sub-menu-1">';
                                                         foreach($children as $child){
-                                                            echo '<li class="lev-1"><a href="'.get_term_link($child).'">'.$child->name.'</a></li>';
+                                                            echo '<li class="lev-1"><a '.$nofollow.' href="'.get_term_link($child).'">'.$child->name.'</a></li>';
                                                         }
                                                     echo '</ul>';
                                                 }
@@ -180,3 +193,15 @@ $db = connect_db();
 <?php }?>
     
     
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "WebSite",
+  "url": "https://bepankhang.com/",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "https://bepankhang.com/tim-kiem/?key={search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>    
