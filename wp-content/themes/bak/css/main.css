@@ -1072,6 +1072,49 @@ h3.block-title .step {
     border: 1px solid #ccc;
     padding: 5px;
 }
+
+#ctkm-des{
+    background: url(../images/khuyen-mai-mua-he.png) no-repeat center 0;
+    background-size: 300px;
+    padding-top: 150px;
+}
+.km-brand{
+    display: inline-block;
+    width: 100%;
+    padding: 10px;
+}
+.km-brand:nth-child(even){
+    background: #f9f9f9;
+}
+.km-brand h4{
+    background: #3f94a8;
+    color: #FFF;
+    padding: 10px 15px;
+    text-transform: uppercase;
+    font-size: 20px;
+    text-align: center;
+}
+#ctkm .show-more{
+    text-align: right;
+    font-style: italic;
+}
+#ctkm .important a{
+    color:#FFF;
+    font-size: 20px;
+}
+#show-other{
+    background: #3f94a8;
+    color:#FFF;
+    margin: 15px;
+    padding: 5px;
+}
+#show-other a{
+    background: #FFF;
+    border-radius: 20px;
+    padding: 3px 5px;
+    margin-right: 10px;    
+}
+
 @media (max-width: 768px){   
     #main-header .row-1{
         font-size: 14px;
@@ -1227,5 +1270,10 @@ h3.block-title .step {
     #btnAddToCart{
         width: 100%;
         margin: 10px 0;
+    }
+    #show-other a{
+        display: inline-block;
+        width: 100%;
+        text-align: center;
     }
 }

@@ -12,7 +12,7 @@ $db = connect_db();
 
 function detect_click_tac($ip){
     $db = connect_db();    
-    $yesterday          = strtotime('-1 day', time());
+    $yesterday = strtotime('-3 day', time());
     $result = $db->queryAllRows('SELECT url FROM k_visit WHERE IP=? AND time > ? AND google_ad=1', $ip, $yesterday);     
     $tmp = array();
     foreach($result as $item){

@@ -10,6 +10,7 @@
                     $include_children = ($term->parent==0)?true:false;
                 //var_dump($term);
                     echo '<h1>'.$term->name.'</h1>';
+                    echo '<div class="term-des">'.$term->description.'</div>';
                 ?>
                 <div class="list-products row">
             <?php

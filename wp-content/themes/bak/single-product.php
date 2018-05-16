@@ -27,13 +27,15 @@
                         <div class="pro-info col-sm-7 col-xs-12">                            
                             <?php 
                                 echo bak_social_share();
-                                                  
+                                    
+                            $pid = get_the_ID();
+                            
                                 $des = get_post_meta($pid, '_yoast_wpseo_metadesc', true);
                                 
                                 echo '<meta itemprop="description" content="'.$des.'" />';
                                     
                                                        
-                                    $pid = get_the_ID();
+                                    
                                     $brands = get_the_terms(get_the_ID(), 'product-category');
                                     if(is_array($brands)){
                                         $brand = array_shift($brands);                                        
@@ -51,10 +53,10 @@
                                     echo '<link itemprop="url" href="<?php echo get_permalink(); ?>" rel="author"/>';
                             
                                     if($d_price){
-                                        echo '<div><b>Giá: </b><span class="v_d_price">'.bak_display_money($d_price).'</span></div>';
+                                        echo '<div><b>Giá thị trường: </b><span class="v_d_price">'.bak_display_money($d_price).'</span></div>';
                                     }
                                     $giaSell = is_numeric($s_price)? bak_display_money($s_price):'Liên Hệ';
-                                    echo '<div itemprop="offers" itemscope itemtype="http://schema.org/Offer"><div><b>Giá sale: </b>    <meta itemprop="priceCurrency" content="VND" /><span class="v_s_price" itemprop="price" content="'. $s_price.'">'.$giaSell.'</span> (Gọi để có giá tốt)</div>';
+                                    echo '<div itemprop="offers" itemscope itemtype="http://schema.org/Offer"><div><b>Giá bán: </b>    <meta itemprop="priceCurrency" content="VND" /><span class="v_s_price" itemprop="price" content="'. $s_price.'">'.$giaSell.'</span> </div>';
                                     echo '<div><b>Tình Trạng: </b> <span > <link itemprop="availability" href="http://schema.org/InStock" />Còn hàng</span</div></div>';
                                     echo '<div><b>Khuyến mãi: </b><span class="v_promotion">'.$promotion.'</span></div>';
                                     echo '<div><b>Bảo hành: </b><span class="v_guarantee">'.$guarantee.'</span></div>';    
@@ -83,6 +85,20 @@
                                 ?>
                         </div>
                         <div class="clearfix"></div>
+                        
+                        <?php 
+                            $is_bep = check_is_bep_tu($brand->term_id);
+                        
+                            if($is_bep){
+                        ?>
+                        <div id="show-other">                            
+                            <p>Dòng bếp từ này chưa phù hợp với bạn? Xem thêm các model bếp từ khác:</p> 
+                            <a href="/tim-kiem/?slBrand=7&amount=1+-+10000000"><i class="far fa-circle"></i> Giá < 10.000.000₫</a>
+                            <a href="/tim-kiem/?slBrand=7&amount=10000000+-+20000000"><i class="far fa-circle"></i> Giá 10.000.000₫ <i class="fas fa-arrow-right"></i> 20.000.000đ</a>
+                            <a href="/tim-kiem/?slBrand=7&amount=20000000+-+80000000"><i class="far fa-circle"></i> Giá > 20.000.000₫</a>
+                        </div>
+                        <?php }// end is bep ?>
+                        
                         <div class="pro-main col-xs-12">
                             <?php 
                                 the_content();

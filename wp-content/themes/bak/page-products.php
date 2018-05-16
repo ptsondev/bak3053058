@@ -57,7 +57,7 @@
                 
                 <div id="page-paginate">
                         <?php if(function_exists('wp_simple_pagination')) {                
-                            echo wp_simple_pagination();
+                        //    echo wp_simple_pagination();
                         } 
                         wp_reset_query();
                         ?> 

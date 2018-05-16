@@ -4,6 +4,7 @@ DEFINE('AK_DT_BAN', '02838625420');
 DEFINE('AK_DT_BAN_SHOW', '02838 625 420');
 DEFINE('AK_HOTLINE', '0963391379');
 DEFINE('AK_HOTLINE_SHOW', '0963 39 1379');
+DEFINE('TID_PARENT_INDUCTION_HOB', 7);
 require_once(get_template_directory().'/aio_image_resize.php');
 require_once(get_template_directory().'/simple_html_dom.php');
 
@@ -277,7 +278,7 @@ function display_product_item($product){
                 echo '<img src="'.bak_get_thumbnail($product->ID, 400, 300).'" />';
             echo '</a></div>';
             echo '<div class="info">';
-                echo '<div class="title">'.$product->post_title.'</div>';
+                echo '<div class="title"><a href="'.get_permalink($product->ID).'">'.$product->post_title.'</a></div>';
                     $d_price = get_post_meta($product->ID, 'wpcf-product_display_price', true);
                     $s_price = get_post_meta($product->ID, 'wpcf-product_sell_price', true);
                     $percent = round(($d_price - $s_price)/($d_price)*100);                    
@@ -288,9 +289,24 @@ function display_product_item($product){
                     }
                     echo '<div class="v_d_price">'.bak_display_money($d_price).'</div>';
                     echo '<div class="v_s_price">'.$giaSell.'</div>';
+                    //echo '<div class="v_s_price">Liên Hệ => giá tốt</div>';
                 echo '</div>';                            
             echo '</div>';                        
         echo '</div>';
     echo '</div>';
 }
 
+function check_is_bep_tu($tid){
+    if($tid==TID_PARENT_INDUCTION_HOB)
+        return true;
+    $children = get_terms( 'product-category', array(
+        'hide_empty'=>0,
+        'parent'=>TID_PARENT_INDUCTION_HOB
+    )); 
+    foreach($children as $child){
+        if($child->term_id == $tid){
+            return true;
+        }
+    }
+    return false;
+}
