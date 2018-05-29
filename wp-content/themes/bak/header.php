@@ -62,6 +62,16 @@ $db = connect_db();
   gtag('config', 'UA-49884691-5');
 </script>
 
+    <!-- Global site tag (gtag.js) - AdWords: 968191709 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-968191709"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'AW-968191709');
+</script>
+
     
 </head>
 

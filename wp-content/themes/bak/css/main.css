@@ -17,8 +17,7 @@ h2{
     color:#333333;
     padding: 10px;
     font-size: 15px;    
-    font-family: monospace;
-    
+    font-family: monospace;    
 }
 #main-header .row-1 a{
     color:#333333;    
@@ -1275,5 +1274,12 @@ h3.block-title .step {
         display: inline-block;
         width: 100%;
         text-align: center;
+    }
+    #primary-menu{
+        display: none;
+    }
+    #main-header .row-1 .hotline{
+        width: 100%;
+        text-align: left;
     }
 }

@@ -53,7 +53,7 @@
                                     echo '<link itemprop="url" href="<?php echo get_permalink(); ?>" rel="author"/>';
                             
                                     if($d_price){
-                                        echo '<div><b>Giá thị trường: </b><span class="v_d_price">'.bak_display_money($d_price).'</span></div>';
+                                        echo '<div><b>Giá chính hãng: </b><span class="v_d_price">'.bak_display_money($d_price).'</span></div>';
                                     }
                                     $giaSell = is_numeric($s_price)? bak_display_money($s_price):'Liên Hệ';
                                     echo '<div itemprop="offers" itemscope itemtype="http://schema.org/Offer"><div><b>Giá bán: </b>    <meta itemprop="priceCurrency" content="VND" /><span class="v_s_price" itemprop="price" content="'. $s_price.'">'.$giaSell.'</span> </div>';

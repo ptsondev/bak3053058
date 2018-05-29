@@ -74,7 +74,7 @@ function bak_social_share() {
     $share .= '<a class="share_linkhay" title="Share to Linkhay" href="http://linkhay.com/submit"><div class="share linkhay"></div></a>';
     //$share .= '<a title="Share to Zing" class="share_zing" name="zm_share" type="text"><div class="share zing"></div></a><script src="http://wb.me.zing.vn/index.php?wb=LINK&t=js&c=share_button" type="text/javascript"></script>';
     $share .= '<script type="text/javascript" src="https://apis.google.com/js/plusone.js">{lang: \'vi\'}</script><g:plusone size="medium"></g:plusone>';
-    $share .= '<div class="fb-like" data-send="false" data-layout="button_count" data-show-faces="false"></div>';
+    $share .= '<div class="fb-like" data-href="https://www.facebook.com/BepAnKhang/" data-send="false" data-layout="button_count" data-show-faces="false"></div>';
     $share.='</div>';
     return $share;
 }
