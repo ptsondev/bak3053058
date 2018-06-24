@@ -1,4 +1,9 @@
 jQuery(document).ready(function($){	
+    var bw = $( window ).width(); // browser width
+    if(bw<600){
+        $('body').addClass('mobile');
+        $('body').addClass('mobile');
+    }
     
         if($('#slider1_container').length){
            var options = {
@@ -78,7 +83,8 @@ jQuery(document).ready(function($){
     });
     */
     
-    $('.pro-thumb img').bighover({width:800});
+    $('.pro-thumb img').bighover({width:700});
+    $('#footer-certification img, #footer-customers img').bighover({width:400, position:"top"});
     
     var price_start = $('#price_start').val();
     var price_end = $('#price_end').val();

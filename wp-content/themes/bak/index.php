@@ -48,7 +48,7 @@
         
         <div id="main-body">
             <div class="container main-wrapper">
-                <div id="home-introduce">
+                <!--<div id="home-introduce">
                     <h2>Điểm nổi bật khi sử dụng bếp từ trong nấu nướng</h2>
                     <div class="row">
                         <div class="feature power col-sm-3 col-xs-6">
@@ -68,11 +68,13 @@
                             <div class="des">Thẩm mỹ và dễ dàng vệ sinh. </div>
                         </div>                        
                     </div>
-                </div>
+                </div>-->
+                
+                <h2 id="h2-intro">Những yếu tố tạo nên 1 không gian bếp hoàn hảo</h2>
                 
                 <div id="sticky-products">
-                    <h2>Những dòng bếp từ đang hot</h2>
-                    <div class="row">
+                    <h3>Bếp: bếp từ - bếp hồng ngoại</h3>
+                    <div class="row odd">
                         <div class="col-sm-4">
                             <div class="prod">
                                 <a href="http://bepankhang.com/san-pham/bep-tu-bosch-ppi82560ms/">
@@ -94,6 +96,90 @@
                                 <a href="http://bepankhang.com/san-pham/bep-tu-teka-iz-7210/">
                                     <img src="http://bepankhang.com/wp-content/uploads/2018/04/bep-tu-teka-ir-7210.jpg" />
                                     <div class="title">BẾP TỪ TEKA IZ 7210</div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h3>Máy hút mùi</h3>
+                    <div class="row even">
+                        <div class="col-sm-4">
+                            <div class="prod">
+                                <a href="https://bepankhang.com/san-pham/may-hut-mui-latino-lt-7870/">
+                                    <img src="https://bepankhang.com/wp-content/uploads/2018/05/may-hut-mui-latino-lt-7870.jpg" />
+                                    <div class="title">MÁY HÚT MÙI LATINO LT-7870</div>
+                                </a>    
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="prod">
+                                <a href="https://bepankhang.com/san-pham/may-hut-mui-canzy-cz-350c-2/">
+                                    <img src="https://bepankhang.com/wp-content/uploads/2018/05/may-hut-mui-canzy-cz-350c-e1417227852778-1.jpg" />
+                                    <div class="title">MÁY HÚT MÙI CANZY CZ-350C</div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="prod">
+                                <a href="https://bepankhang.com/san-pham/may-hut-mui-chefs-eh-gra70/">
+                                    <img src="https://bepankhang.com/wp-content/uploads/2018/05/GRA.png" />
+                                    <div class="title">MÁY HÚT MÙI CHEFS EH-GRA70</div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h3>Lò nướng</h3>
+                    <div class="row odd">
+                        <div class="col-sm-4">
+                            <div class="prod">
+                                <a href="https://bepankhang.com/san-pham/lo-nuong-bosch-hbg43s450a/">
+                                    <img src="https://bepankhang.com/wp-content/uploads/2018/05/lo-nuong-bosch-hbg43s450a.jpg" />
+                                    <div class="title">LÒ NƯỚNG BOSCH HBG43S450A</div>
+                                </a>    
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="prod">
+                                <a href="https://bepankhang.com/san-pham/lo-nuong-cata-cd-760-as-bk/">
+                                    <img src="https://bepankhang.com/wp-content/uploads/2018/05/lo-nuong-cata-cd-760-as-bk.jpg" />
+                                    <div class="title">LÒ NƯỚNG CATA CD 760 AS BK</div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="prod">
+                                <a href="https://bepankhang.com/san-pham/lo-nuong-teka-hkl-840/">
+                                    <img src="https://bepankhang.com/wp-content/uploads/2018/05/lo-nuong-teka-hkl-840.jpg" />
+                                    <div class="title">LÒ NƯỚNG TEKA HKL 840</div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h3>Vòi - Chậu</h3>
+                    <div class="row even">
+                        <div class="col-sm-4">
+                            <div class="prod">
+                                <a href="https://bepankhang.com/san-pham/chau-rua-bat-malloca-ms-8815/">
+                                    <img src="https://bepankhang.com/wp-content/uploads/2018/05/chau-rua-bat-malloca-ms-8815.jpg" />
+                                    <div class="title">CHẬU RỬA BÁT MALLOCA MS 8815</div>
+                                </a>    
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="prod">
+                                <a href="https://bepankhang.com/san-pham/voi-rua-bat-amts-am-306/">
+                                    <img src="https://bepankhang.com/wp-content/uploads/2018/05/voi-rua-bat-amts-am-306.jpg" />
+                                    <div class="title">VÒI RỬA BÁT AMTS AM 306</div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="prod">
+                                <a href="https://bepankhang.com/san-pham/chau-rua-bat-teka-classic-2-1-2b/">
+                                    <img src="https://bepankhang.com/wp-content/uploads/2018/05/chau-rua-bat-teka-classic-2-12b.jpg" />
+                                    <div class="title">CHẬU RỬA BÁT TEKA CLASSIC 2 1/2B</div>
                                 </a>
                             </div>
                         </div>

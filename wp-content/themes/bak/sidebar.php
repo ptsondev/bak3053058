@@ -1,20 +1,66 @@
 <?php   
     $queried_object = get_queried_object();
-    //var_dump($queried_object);
+    $parent_tax = $cur_tax = 0;
+    if(isset($queried_object->post_type) && $queried_object->post_type=='product'){
+        $cats = get_the_terms($queried_object->ID, 'product-category');
+        if(is_array($cats)){
+            $cur_tax = array_shift($cats);   
+            if($cur_tax->parent!=0){
+                $parent_tax = get_term($cur_tax->parent);
+            }else{
+                $parent_tax = $cur_tax;
+            }
+        }        
+    }
+
+    if($queried_object->taxonomy=='product-category'){
+        if($queried_object->parent!=0){
+            $parent_tax=get_term($queried_object->parent);
+        }else{
+            $parent_tax = $queried_object;
+        }
+        $cur_tax=$queried_object;
+    }
+
+
+    echo '<div id="sidebar-sub-cat" class="block">';
+        echo '<h3 class="block-title">Các hãng '.$parent_tax->name.'</h2>';
+        echo '<div class="block-content">';
+        $children = get_terms( 'product-category', array(
+            'hide_empty'=>0,
+            'parent'=>$parent_tax->term_id
+        )); 
+        if(!empty($children)){
+            foreach($children as $child){
+                $active = ($cur_tax->term_id==$child->term_id)?'active':'';
+                echo '<li class="lev-1 '.$active.'"><a '.$nofollow.' href="'.get_term_link($child).'"><i class="fas fa-plus-square"></i> '.$child->name.'</a></li>';
+            }
+        }
+        echo '</div>';
+    echo '</div>';
+
     //if(isset($queried_object->ID) && $queried_object->ID==297){
         // hien o trang tim kiem san pham
-        get_template_part('search-area'); 
+    //    get_template_part('search-area'); 
     //}
     
 ?>
 
 <div id="best-sell-products">
-    <h3 class="block-title">Bếp từ bán chạy</h3>
+    <h3 class="block-title"><?php echo $parent_tax->name;?> bán chạy</h3>
 <?php 
     $products = get_posts(array(
         'post_type' => 'product',        
-        'numberposts' => 10,
+        'numberposts' => 5,
         'order' =>'ASC',
+        'tax_query' => array(
+        array(
+            'taxonomy' => 'product-category',
+            'field' => 'term_id',
+            'terms' => $parent_tax->term_id,
+            'include_children' => true,
+            )
+        ),
         'meta_query' => array(
             array(
                 'key' => 'wpcf-show',
@@ -57,4 +103,8 @@
                     
                 }
     ?>
+</div>
+
+<div id="ads">
+    <a href="/bep-tu-khuyen-mai/"><img src="<?php echo PATH_TO_IMAGES; ?>banner-wc-km.jpg" alt="Khuyến mãi bếp từ cực HOT mùa WC"/></a>
 </div>

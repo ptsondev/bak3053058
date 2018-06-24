@@ -9,7 +9,7 @@
 // khong bat khi khong xai den
 
 
-DEFINE('CAT_ID', 40); // nhớ tự thay cái này
+DEFINE('CAT_ID', 75); // nhớ tự thay cái này
 
 $title='Bếp điện âm Bosch PKF645E14E';
 $content = 'some content';
@@ -18,7 +18,7 @@ $s_price = 15500000;
 $image_url = 'http://cdn.bepluaviet.vn/wp-content/uploads/2014/11/bep-dien-bosch-pkf645e14e.jpg'; 
 
 
-/*
+
 $parent_url = $_REQUEST['url'];
 $parent_html = file_get_html($parent_url);
 $grid = $parent_html->find('#grid-view', 0);
@@ -26,8 +26,8 @@ foreach($grid->find('a.woocommerce-LoopProduct-link') as $element){
     //var_dump($element->href);die;
     fetchProduct($element->href);
 }
-*/
-fetchProduct('http://bepluaviet.vn/shop/may-hut-mui-chefs-eh-r506e7');
+
+//fetchProduct('http://bepluaviet.vn/shop/may-hut-mui-chefs-eh-r506e7');
 
 function fetchProduct($url){
     $html = file_get_html($url);

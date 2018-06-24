@@ -14,13 +14,15 @@
            
                 
                 <div id="ctkm">
-                     <h3>Tri ân khách hàng - Ngập tràn quà tặng</h3>
-
-                    <div id="ctkm-des">
-                         ✅ Bếp là nơi mọi thành viên quay quần lại với nhau sau một ngày làm việc, học tập mệt mỏi. Mỗi người ai cũng đều có nhu cầu trang trí, sắm sửa sao cho căn bếp của mình trông thật tiện nghi và hiện đại. </br>
-                         ✅ Hiểu được điều này, bếp An Khang - chuyên cung cấp bếp từ và các thiết bị nhà bếp - cho ra chương trình khuyến mãi lớn nhất từ trước tới nay với mong muốn đem đến không gian bếp ấm áp cho các hộ gia đình.</br>
-
-                         ✅ Các model bếp từ chính hãng, bếp từ đôi, bếp 3 từ, 4 từ,... từ bếp cao cấp đến tầm trung, giá rẻ... Mọi sản phẩm sẽ được bán với giá cực hot vào đợt khuyến mãi này.</br>
+                    <div class="col-sm-3 col-xs-12">
+                        <img src="<?php echo PATH_TO_IMAGES;?>wc-banner.png" />
+                    </div>
+                     
+                    <div id="ctkm-des" class="col-sm-9 col-xs-12">
+                        ✅ Chế độ hẹn giờ & khóa an toàn. <br/>
+                        ✅ Tiết kiệm điện năng & thời gian. <br/>
+                        ✅ Thẩm mỹ & dễ dàng vệ sinh. <br/>
+                        <i>Xem thêm <a href="https://bepankhang.com/qna/uu-diem-cua-bep-dien-tu/">những ưu điểm khác của bếp từ</a></i>
                     </div>
         
         
@@ -32,7 +34,7 @@
                     display_product_item($product);
                     $product = get_post(221);
                     display_product_item($product);
-                    $product = get_post(186);
+                    $product = get_post(1334);
                     display_product_item($product);
                 ?>
             </div>
@@ -48,11 +50,11 @@
             <h4>Bếp từ Cata</h4>
             <div class="list-products row">
                 <?php 
-                    $product = get_post(78);
+                    $product = get_post(62);
                     display_product_item($product);
-                    $product = get_post(221);
+                    $product = get_post(81);
                     display_product_item($product);
-                    $product = get_post(186);
+                    $product = get_post(212);
                     display_product_item($product);
                 ?>
             </div>
@@ -70,11 +72,11 @@
             <h4>Bếp từ Chefs</h4>
             <div class="list-products row">
                 <?php 
-                    $product = get_post(78);
+                    $product = get_post(39);
                     display_product_item($product);
-                    $product = get_post(221);
+                    $product = get_post(58);
                     display_product_item($product);
-                    $product = get_post(186);
+                    $product = get_post(231);
                     display_product_item($product);
                 ?>
             </div>
@@ -92,11 +94,11 @@
             <h4>Bếp từ Teka</h4>
             <div class="list-products row">
                 <?php 
-                    $product = get_post(78);
+                    $product = get_post(158);
                     display_product_item($product);
-                    $product = get_post(221);
+                    $product = get_post(1346);
                     display_product_item($product);
-                    $product = get_post(186);
+                    $product = get_post(169);
                     display_product_item($product);
                 ?>
             </div>
@@ -111,22 +113,22 @@
         </div>
         
         <div class="km-brand">
-            <h4>Bếp từ Arber</h4>
+            <h4>Bếp từ Electrolux</h4>
             <div class="list-products row">
                 <?php 
-                    $product = get_post(78);
+                    $product = get_post(1207);
                     display_product_item($product);
-                    $product = get_post(221);
+                    $product = get_post(1211);
                     display_product_item($product);
-                    $product = get_post(186);
+                    $product = get_post(1201);
                     display_product_item($product);
                 ?>
             </div>
             <div class="show-more">
                 <div class="show-more">
                 Xem thêm các model khác của
-                <a href="https://bepankhang.com/sp/bep-tu/bep-tu-arber/">
-                     bếp từ Arber
+                <a href="https://bepankhang.com/sp/bep-tu/bep-tu-electrolux/">
+                     bếp từ Electrolux
                 </a>
             </div>    
             </div>                
@@ -137,11 +139,11 @@
             <h4>Bếp từ Canzy</h4>
             <div class="list-products row">
                 <?php 
-                    $product = get_post(78);
+                    $product = get_post(138);
                     display_product_item($product);
-                    $product = get_post(221);
+                    $product = get_post(1278);
                     display_product_item($product);
-                    $product = get_post(186);
+                    $product = get_post(1468);
                     display_product_item($product);
                 ?>
             </div>
@@ -156,7 +158,7 @@
         </div>
         
         <div class="important">
-            ✅ Tặng ngay bộ nồi từ cao cấp khi đến xem và mua hàng trực tiếp tại showroom bếp An Khang 151 Tô Hiến Thành, Phường 13, Quận 10, TP HCM </br >
+            ✅ Tặng ngay voucher giảm giá 500.000đ khi đến xem và mua hàng trực tiếp tại showroom bếp An Khang 151 Tô Hiến Thành, Phường 13, Quận 10, TP HCM </br >
             ✅ Miễn phí giao hàng và lắp đặt đối với tất cả các sản phẩm trên.</br >
             ✅ Cần tư vấn thêm thông tin về bếp từ, vui lòng liên hệ hot line: <a href="tel:0963391379">0963 39 1379</a>
         </div>

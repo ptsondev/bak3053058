@@ -74,9 +74,9 @@ h2{
     text-align: center;
 }
 #site-logo img{
-    width:100px;
-    margin:auto;
-    display: block;
+    width:120px;
+    display: inline-block;
+    float: left;    
 }
 #site-slogan{    
         color: #333;
@@ -86,7 +86,7 @@ h2{
     text-align: center;
 }
 #main-header .row-2{
-    padding: 10px 0;
+    padding: 0;
 }
 
 #main-header.active{
@@ -127,6 +127,9 @@ h2{
 #main-header.active #site-name{
     display: none;
 }
+#main-header.active #subCall{
+    display: inline-block;
+}
 #main-menu {
     float: right;
     margin-top: 20px;
@@ -141,7 +144,7 @@ h2{
     color:#f7930f;
     text-transform: uppercase;
     font-size: 18px;
-    padding:5px 10px;
+    padding:7px 10px;
     text-decoration: none;
 }
 #slider-wrapper{
@@ -282,12 +285,12 @@ h2{
 }
 #sticky-products .title{
    position: absolute;
-  top: 50%;
+  top: 85%;
   left: 50%;
   transform: translate(-50%, -50%);
     z-index: 99;
     color:#FFF;
-    font-size: 20px;
+    font-size: 14px;
 }
 #sticky-products .prod:hover .title{
    animation: opa_down 0.5s forwards;
@@ -918,6 +921,7 @@ table.spec i{
     text-align: center;
     display: inline-block;
     cursor: pointer;
+    margin-right: 10px;
 }
 #btnAddToCart.added{
     background: #3f94a8;
@@ -1073,9 +1077,7 @@ h3.block-title .step {
 }
 
 #ctkm-des{
-    background: url(../images/khuyen-mai-mua-he.png) no-repeat center 0;
-    background-size: 300px;
-    padding-top: 150px;
+    
 }
 .km-brand{
     display: inline-block;
@@ -1113,8 +1115,80 @@ h3.block-title .step {
     padding: 3px 5px;
     margin-right: 10px;    
 }
-
+#h2-intro{
+    text-align: center;
+    text-transform: uppercase;
+    background: #3f94a8;
+    color:#FFF;
+    padding: 7px;
+}
+#sticky-products .even .title{
+    color:#000;
+}
+#sticky-products h3{
+    text-transform: uppercase;
+    margin: 40px 0 10px;
+    color: #3f94a8;
+}
+#sidebar-sub-cat li{
+    list-style: none;    
+}
+#sidebar-sub-cat li.active a{
+    color:#f7930f;
+}
+#sidebar-sub-cat a{
+    font-size: 18px;
+}
+#sidebar-sub-cat a i{
+    font-size: 14px;
+}
+#sidebar-sub-cat .block-content{
+    padding: 0 10px;
+    background: #f9f9f9;
+}
+#subCall{
+    display: inline-block;
+    float: left;
+    margin-left: 20px;
+    display: none;
+    padding-top: 12px;
+    font-size: 20px !important;
+}
+#footer-certification img{
+    width: 17%;
+    margin:0 1%;
+    -webkit-box-shadow: 0px 3px 16px 0px rgba(0,0,0,0.75);
+-moz-box-shadow: 0px 3px 16px 0px rgba(0,0,0,0.75);
+box-shadow: 0px 3px 16px 0px rgba(0,0,0,0.75);
+}
+#directCall{
+    background: #f7930f;
+    color: #FFF;
+    padding: 5px 15px;
+    border-radius: 5px;
+    text-align: center;
+    display: inline-block;
+}
+#directCall a{
+    color:#FFF;
+}
+#footer-customers img{
+    height: 120px;
+    width: auto;
+    margin-right: 20px;
+    display: inline-block;
+    float: left;
+    -webkit-box-shadow: 0px 3px 16px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 3px 16px 0px rgba(0,0,0,0.75);
+    box-shadow: 0px 3px 16px 0px rgba(0,0,0,0.75);
+}
+#ads{
+    margin-top: 15px;
+}
 @media (max-width: 768px){   
+    #breadcrumb{
+        margin-top: 60px;
+    }
     #main-header .row-1{
         font-size: 14px;
         font-family: 'Roboto Condensed', sans-serif;        
@@ -1153,11 +1227,13 @@ h3.block-title .step {
     }
     #main-menu{
         display: none;
+        background: #f9f9f9;
     }
     #main-menu li{
         width: 100%;
         padding: 0;
         margin: 3px 0;
+        border-bottom: 1px dotted #ccc;
     }    
     #slide-hide{
         display: none;
@@ -1270,16 +1346,30 @@ h3.block-title .step {
         width: 100%;
         margin: 10px 0;
     }
+    #directCall{
+        width: 100%;
+    }
     #show-other a{
         display: inline-block;
         width: 100%;
         text-align: center;
     }
+    #main-header.active #header-search{
+        display: inline-block !important;
+        width:100%;
+    }
+    
     #primary-menu{
         display: none;
     }
     #main-header .row-1 .hotline{
         width: 100%;
         text-align: left;
+    }
+    #footer-certification img,
+    #footer-customers img{
+        width: 90%;
+        height: auto;
+        margin: 5px 0 !important;
     }
 }

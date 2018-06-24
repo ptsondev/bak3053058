@@ -2,17 +2,14 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-6 col-xs-12">
-                <img class="logo" src="<?php echo PATH_TO_IMAGES; ?>/logo.png" />
+                <img class="logo" src="<?php echo PATH_TO_IMAGES; ?>logo.png" />
                     <i class="fas fa-quote-left"></i>
                     Với mong muốn tạo ra 1 không gian bếp tuyệt hảo trong chính ngôi nhà của bạn - nơi gắn kết yêu thương và mang lại sự đầm ấm trong mỗi gia đình, Bếp An Khang muốn đem đến cho các bạn những sản phẩm cao cấp về bếp điện từ và các phụ kiện đi kèm khác. Tất cả nhằm tạo ra sự thoải mái và tiện lợi hơn trong việc nấu ăn.<br/>
                     Bên cạnh các tiện ích như dễ sử dụng, an toàn và tiết kiệm, các dòng sản phẩm ngoại nhập này cũng sẽ làm tăng thêm tính thẩm mỹ trong căn bếp nhà bạn.<i class="fas fa-quote-right"></i><br /><br />
-                    <div class="important">Bếp An Khang <b>cam kết bán hàng chính hãng</b>, hàng có nguồn gốc xuất sứ rõ ràng, cũng như đảm bảo thực hiện đúng các chế độ bảo hành.</div>
-                    
-                
-                
+                    <div class="important">Bếp An Khang <b>cam kết bán hàng chính hãng</b>, hàng có nguồn gốc xuất xứ rõ ràng, cũng như đảm bảo thực hiện đúng các chế độ bảo hành.</div>
             </div>
             <div class="col-sm-3 col-xs-12">                
-                <img src="<?php echo PATH_TO_IMAGES; ?>/bep-an-khang-showroom.jpg" />
+                <img src="<?php echo PATH_TO_IMAGES; ?>bep-an-khang-showroom.jpg" />
                 <div itemscope="" itemtype="http://schema.org/Organization">
                             <h4 itemprop="name">Bếp An Khang</h4>
                             <div class="item address" itemprop="address" itemscope="" itemtype="http://schema.org/PostalAddress"><i class="fa fa-home"></i> 151 Tô Hiến Thành, Phường 13, Quận 10, TP HCM</div>
@@ -64,6 +61,24 @@
                           
             </div>
         </div>
+        <div class="row">
+            <div id="footer-certification" class="col-sm-6 col-xs-12">
+                <h3>Certification</h3>
+                <img src="<?php echo PATH_TO_IMAGES; ?>c1.jpg" />
+                <img src="<?php echo PATH_TO_IMAGES; ?>c2.jpg" />
+                <img src="<?php echo PATH_TO_IMAGES; ?>c3.jpg" />
+                <img src="<?php echo PATH_TO_IMAGES; ?>c4.jpg" />
+                <img src="<?php echo PATH_TO_IMAGES; ?>c5.jpg" />
+            </div>
+            
+            <div id="footer-customers" class="col-sm-6 col-xs-12">
+                <h3>Hình Ảnh</h3>
+                <img src="<?php echo PATH_TO_IMAGES; ?>kh1.jpg" />
+                <img src="<?php echo PATH_TO_IMAGES; ?>kh2.jpg" />
+                <img src="<?php echo PATH_TO_IMAGES; ?>kh3.jpg" />                
+            </div>
+        </div>
+        
     </div>
 </div>
 
@@ -71,7 +86,7 @@
 <div id="main-footer">
             <div class="container main-wrapper">
                 <div id="footer-info">                                            
-                        Bếp An Khang © 2017 Privacy Policy
+                        Bếp An Khang © Privacy Policy
                 </div>
             </div>    
         </div>

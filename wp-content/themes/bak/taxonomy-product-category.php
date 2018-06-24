@@ -17,12 +17,13 @@
                 $products = get_posts(array(
                     'post_type' => 'product',
                     'numberposts' => -1,
+                    'order' => 'ASC',
                     'tax_query' => array(
                                         array(
                                           'taxonomy' => 'product-category',
-                                          'field' => 'term_name',
-                                          'terms' => $term,
-                                          'include_children' => $include_children,
+                                          'field' => 'term_id',
+                                          'terms' => $term->term_id,
+                                          'include_children' => true,
                                         )
                                       )
                 ));    

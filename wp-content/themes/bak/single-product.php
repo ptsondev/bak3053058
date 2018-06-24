@@ -79,11 +79,12 @@
                             }else{
                                     echo '<div id="btnAddToCart" data-pid="'.get_the_ID().'"><i class="fas fa-cart-arrow-down"></i> Cho vào giỏ hàng</div>';       
                             }
-                            echo '<div id="cartStatus"></div>';
-                          
                             
                                 ?>
+                            <div id="directCall"><a href="tel:0963391379"><i class="fa fa-phone" aria-hidden="true"></i> Hotline:  0963 39 1379</a></div>
+                            <div id="cartStatus"></div>
                         </div>
+                        
                         <div class="clearfix"></div>
                         
                         <?php 

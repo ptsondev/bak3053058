@@ -1,9 +1,14 @@
 jQuery(document).ready(function($) {
 	// Hand Scroll 
-	$(window).bind('scroll', function() {
-		parallax();
-	});	
-	
+     var bw = $( window ).width(); // browser width
+    if(bw>600){
+        $(window).bind('scroll', function() {
+            parallax();
+        });	
+    }else{
+        $('#main-header, #main-body').removeClass('unactive');
+		$('#main-header, #breadcrumb').addClass('active');    
+    }
 });
 
 function parallax() {

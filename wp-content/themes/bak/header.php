@@ -87,13 +87,13 @@ $db = connect_db();
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));</script>
 
-<!-- Your customer chat code -->
+<!-- Your customer chat code 
 <div class="fb-customerchat"
   attribution="setup_tool"
   page_id="272758219930982"
   logged_in_greeting="Xin chào. Bếp An Khang đã sẵn sàng để phục vụ quý khách."
   logged_out_greeting="Xin chào. Bếp An Khang hân hạnh phục vụ quý khách.">
-</div>
+</div>-->
     
     <?php 
         $active = '';
@@ -126,13 +126,14 @@ $db = connect_db();
         <div class="row-2">
             <div class="container main-wrapper">
                 <div class="row">
-                    <div id="site-logo" class="col-sm-2 col-xs-12">
-                        <a href="/"><img src="<?php echo PATH_TO_IMAGES; ?>logo.png" alt="Bếp An Khang" /></a>
-                        <did id="site-name">Bếp An Khang</did>
-                        <div id="site-slogan">Nâng Tầm Bếp Việt</div>
+                    <div id="site-logo" class="col-sm-3 col-xs-12">
+                        <a href="https://bepankhang.com"><img src="<?php echo PATH_TO_IMAGES; ?>logo.png" alt="Bếp An Khang" /></a>
+                        <!--<did id="site-name">Bếp An Khang</did>
+                        <div id="site-slogan">Nâng Tầm Bếp Việt</div>-->
+                        <a href="tel:0963391379" id="subCall">0963 39 1379</a>
                         <div id="btnShowMenu"><i class="fas fa-bars"></i></div>
                     </div>
-                    <div id="menu-region" class="col-sm-10 col-xs-12">
+                    <div id="menu-region" class="col-sm-9 col-xs-12">
                         <div id="header-search">
                             <form action="/tim-kiem" method="get">
                                 <input type="text" id="hKey" name="key" placeholder="Tìm sản phẩm theo tên hoặc model" />
@@ -153,8 +154,9 @@ $db = connect_db();
                                             $class = ($active==$term->slug)?'active':'';
                                             echo '<li class="lev-0 '.$class.'">';
                                                 //echo $term->name;
-                                                echo '<a href="#main-header">'.$term->name.'</a>';
-                                                $children = get_terms( 'product-category', array(
+                                                echo '<a href="'.get_term_link($term).'">'.$term->name.'</a>';
+                                            
+                                            /*    $children = get_terms( 'product-category', array(
                                                     'hide_empty'=>0,
                                                     'parent'=>$term->term_id
                                                 )); 
@@ -165,7 +167,7 @@ $db = connect_db();
                                                             echo '<li class="lev-1"><a '.$nofollow.' href="'.get_term_link($child).'">'.$child->name.'</a></li>';
                                                         }
                                                     echo '</ul>';
-                                                }
+                                                }*/
                                             echo '</li>';                                            
                                         }                                        
                                     ?>

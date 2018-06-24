@@ -21,14 +21,14 @@ $db = connect_db();
 
 function detect_click_tac($ip){
     $db = connect_db();    
-    $yesterday          = strtotime('-1 day', time());
+    $yesterday          = strtotime('-7 day', time());
     $result = $db->queryAllRows('SELECT url FROM k_visit WHERE IP=? AND time > ? AND google_ad=1', $ip, $yesterday);     
     $tmp = array();
     foreach($result as $item){
         $tmp[]=$item['url'];
     }    
     $result = array_count_values($tmp);
-    if(count($result)>2){
+    if(count($result)>3){
         $db->queryNoResult('UPDATE k_visit SET click_tac=1 WHERE IP=?', $ip);
     }   
 }
@@ -310,3 +310,5 @@ function check_is_bep_tu($tid){
     }
     return false;
 }
+
+//show_admin_bar( false );
