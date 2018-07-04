@@ -1,16 +1,17 @@
 <?php
 
-$ip= $_SERVER['REMOTE_ADDR'];
+    $ip= $_SERVER['REMOTE_ADDR'];
     $url = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
     $google_ad = 0;
     //gclid
     if(strpos($url, 'gclid')!=FALSE){
         $google_ad = 1;
     }
-$db = connect_db();
-    $db->queryNoResult('INSERT INTO k_visit(IP, url, time, google_ad) VALUES("'.$ip.'", "'.$url.'", "'.time().'", '.$google_ad.')');
-    detect_click_tac($ip);
-
+    if($google_ad){
+        $db = connect_db();
+        $db->queryNoResult('INSERT INTO k_visit(IP, url, time, google_ad) VALUES("'.$ip.'", "'.$url.'", "'.time().'", '.$google_ad.')');
+        detect_click_tac($ip);
+    }
 
 ?>
 <!DOCTYPE html>

@@ -1,16 +1,17 @@
 <?php
 
-$ip= $_SERVER['REMOTE_ADDR'];
+    $ip= $_SERVER['REMOTE_ADDR'];
     $url = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
     $google_ad = 0;
     //gclid
     if(strpos($url, 'gclid')!=FALSE){
         $google_ad = 1;
     }
-$db = connect_db();
-    $db->queryNoResult('INSERT INTO k_visit(IP, url, time, google_ad) VALUES("'.$ip.'", "'.$url.'", "'.time().'", '.$google_ad.')');
-    detect_click_tac($ip);
-
+    if($google_ad){
+        $db = connect_db();
+        $db->queryNoResult('INSERT INTO k_visit(IP, url, time, google_ad) VALUES("'.$ip.'", "'.$url.'", "'.time().'", '.$google_ad.')');
+        detect_click_tac($ip);
+    }
 
 ?>
 <!DOCTYPE html>
@@ -151,7 +152,8 @@ $db = connect_db();
                                                     'parent'=>$term->term_id
                                                 )); 
                                                 if(!empty($children)){
-                                                    $nofollow = ($term->term_id!=7)?'rel="nofollow"':'';
+                                                    //$nofollow = ($term->term_id!=7)?'rel="nofollow"':'';
+                                                    $nofollow = '';
                                                     echo '<ul class="sub-menu sub-menu-1">';
                                                         foreach($children as $child){
                                                             echo '<li class="lev-1"><a '.$nofollow.' href="'.get_term_link($child).'">'.$child->name.'</a></li>';
@@ -165,7 +167,7 @@ $db = connect_db();
                                     echo '<li class="lev-0">';
                                             echo '<a href="#">Chính sách - Hướng dẫn</a>';
 
-                                            $posts = get_posts(array(
+                                            $chinhsach = get_posts(array(
                                                 'post_type' => 'post',
                                                 'numberposts' => -1,
                                                 'order' => 'DESC',
@@ -179,15 +181,15 @@ $db = connect_db();
                                             ));   
 
                                         echo '<ul class="sub-menu sub-menu-1">';
-                                            foreach($posts as $post){
+                                            foreach($chinhsach as $cs){
                                                 //var_dump($post);die;
-                                                echo '<li class="lev-1"><a href="'.get_permalink($post->ID).'">'.$post->post_title.'</a></li>';
+                                                echo '<li class="lev-1"><a href="'.get_permalink($cs->ID).'">'.$cs->post_title.'</a></li>';
                                             }
                                         echo '</ul>';
                                          echo '<div class="btnExMore"></div>';
                                     echo '</li>';
                 
-                            
+                            wp_reset_query();
                                         echo '<li><a href="/bep-tu-khuyen-mai">Khuyến mãi</a></li>';
                                         echo '<li><a href="/lien-he">Liên Hệ</a></li>';
                                     ?>
