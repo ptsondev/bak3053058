@@ -73,7 +73,13 @@
   gtag('config', 'AW-968191709');
 </script>
 
-    
+    <script type="text/javascript">
+    window.addEventListener('load',function(){
+        jQuery("[href^='tel:']").click(function(){
+            gtag('event', 'click', {  'event_category': 'button', 'event_label': 'hotline' });
+        });
+    });
+</script>
 </head>
 
 <body <?php body_class($res_class); ?>>
