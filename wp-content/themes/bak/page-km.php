@@ -12,6 +12,7 @@
             <div class="col-sm-9 col-xs-12">
                 <h1><?php the_title(); ?></h1>
            
+                 <b>Những model bếp từ cao cấp chính hãng đang được khuyến mãi với giá cực shock tại showroom Bếp An Khang. Sau đây là 1 số sản phẩm đang bán rất chạy thời gian qua. </b><br />
                 
                 <div id="ctkm">
                     <div class="col-sm-3 col-xs-12">
@@ -19,10 +20,11 @@
                     </div>
                      
                     <div id="ctkm-des" class="col-sm-9 col-xs-12">
-                        ✅ Chế độ hẹn giờ & khóa an toàn. <br/>
+                        ✅ An toàn & dễ sử dụng. <br/>
                         ✅ Tiết kiệm điện năng & thời gian. <br/>
                         ✅ Thẩm mỹ & dễ dàng vệ sinh. <br/>
-                        <i>Xem thêm <a href="https://bepankhang.com/qna/uu-diem-cua-bep-dien-tu/">những ưu điểm khác của bếp từ</a></i>
+                        <i>Xem thêm <a href="https://bepankhang.com/qna/uu-diem-cua-bep-dien-tu/">những ưu điểm khác của bếp từ</a></i><br /><br />                   
+                       
                     </div>
         
         
@@ -156,6 +158,10 @@
             </div>    
             </div>                
         </div>
+                    <br/><br/>
+                     [Nếu bạn không tìm thấy sản phẩm đang cần mua, vui lòng liên hệ Hotline của bếp An Khang để được tư vấn và báo giá: <a href="tel:0963391379">0963 39 1379</a>]
+                    <br/>
+                    <br/><br/>
         
         <div class="important">
             ✅ Tặng ngay voucher giảm giá 500.000đ khi đến xem và mua hàng trực tiếp tại showroom bếp An Khang 151 Tô Hiến Thành, Phường 13, Quận 10, TP HCM </br >

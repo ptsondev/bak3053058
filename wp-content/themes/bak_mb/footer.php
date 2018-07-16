@@ -61,21 +61,21 @@
                           
             </div>
         </div>
-        <div class="row">
+         <div class="row">
             <div id="footer-certification" class="col-sm-6 col-xs-12">
                 <h3>Certification</h3>
-                <img src="<?php echo PATH_TO_IMAGES; ?>c1.jpg" />
-                <img src="<?php echo PATH_TO_IMAGES; ?>c2.jpg" />
-                <img src="<?php echo PATH_TO_IMAGES; ?>c3.jpg" />
-                <img src="<?php echo PATH_TO_IMAGES; ?>c4.jpg" />
-                <img src="<?php echo PATH_TO_IMAGES; ?>c5.jpg" />
+                <img alt="chuyen bep tu chinh hang" src="<?php echo PATH_TO_IMAGES; ?>chuyen-bep-tu-chinh-hang.jpg" />
+                <img alt="ban bep tu uy tin" src="<?php echo PATH_TO_IMAGES; ?>ban-bep-tu-uy-tin.jpg" />
+                <img alt="mua bep tu o dau" src="<?php echo PATH_TO_IMAGES; ?>mua-bep-tu-o-dau.jpg" />
+                <img alt="ban bep tu chinh hang tai Bep An Khang" src="<?php echo PATH_TO_IMAGES; ?>ban-bep-tu-bep-an-khang.jpg" />                
+                <img alt="giay chung nhan Bep An Khang" src="<?php echo PATH_TO_IMAGES; ?>chung-nhan-bep-an-khang.jpg" />
             </div>
             
             <div id="footer-customers" class="col-sm-6 col-xs-12">
                 <h3>Hình Ảnh</h3>
-                <img src="<?php echo PATH_TO_IMAGES; ?>kh1.jpg" />
-                <img src="<?php echo PATH_TO_IMAGES; ?>kh2.jpg" />
-                <img src="<?php echo PATH_TO_IMAGES; ?>kh3.jpg" />                
+                <img alt="Bếp An Khang giao hàng cẩn thận" src="<?php echo PATH_TO_IMAGES; ?>bep-an-khang-giao-hang.jpg" />
+                <img alt="Bếp An Khang lắp đặt tận tình" src="<?php echo PATH_TO_IMAGES; ?>bep-an-khang-lap-dat.jpg" />
+                <img alt="Nơi bán bếp từ uy tín" src="<?php echo PATH_TO_IMAGES; ?>bep-tu-uy-tin.jpg" />                
             </div>
         </div>
         
