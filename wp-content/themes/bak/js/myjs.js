@@ -172,6 +172,9 @@ jQuery(document).ready(function($){
     });
 });
 
+
+
+
 function formatNumber (num) {
     num = num.toString();
     num = num.replace(/\,/g, '');

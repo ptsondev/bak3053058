@@ -1,3 +1,7 @@
+<?php if(!is_home()){ ?>    
+    <div id="sub-footer"></div>
+<?php } ?>
+
 <div id="about-us-footer">
     <div class="container">
         <div class="row">

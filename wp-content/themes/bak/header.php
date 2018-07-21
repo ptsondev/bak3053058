@@ -186,7 +186,10 @@
         </div>
     </div>
     
+    
 <?php if(!is_home()){ ?>    
+    <div id="sub-header"></div>
+    
     <div id="breadcrumb">
         <div class="container">
             <ol itemscope="" itemtype="http://schema.org/BreadcrumbList">

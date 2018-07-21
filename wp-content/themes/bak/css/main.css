@@ -312,9 +312,18 @@ h2{
     font-size: 20px;
 }
 
+#sub-header, #sub-footer {
+    background: url('../images/sub-header.jpg') center 54%;
+    background-size: 100%;
+    height: 300px;
+    width: 100%;
+    display: inline-block;
+}
+
 #home-slogan{
     background: #f7930f;
-    font-size: 20px;
+    font-size: 18px;
+    font-style: italic;
     padding: 10px;    
     color: #FFF;
     text-align: center;

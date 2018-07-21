@@ -73,9 +73,10 @@
             
             <div id="footer-customers" class="col-sm-6 col-xs-12">
                 <h3>Hình Ảnh</h3>
-                <img alt="Bếp An Khang giao hàng cẩn thận" src="<?php echo PATH_TO_IMAGES; ?>bep-an-khang-giao-hang.jpg" />
-                <img alt="Bếp An Khang lắp đặt tận tình" src="<?php echo PATH_TO_IMAGES; ?>bep-an-khang-lap-dat.jpg" />
                 <img alt="Nơi bán bếp từ uy tín" src="<?php echo PATH_TO_IMAGES; ?>bep-tu-uy-tin.jpg" />                
+                <img alt="Bếp An Khang lắp đặt tận tình" src="<?php echo PATH_TO_IMAGES; ?>bep-an-khang-lap-dat.jpg" />
+                <img alt="Bếp An Khang giao hàng cẩn thận" src="<?php echo PATH_TO_IMAGES; ?>bep-an-khang-giao-hang.jpg" />
+                
             </div>
         </div>
         

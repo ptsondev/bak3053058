@@ -253,6 +253,19 @@ h2{
         padding-left: 30px;
     }
 }
+
+
+#sub-header, #sub-footer {
+    background: url('../images/sub-header.jpg') center 54%;
+    background-size: 100%;
+    height: 180px;
+    width: 100%;
+    display: inline-block;
+}
+#sub-header{
+    margin-top: 100px;
+}
+
 #main-menu .lev-1 a{
     padding: 0;
 }
@@ -481,8 +494,7 @@ h2{
     border-bottom:1px solid #fefefe;  
     padding:10px 0;
 	color:#FFF;
-    background: #3f94a8;
-    margin-bottom: 20px;
+    background: #3f94a8;    
 }
 #breadcrumb ol{
     padding: 0;
@@ -622,6 +634,7 @@ h2{
     display: inline-block;
 
 }
+.pro-head{overflow: hidden;}
 /* Share */
 .share{	display:inline-block;	float:left;	width:24px;	height:24px;	margin-right:10px;}
 .share.facebook{	background:url("../images/s_facebook.png");}
@@ -1220,7 +1233,7 @@ box-shadow: 0px 3px 16px 0px rgba(0,0,0,0.75);
 }
 @media (max-width: 768px){   
     #breadcrumb{
-        margin-top: 100px;
+        
     }
     #main-header .row-1{
         font-size: 14px;
@@ -1375,6 +1388,7 @@ box-shadow: 0px 3px 16px 0px rgba(0,0,0,0.75);
         display: inline-block;
         width: 100%;
         text-align: center;
+        margin:3px 0;
     }
     #main-header.active #header-search{
         display: inline-block !important;

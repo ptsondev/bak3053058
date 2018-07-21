@@ -15,11 +15,8 @@
                  <b>Những model bếp từ cao cấp chính hãng đang được khuyến mãi với giá cực shock tại showroom Bếp An Khang. Sau đây là 1 số sản phẩm đang bán rất chạy thời gian qua. </b><br />
                 
                 <div id="ctkm">
-                    <div class="col-sm-3 col-xs-12">
-                        <img src="<?php echo PATH_TO_IMAGES;?>wc-banner.png" />
-                    </div>
                      
-                    <div id="ctkm-des" class="col-sm-9 col-xs-12">
+                    <div id="ctkm-des" >
                         ✅ An toàn & dễ sử dụng. <br/>
                         ✅ Tiết kiệm điện năng & thời gian. <br/>
                         ✅ Thẩm mỹ & dễ dàng vệ sinh. <br/>
@@ -161,6 +158,7 @@
                     <br/><br/>
                      [Nếu bạn không tìm thấy sản phẩm đang cần mua, vui lòng liên hệ Hotline của bếp An Khang để được tư vấn và báo giá: <a href="tel:0963391379">0963 39 1379</a>]
                     <br/>
+                    <img src="<?php echo PATH_TO_IMAGES;?>/cac-thuong-hieu-bep-tu-chat-luong.png" alt="cac thuong hieu bep tu chat luong"/>
                     <br/><br/>
         
         <div class="important">
