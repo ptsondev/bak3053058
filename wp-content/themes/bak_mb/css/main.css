@@ -25,11 +25,15 @@ h2{
 #main-header .row-1 span{
     
 }
+.wpcf7-form input,
+.wpcf7-form textarea{
+    border: 1px solid #ccc;
+}
 #main-menu li.lev-0 .btnExMore{
     content: ' ';
     display: inline-block;
-    width: 20px;
-    height: 20px;
+    width: 25px;
+    height: 25px;
     background: red;
     position: absolute;
     right: 5px;
@@ -95,7 +99,7 @@ h2{
     border: none;
     position: absolute;
     right: 5px;    
-    top: 5px;
+    bottom: 5px;
     background: url('../images/btnSearch.png') no-repeat;
     background-size: 100% 100%;
     width:25px;
@@ -254,6 +258,26 @@ h2{
     }
 }
 
+#bak-hotline{
+    display: inline-block;
+    width: 100%;    
+    position: fixed;
+    bottom: 0;
+    left: 0;
+}
+#bak-hotline a{
+    background: #3f94a8;
+    color:#FFF;
+    font-size: 20px !important;
+    display: inline-block;
+    float: left;
+    width: 50%;
+    text-align: center;
+    padding: 10px;
+}
+#bak-hotline a:last-child{
+    background: #f7930f;
+}
 
 #sub-header, #sub-footer {
     background: url('../images/sub-header.jpg') center 54%;
@@ -263,7 +287,7 @@ h2{
     display: inline-block;
 }
 #sub-header{
-    margin-top: 100px;
+    margin-top: 55px;
 }
 
 #main-menu .lev-1 a{
@@ -438,6 +462,7 @@ h2{
     color:#FFF;
     font-size: 11px;
     padding: 10px;
+    margin-bottom: 50px;
 }
 .sub-menu{
     padding: 0;
@@ -1231,6 +1256,7 @@ box-shadow: 0px 3px 16px 0px rgba(0,0,0,0.75);
 #main-menu li.lev-1:last-child{
     border: none;
 }
+
 @media (max-width: 768px){   
     #breadcrumb{
         
@@ -1260,11 +1286,18 @@ box-shadow: 0px 3px 16px 0px rgba(0,0,0,0.75);
         top: 0px;
         right: 40px;
     }
-    #main-header.active #btnShowMenu{
+    #main-header.active #btnShowMenu,
+    #main-header.active #btnShowSearch{
         font-size: 24px;
         padding-top: 8px;
         float: right;
         bottom: 0;
+    }
+    #main-header.active #btnShowSearch{
+        float: left;
+        margin-right: 15px;
+        padding-top: 10px;
+        font-size: 22px;
     }
    
     #main-menu li{
@@ -1389,12 +1422,7 @@ box-shadow: 0px 3px 16px 0px rgba(0,0,0,0.75);
         width: 100%;
         text-align: center;
         margin:3px 0;
-    }
-    #main-header.active #header-search{
-        display: inline-block !important;
-        width:100%;
-    }
-    
+    }   
     #primary-menu{
         display: none;
     }

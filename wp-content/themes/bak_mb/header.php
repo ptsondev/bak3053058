@@ -112,18 +112,15 @@
     <div id="main-header" class="active">
         <div class="row-2">
             <div class="container main-wrapper">
-                <div class="row">
-                    <div id="site-logo" class="col-sm-3 col-xs-3">
+                <div>
+                    <div id="site-logo" class="pull-left">
                         <a href="https://bepankhang.com"><img src="<?php echo PATH_TO_IMAGES; ?>logo.png" alt="Bếp An Khang" /></a>
                     </div>    
-                    <div class="col-sm-3 col-xs-6">
-                        <a href="tel:0963391379" id="subCall">0963 39 1379</a>
-                    </div>    
-                    <div class="col-sm-3 col-xs-3">
+                    <div class="pull-right">
+                        <div id="btnShowSearch"><i class="fas fa-search"></i></div> 
                         <div id="btnShowMenu"><i class="fas fa-bars"></i></div> 
                     </div> 
-                </div>         
-                
+                </div>
                 <div class="row">
                     <div id="header-search">
                             <form action="/tim-kiem" method="get">
@@ -132,6 +129,11 @@
                             </form>
                         </div>    
                 </div>
+            </div>
+            
+            <div id="bak-hotline">
+                <a href="tel:0963391379"><i class="fas fa-phone-volume"></i> Gọi Điện</a>
+                <a href="sms:0963391379"><i class="far fa-comments"></i> Nhắn Tin</a>
             </div>
                 
                  <div id="menu-region" class="col-sm-9 col-xs-12">
@@ -196,7 +198,7 @@
                                     echo '</li>';
                 
                             wp_reset_query();
-                                        echo '<li><a href="/bep-tu-khuyen-mai">Khuyến mãi</a></li>';
+                                        echo '<li><a href="/khuyen-mai-cuc-shock-khi-mua-bep-tu/">Khuyến mãi</a></li>';
                                         echo '<li><a href="/lien-he">Liên Hệ</a></li>';
                                     ?>
                                                                                                     

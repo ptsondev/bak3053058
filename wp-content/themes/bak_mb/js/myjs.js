@@ -37,6 +37,9 @@ jQuery(document).ready(function($){
     $('#btnShowMenu, #btnCloseMenu').click(function(){    
         $('#menu-region').toggleClass('active'); 
     });
+    $('#btnShowSearch').click(function(){    
+        $('#header-search').toggle(); 
+    });
     
     $('#main-menu .lev-0 .btnExMore').click(function(e){
         $(this).toggleClass('collapse');

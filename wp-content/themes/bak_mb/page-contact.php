@@ -9,7 +9,7 @@
     <div class="container main-wrapper">
         <div class="row">
             <div id="gmap" class="col-sm-7 col-xs-12">
-                <iframe src="https://www.google.com/maps/d/u/0/embed?mid=19t5FVYaVcwLA556bcrL32i1bKvxJv7j9&z=15" width="640" height="480"></iframe>
+                <iframe src="https://www.google.com/maps/d/u/0/embed?mid=19t5FVYaVcwLA556bcrL32i1bKvxJv7j9&z=15" width="320" height="240"></iframe>
             </div>
             <div class="col-sm-5 col-xs-12">
                 <div id="contact-info">
