@@ -281,7 +281,11 @@ function display_product_item($product){
                 echo '<div class="title"><a href="'.get_permalink($product->ID).'">'.$product->post_title.'</a></div>';
                     $d_price = get_post_meta($product->ID, 'wpcf-product_display_price', true);
                     $s_price = get_post_meta($product->ID, 'wpcf-product_sell_price', true);
-                    $percent = round(($d_price - $s_price)/($d_price)*100);                    
+                    if(!empty($d_price)){
+                        $percent = round(($d_price - $s_price)/($d_price)*100);                    
+                    }else{
+                        $percent = '';
+                    }
                     $giaSell = is_numeric($s_price)? bak_display_money($s_price):'Liên Hệ';
                 echo '<div class="price">';
                     if(!empty($s_price)){
@@ -312,3 +316,8 @@ function check_is_bep_tu($tid){
 }
 
 //show_admin_bar( false );
+
+//add_action('wp_enqueue_scripts', 'no_more_jquery'); mở cái này popup ko chạy
+function no_more_jquery(){
+    wp_deregister_script('jquery');
+}

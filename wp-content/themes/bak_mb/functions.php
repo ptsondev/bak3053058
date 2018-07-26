@@ -346,3 +346,9 @@ function check_is_bep_tu($tid){
      return '';
 }
 //show_admin_bar( false );
+
+
+//add_action('wp_enqueue_scripts', 'no_more_jquery');
+function no_more_jquery(){
+    wp_deregister_script('jquery'); 
+}

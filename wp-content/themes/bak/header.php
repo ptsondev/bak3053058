@@ -187,7 +187,10 @@
     </div>
     
     
-<?php if(!is_home()){ ?>    
+<?php if(!is_home()){ 
+    echo do_shortcode('[sg_popup id="1554"]'); // popup hiện 1 lận ở các trang
+    ?>    
+    
     <div id="sub-header"></div>
     
     <div id="breadcrumb">
@@ -212,7 +215,10 @@
             </ol>
         </div>
     </div>
-<?php }?>
+<?php }else{
+    
+    echo do_shortcode('[sg_popup id="1559"]'); // popup hiện 3 lần ở trang home
+}?>
     
     
 <script type="application/ld+json">
@@ -227,3 +233,5 @@
   }
 }
 </script>    
+    
+

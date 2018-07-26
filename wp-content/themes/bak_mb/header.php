@@ -247,3 +247,11 @@
   }
 }
 </script>    
+    
+        
+<?php if(!is_home()){ 
+    echo do_shortcode('[sg_popup id="1554"]'); // popup hiện 1 lận ở các trang
+}else{
+    echo do_shortcode('[sg_popup id="1559"]'); // popup hiện ở các trang khác
+}?>   
+    

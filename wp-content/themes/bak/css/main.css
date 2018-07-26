@@ -1194,6 +1194,17 @@ box-shadow: 0px 3px 16px 0px rgba(0,0,0,0.75);
 #ads{
     margin-top: 15px;
 }
+#register-sale h3{
+    background:#f7930f;
+    color: #FFF;
+    text-transform: uppercase;
+    font-size: 18px;
+    padding: 10px;
+    text-align: center;
+} 
+.page-id-1537 #main-body img{
+    width: 80%;
+}
 @media (max-width: 768px){   
     #breadcrumb{
         margin-top: 60px;
