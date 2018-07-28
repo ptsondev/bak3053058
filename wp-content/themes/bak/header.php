@@ -117,7 +117,7 @@
                     <span class="col-sm-7 col-xs-6" id="primary-menu">
                         <li><a href="/">Trang Chủ</a></li>
                         <!--<li><a href="/bep-an-khang">Bếp An Khang</a></li>-->
-                        <li><a href="/san-pham-ban-chay">Bán chạy</a></li>
+                        <li><a href="/khuyen-mai-cuc-shock-khi-mua-bep-tu/">Khuyến Mãi</a></li>
                         <li><a href="/qna">Câu hỏi thường gặp</a></li>
                         <li><a href="/dieu-khoan">Điều khoản</a></li>
                         <li><a href="/lien-he">Liên hệ</a></li>
@@ -188,7 +188,7 @@
     
     
 <?php if(!is_home()){ 
-    echo do_shortcode('[sg_popup id="1554"]'); // popup hiện 1 lận ở các trang
+    //echo do_shortcode('[sg_popup id="1554"]'); // popup hiện 1 lần ở các trang
     ?>    
     
     <div id="sub-header"></div>
@@ -217,7 +217,7 @@
     </div>
 <?php }else{
     
-    echo do_shortcode('[sg_popup id="1559"]'); // popup hiện 3 lần ở trang home
+    //echo do_shortcode('[sg_popup id="1559"]'); // popup hiện 3 lần ở trang home
 }?>
     
     

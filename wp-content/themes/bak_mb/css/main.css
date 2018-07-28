@@ -274,6 +274,7 @@ h2{
     width: 50%;
     text-align: center;
     padding: 10px;
+    z-index: 99999999999999;
 }
 #bak-hotline a:last-child{
     background: #f7930f;
