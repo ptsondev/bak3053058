@@ -264,6 +264,7 @@ h2{
     position: fixed;
     bottom: 0;
     left: 0;
+    z-index: 999999;
 }
 #bak-hotline a{
     background: #3f94a8;
@@ -278,6 +279,14 @@ h2{
 }
 #bak-hotline a:last-child{
     background: #f7930f;
+}
+#site-hotline{
+    width: 60%;
+    text-align: center;    
+    padding-top: 13px;
+}
+#site-hotline a{
+    font-size: 18px !important;
 }
 
 #sub-header, #sub-footer {

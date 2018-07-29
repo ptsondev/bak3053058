@@ -24,28 +24,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!--<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.9/css/all.css">-->
-    <!--<link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:400,400i,700&amp;subset=vietnamese" rel="stylesheet">-->
-    
-    <link rel="stylesheet" href="<?php echo get_template_directory_uri(); ?>/css/Font-Awesome-master/web-fonts-with-css/css/fontawesome-all.min.css">    
-    <link rel="stylesheet" href="<?php echo get_template_directory_uri(); ?>/css/bootstrap.css">
-    <link rel="stylesheet" href="<?php echo get_template_directory_uri(); ?>/css/fonts/fonts.css">
-    <link rel="stylesheet" href="<?php echo get_template_directory_uri(); ?>/css/jquery-ui.css">    
-    <link rel="stylesheet" href="<?php echo get_template_directory_uri(); ?>/css/main.css">
-
     <link rel="shortcut icon" type="image/png" href="<?php echo get_template_directory_uri(); ?>/images/bep-an-khang.ico"/>
-    <!--Jquery-->
-    <script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/js/jquery.min.js"></script>
-    <script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/js/responsiveslides.min.js"></script>
-    <script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/js/jssor.slider.min.js"></script>
-    <script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/js/jquery.bighover.js"></script>
-    <script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/js/jquery.mousewheel.js"></script>
-    <script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/js/jquery-ui.js"></script>
-    <script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/js/parallax.js"></script>
-
-    <script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/js/myjs.js"></script>
-
+   
     <?php wp_head(); ?>
     <?php
          echo '<script type="text/javascript">
@@ -137,7 +117,7 @@
                         <a href="https://bepankhang.com"><img src="<?php echo PATH_TO_IMAGES; ?>logo.png" alt="Bếp An Khang" /></a>
                         <!--<did id="site-name">Bếp An Khang</did>
                         <div id="site-slogan">Nâng Tầm Bếp Việt</div>-->
-                        <a href="tel:0963391379" id="subCall">0963 39 1379</a>
+                        <a href="tel:0963391379" id="subCall"><i class="fa fa-phone" aria-hidden="true"></i> 0963 39 1379</a>
                         <div id="btnShowMenu"><i class="fas fa-bars"></i></div>
                     </div>
                     <div id="menu-region" class="col-sm-9 col-xs-12">
