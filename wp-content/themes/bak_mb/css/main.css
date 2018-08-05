@@ -371,13 +371,18 @@ h2{
     }
 }
 #sticky-products .title{
-   position: absolute;
-  top: 85%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+    position: absolute;
+    bottom: 0;
+    left: 0;
     z-index: 99;
-    color:#FFF;
+    color: #FFF;
     font-size: 14px;
+    text-align: center;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.7);
+}
+
+
 }
 #sticky-products .prod:hover .title{
    animation: opa_down 0.5s forwards;
@@ -1265,6 +1270,11 @@ box-shadow: 0px 3px 16px 0px rgba(0,0,0,0.75);
 }
 #main-menu li.lev-1:last-child{
     border: none;
+}
+
+#upprev_box img{
+    display: inline-block;
+    width: 70px;
 }
 
 @media (max-width: 768px){   

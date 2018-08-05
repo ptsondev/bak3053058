@@ -93,4 +93,4 @@ if ( !defined('ABSPATH') )
 require_once(ABSPATH . 'wp-settings.php');
 //Disable File Edits
 define('DISALLOW_FILE_EDIT', true);
-//define('FS_METHOD','direct');
+define('FS_METHOD','direct');

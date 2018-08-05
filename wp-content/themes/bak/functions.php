@@ -329,13 +329,13 @@ function my_style_script(){
     wp_enqueue_style('jqueryUIcss', get_template_directory_uri().'/css/jquery-ui.css');
     wp_enqueue_style('main', get_template_directory_uri().'/css/main.css');
     
-    wp_enqueue_script('jquery', get_template_directory_uri().'/js/jquery.min.js');
+    wp_enqueue_script('myjquery', get_template_directory_uri().'/js/jquery.min.js');
     wp_enqueue_script('responsiveslides', get_template_directory_uri().'/js/responsiveslides.min.js');
     wp_enqueue_script('jssor', get_template_directory_uri().'/js/jssor.slider.min.js');
     wp_enqueue_script('bootstrap', get_template_directory_uri().'/js/bootstrap.min.js');
     wp_enqueue_script('bighover', get_template_directory_uri().'/js/jquery.bighover.js');
     wp_enqueue_script('mousewheel', get_template_directory_uri().'/js/jquery.mousewheel.js');
-    wp_enqueue_script('jqueryUI', get_template_directory_uri().'/js/jquery-ui.js');
+    wp_enqueue_script('jqueryui', get_template_directory_uri().'/js/jquery-ui.js');
     wp_enqueue_script('parallax', get_template_directory_uri().'/js/parallax.js');
     wp_enqueue_script('myjs', get_template_directory_uri().'/js/myjs.js');  
 }

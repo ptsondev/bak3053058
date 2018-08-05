@@ -285,12 +285,13 @@ h2{
 }
 #sticky-products .title{
    position: absolute;
-  top: 85%;
+  bottom: 0;
   left: 50%;
   transform: translate(-50%, -50%);
     z-index: 99;
     color:#FFF;
     font-size: 14px;
+    background: rgba(255, 255, 255, 0.5);
 }
 #sticky-products .prod:hover .title{
    animation: opa_down 0.5s forwards;
@@ -1204,6 +1205,10 @@ box-shadow: 0px 3px 16px 0px rgba(0,0,0,0.75);
 } 
 .page-id-1537 #main-body img{
     width: 80%;
+}
+#upprev_box img{
+    display: inline-block;
+    width: 60px;
 }
 @media (max-width: 768px){   
     #breadcrumb{
