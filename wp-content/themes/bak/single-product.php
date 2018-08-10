@@ -57,6 +57,7 @@
                                     }
                                     $giaSell = is_numeric($s_price)? bak_display_money($s_price):'Liên Hệ';
                                     echo '<div itemprop="offers" itemscope itemtype="http://schema.org/Offer"><div><b>Giá bán: </b>    <meta itemprop="priceCurrency" content="VND" /><span class="v_s_price" itemprop="price" content="'. $s_price.'">'.$giaSell.'</span> </div>';
+                                    echo '<div><b>Giá nhà thầu: </b>Liên hệ</div>';
                                     echo '<div><b>Tình Trạng: </b> <span > <link itemprop="availability" href="http://schema.org/InStock" />Còn hàng</span</div></div>';
                                     echo '<div><b>Khuyến mãi: </b><span class="v_promotion">'.$promotion.'</span></div>';
                                     echo '<div><b>Bảo hành: </b><span class="v_guarantee">'.$guarantee.'</span></div>';    

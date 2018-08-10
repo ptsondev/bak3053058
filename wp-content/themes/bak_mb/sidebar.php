@@ -106,5 +106,5 @@
 </div>
 
 <div id="ads">
-    <a href="/khuyen-mai-cuc-shock-khi-mua-bep-tu/"><img src="<?php echo PATH_TO_IMAGES; ?>banner-wc-km.jpg" alt="Khuyến mãi bếp từ cực HOT mùa WC"/></a>
+    <a href="/khuyen-mai-cuc-shock-khi-mua-bep-tu/"><img src="<?php echo PATH_TO_IMAGES; ?>/khuyen-mai-mua-bep-tang-hut-noi.png" alt="Khuyến mãi mua bếp từ tặng hút mùi"/></a>
 </div>

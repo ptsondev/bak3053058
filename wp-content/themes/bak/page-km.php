@@ -12,17 +12,26 @@
             <div class="col-sm-9 col-xs-12">
                 <h1><?php the_title(); ?></h1>
            
-                 <b>Những model bếp từ cao cấp chính hãng đang được khuyến mãi với giá cực shock tại showroom Bếp An Khang. Sau đây là 1 số sản phẩm đang bán rất chạy thời gian qua. </b><br />
+                 <b>Những model bếp từ cao cấp chính hãng đang được khuyến mãi với giá cực shock tại showroom Bếp An Khang. Sau đây là nội dung chương trình khuyến mãi. </b><br />
                 
                 <div id="ctkm">
                      
                     <div id="ctkm-des" >
+                        ✅ Mua Bếp Từ TẶNG Bộ Nồi 5 Món <br/>
+                        ✅ Mua Bếp từ TẶNG Hút Mùi + Bộ Nồi 5 Món <br/>
+                        ✅ Mua Bếp từ TẶNG Lò Nướng + Tặng Hút Mùi + Bộ Nồi 5 Món <br/>
+                        ✅ Mua Chậu tặng Vòi <br/>
+                        ✅ Đóng Tủ Bếp Tặng Vòi + Chậu <br/> 
+                                       
+                        <img src="<?php echo PATH_TO_IMAGES; ?>khuyen-mai-mua-bep-tang-hut-noi.png" alt="khuyen mai mua bep tu tang hut mui va noi" />
+                        <h3>Những tính năng ưu việt của bếp từ</h3>
                         ✅ An toàn & dễ sử dụng. <br/>
                         ✅ Tiết kiệm điện năng & thời gian. <br/>
                         ✅ Thẩm mỹ & dễ dàng vệ sinh. <br/>
-                        <i>Xem thêm <a href="https://bepankhang.com/qna/uu-diem-cua-bep-dien-tu/">những ưu điểm khác của bếp từ</a></i><br /><br />                   
-                       
+                        <i>Xem thêm <a target="_blank" href="https://bepankhang.com/qna/uu-diem-cua-bep-dien-tu/">những ưu điểm khác của bếp từ</a></i><br /><br />                                          
                     </div>
+            
+                     
         
         
         <div class="km-brand">
@@ -66,7 +75,8 @@
             </div>    
             </div>                
         </div>
-        
+        <img src="<?php echo PATH_TO_IMAGES; ?>mua-bep-tu-cata-tang-bo-noi.jpg" alt="mua bep tu Cata tang bo noi" /><br />
+                    
         <div class="km-brand">
             <h4>Bếp từ Chefs</h4>
             <div class="list-products row">
@@ -167,6 +177,11 @@
             ✅ Cần tư vấn thêm thông tin về bếp từ, vui lòng liên hệ hot line: <a href="tel:0963391379">0963 39 1379</a>
         </div>
         
+            <div id="register-sale">
+<h3>Bạn cũng có thể để lại thông tin để chúng tôi có thể tư vấn rõ hơn về đợt khuyến mãi</h3>
+<?php echo do_shortcode('[contact-form-7 id="1548" title="Xin báo giá"]'); ?>
+
+</div>
             </div>
             </div>
 
