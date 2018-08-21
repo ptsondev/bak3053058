@@ -105,6 +105,10 @@
     ?>
 </div>
 
+
+<div class="fb-page" data-href="https://www.facebook.com/BepAnKhang/" data-tabs="timeline" data-small-header="true" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/BepAnKhang/" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/BepAnKhang/">Bếp An Khang</a></blockquote></div>
+
+
 <div id="ads">
-    <a href="/khuyen-mai-cuc-shock-khi-mua-bep-tu/"><img src="<?php echo PATH_TO_IMAGES; ?>/khuyen-mai-mua-bep-tang-hut-noi.png" alt="Khuyến mãi mua bếp từ tặng hút mùi"/></a>
+    <a href="/bep-tu-khuyen-mai/"><img src="<?php echo PATH_TO_IMAGES; ?>/khuyen-mai-mua-bep-tang-hut-noi.png" alt="Khuyến mãi mua bếp từ tặng hút mùi"/></a>
 </div>

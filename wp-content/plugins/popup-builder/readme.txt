@@ -5,7 +5,7 @@ Author: Popup Builder
 Donate link: https://popup-builder.com
 Tags: popup, pop up, wordpress popup, popup maker, exit popup, popup builder, wordpress popup plugin
 Requires at least: 3.8
-Tested up to: 4.9.6
+Tested up to: 4.9.7
 Requires PHP: 5.3.3
 Stable tag: trunk
 License: GPLv2 or later
@@ -165,6 +165,24 @@ Go to the Popup Builder settings and set your desired options.
 13. Facebook popup
 
 == Changelog ==
+
+= Version 3.0.4 =
+* Seo redirect for popup post types (301).
+* CSS class support for popup opening.
+* Added new condition to show popup sitewide.
+* Bug fixed conencted to scrolling inside the Safari browser.
+* Bug fixed inside the subscribers' table for invalid dates.
+* Popup sizing improvements.
+* Bug fixed connected to content scroling option.
+
+= Version 3.0.3 =
+* Bug fixed connected to update from v2 to v3 when popups disappear.
+* Compatability with old popup (v2) classes. Example sg-popup-id-1.
+* Popup preview big fixed.
+* Bug fixed connected to selected pages/post for popup showing.
+* Bug fixed connected to new line brake inside the TinyMCE.
+* Bug fixed connected to close button image rendering issue.
+* Bug fixed connected to popup themes.
 
 = Version 3.0.2 =
 * Bug fixed connected to mail subject.

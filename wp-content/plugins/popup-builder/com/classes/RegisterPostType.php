@@ -58,20 +58,21 @@ class RegisterPostType
 		$labels = $this->getPostTypeLabels();
 
 		$args = array(
-			'labels'             => $labels,
-			'description'        => __('Description.', 'your-plugin-textdomain'),
+			'labels'              => $labels,
+			'description'         => __('Description.', 'your-plugin-textdomain'),
 			// Exclude_from_search
-			'public'             => true,
-			'has_archive'        => true,
+			'exclude_from_search' => true,
+			'public'              => true,
+			'has_archive'         => true,
 			// Where to show the post type in the admin menu
-			'show_ui'            => true,
-			'query_var'          => false,
-			'rewrite'            => array('slug' => SG_POPUP_POST_TYPE),
-			'map_meta_cap'       => true,
-			'capability_type'    => array('sgpb_popup', 'sgpb_popups'),
-			'menu_position'      => 10,
-			'supports'           => apply_filters('sgpbPostTypeSupport', array('title', 'editor')),
-			'menu_icon'          => 'dashicons-menu-icon-sgpb'
+			'show_ui'             => true,
+			'query_var'           => false,
+			'rewrite'             => array('slug' => SG_POPUP_POST_TYPE),
+			'map_meta_cap'        => true,
+			'capability_type'     => array('sgpb_popup', 'sgpb_popups'),
+			'menu_position'       => 10,
+			'supports'            => apply_filters('sgpbPostTypeSupport', array('title', 'editor')),
+			'menu_icon'           => 'dashicons-menu-icon-sgpb'
 		);
 
 		if (is_admin()) {

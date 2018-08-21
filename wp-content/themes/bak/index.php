@@ -194,48 +194,31 @@
             <div class="container main-wrapper">
                 <div class="des">Cảm ơn những khách hàng đã tin tưởng và sẽ luôn đồng hành cùng Bếp An Khang.</div>
                 <div class="small-hr"></div>
-                <div class="number-clients"><span class="count">9627</span> khách hàng đã mua và hài lòng về sản phẩm.</div>
+                <div class="number-clients"><span class="count">4613</span> khách hàng đã mua và hài lòng về sản phẩm.</div>
                 <div class="row">
                     <div class="col-sm-4 col-xs-12">
                         <div class="customer">
-                            <div class="picture"><img src="<?php echo PATH_TO_IMAGES; ?>bichthuy.png" /></div>
-                            <div class="name">Bích Thủy</div>
+                            <div class="picture"><img src="<?php echo PATH_TO_IMAGES; ?>hinhkhach1.jpg" /></div>
+                            <div class="name">Diệu Vân</div>
                             <div class="comment">Cảm ơn Bếp An Khang đã cho gia đình tôi 1 không gian bếp đầm ấm.</div>
                         </div>    
                     </div>
                     <div class="col-sm-4 col-xs-12">
                         <div class="customer">
-                            <div class="picture"><img src="<?php echo PATH_TO_IMAGES; ?>tiendung.png" /></div>
-                            <div class="name">Đức Minh</div>
-                            <div class="comment">Từ ngày chuyển qua dùng bếp từ của An Khang, tôi thường xuyên vào bếp hơn.</div>
+                            <div class="picture"><img src="<?php echo PATH_TO_IMAGES; ?>hinhkhach2.jpg" /></div>
+                            <div class="name">Tiến Hoàng</div>
+                            <div class="comment">Tư vấn rõ ràng, nhiệt tình. Đã mua bếp và sẽ giới thiệu thêm cho người thân.</div>
                         </div>    
                     </div>
                     <div class="col-sm-4 col-xs-12">
                         <div class="customer">
-                            <div class="picture"><img src="<?php echo PATH_TO_IMAGES; ?>hoaiphuong.png" /></div>
-                            <div class="name">Hoài Phương</div>
-                            <div class="comment">Tôi đã thay đổi thói quen nấu ăn của mình, còn bạn thì sao?</div>
+                            <div class="picture"><img src="<?php echo PATH_TO_IMAGES; ?>hinhkhach3.jpg" /></div>
+                            <div class="name">Anh Dũng</div>
+                            <div class="comment">+ 1 like cho doanh nghiệp bán đúng giá - đúng chất lượng cam kết.</div>
                         </div>    
                     </div>
                 </div>
             </div>                
         </div>
 
-
-        <!--
-<div id="about-us">
-    <div class="container">
-        <h2>Giới thiệu về Bếp An Khang</h2>
-        <div class="row">
-            <div class="col-sm-3 col-xs-12"><img src="<?php echo PATH_TO_IMAGES; ?>/logo.png" /></div>
-            <div class="des col-sm-9 col-xs-12">
-                <i class="fas fa-quote-left"></i>
-                Với mong muốn tạo ra 1 không gian bếp tuyệt hảo trong chính ngôi nhà của bạn - nơi gắn kết yêu thương và mang lại sự đầm ấm trong mỗi gia đình, Bếp An Khang muốn đem đến cho các bạn những sản phẩm cao cấp về bếp điện từ và các phụ kiện đi kèm khác. Tất cả nhằm tạo ra sự thoải mái và tiện lợi hơn trong việc nấu ăn.<br/>
-                Bên cạnh các tiện ích như dễ sử dụng, an toàn và tiết kiệm thời gian & nhiên liệu,<br/> các dòng sản phẩm ngoại nhập này cũng sẽ làm tăng thêm tính thẩm mỹ trong căn bếp nhà bạn.<br /><br />
-                Chúng tôi <b>cam kết bán hàng chính hãng</b>, hàng có nguồn gốc xuất sứ rõ ràng, cũng như đảm bảo các chế độ bảo hành<i class="fas fa-quote-right"></i>
-            </div>
-        </div>
-    </div>
-</div>
--->
 <?php get_footer(); ?>

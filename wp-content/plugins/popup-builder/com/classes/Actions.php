@@ -31,8 +31,10 @@ class Actions
 		add_action('add_meta_boxes', array($this, 'popupDimensionSettings'));
 		add_action('add_meta_boxes', array($this, 'popupOptionsMetaBox'));
 		add_action('add_meta_boxes', array($this, 'popupOtherConditions'));
-		add_action('save_post_'.SG_POPUP_POST_TYPE, array($this, 'savePost'), 100, 3);
+		// this action for popup options saving and popup builder classes save ex from post and page
+		add_action('save_post', array($this, 'savePost'), 100, 3);
 		add_action('wp_enqueue_scripts', array($this, 'enqueuePopupBuilderScripts'));
+		add_action('admin_enqueue_scripts', array($this, 'adminLoadPopups'));
 		add_action('admin_action_popupSaveAsNew', array($this, 'popupSaveAsNew'));
 		add_action('dp_duplicate_post', array($this, 'popupCopyPostMetaInfo'), 10, 2);
 		add_filter('sgpbOtherConditions', array($this ,'conditionsSatisfy'));
@@ -49,11 +51,31 @@ class Actions
 		add_action('admin_head', array($this, 'showPreviewButtonAfterPopupPublish'));
 		add_action('admin_notices', array($this, 'pluginNotices'));
 		add_action('admin_notices', array($this, 'promotionalBanner'), 10);
-		add_action('plugins_loaded', array($this, 'pluginLoaded'));
+		add_action('init', array($this, 'pluginLoaded'));
 		add_filter('wp_insert_post_data', array($this, 'editPublishSettings'), 100, 1);
 		// for change admin popup list order
 		add_action('pre_get_posts', array($this, 'preGetPosts'));
+		add_action('template_redirect',array($this, 'redirectFromPopupPage'));
 		new Ajax();
+	}
+
+	public function redirectFromPopupPage()
+	{
+		global $post;
+
+		$currentPostType = @$post->post_type;
+		// in some themes global $post returns null
+		if (empty($currentPostType)) {
+			global $post_type;
+			$currentPostType = $post_type;
+		}
+
+		if (is_single() && SG_POPUP_POST_TYPE == $currentPostType && !is_preview()) {
+			status_header(301);
+            $homeURL = home_url();
+            wp_redirect($homeURL);
+            exit();
+		}
 	}
 
 	public function editPublishSettings($post)
@@ -236,10 +258,18 @@ class Actions
 		// if no event attribute is set, or old shortcode
 		if (!isset($args['event']) || $oldShortcode || $isInherit) {
 			$loadableMode = $popup->getLoadableModes();
-
+			if (!empty($content)) {
+				$alreadySavedEvents = false;
+			}
 			// for old popup, after the update, there aren't any events
 			if (empty($alreadySavedEvents)) {
-				$event = $args['event'];
+				$event = '';
+				if (!empty($content)) {
+					$event = 'click';
+				}
+				if (!empty($args['event'])) {
+					$event = $args['event'];
+				}
 				$event = preg_replace('/on/', '', $event);
 				$popup->setEvents(array($event));
 			}
@@ -282,7 +312,7 @@ class Actions
 		}
 
 		return do_shortcode($shortcodeContent);
- 	}
+	}
 
 	public function deleteSubscribersWithPopup($postId)
 	{
@@ -417,6 +447,18 @@ class Actions
 		}
 
 		PopupLoader::instance()->loadPopups();
+	}
+
+	public function adminLoadPopups($hook)
+	{
+		$allowedPages = array();
+		$allowedPages = apply_filters('sgpbAdminLoadedPages', $allowedPages);
+
+		if (!empty($allowedPages) && is_array($allowedPages) && in_array($hook, $allowedPages)) {
+			$scriptsLoader = new ScriptsLoader();
+			$scriptsLoader->setIsAdmin(true);
+			$scriptsLoader->loadToFooter();
+		}
 	}
 
 	public function postTypeInit()
@@ -634,21 +676,21 @@ class Actions
 			if ($status == '') {
 				$sendBack = wp_get_referer();
 				if (!$sendBack ||
-						strpos($sendBack, 'post.php') !== false ||
-						strpos($sendBack, 'post-new.php') !== false) {
-							if ('attachment' == $postType) {
-								$sendBack = admin_url('upload.php');
-							}
-							else {
-								$sendBack = admin_url('edit.php');
-								if (!empty($postType)) {
-									$sendBack = add_query_arg('post_type', $postType, $sendBack);
-								}
-							}
+					strpos($sendBack, 'post.php') !== false ||
+					strpos($sendBack, 'post-new.php') !== false) {
+					if ('attachment' == $postType) {
+						$sendBack = admin_url('upload.php');
+					}
+					else {
+						$sendBack = admin_url('edit.php');
+						if (!empty($postType)) {
+							$sendBack = add_query_arg('post_type', $postType, $sendBack);
 						}
-						else {
-							$sendBack = remove_query_arg(array('trashed', 'untrashed', 'deleted', 'cloned', 'ids'), $sendBack);
-						}
+					}
+				}
+				else {
+					$sendBack = remove_query_arg(array('trashed', 'untrashed', 'deleted', 'cloned', 'ids'), $sendBack);
+				}
 				// Redirect to the post list screen
 				wp_redirect(add_query_arg(array('cloned' => 1, 'ids' => $post->ID), $sendBack));
 			}
@@ -830,7 +872,7 @@ class Actions
 	{
 		global $post_type;
 
-		if ($post_type == SG_POPUP_POST_TYPE) {
+		if ($post_type == SG_POPUP_POST_TYPE && is_admin()) {
 			// hide permalink for popupbuilder post type
 			return '';
 		}

@@ -1216,6 +1216,9 @@ box-shadow: 0px 3px 16px 0px rgba(0,0,0,0.75);
 #register-sale input{
     width:300px;
 }
+#main-sidebar #knowledges{
+    margin-bottom: 20px;
+}
 @media (max-width: 768px){   
     #breadcrumb{
         margin-top: 60px;

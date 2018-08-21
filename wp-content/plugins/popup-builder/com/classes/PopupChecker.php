@@ -308,17 +308,20 @@ class PopupChecker
 	private function isSatisfyForParam($targetData)
 	{
 		$isSatisfy = false;
-		$postId = 0;
+		$postId = get_queried_object_id();
 
 		if (empty($targetData['param'])) {
 			return $isSatisfy;
 		}
-
+		$targetParam = $targetData['param'];
 		$post = $this->getPost();
-		if (isset($post)) {
+		if (isset($post) && empty($postId)) {
 			$postId = $post->ID;
 		}
 
+		if ($targetParam == 'everywhere') {
+			return true;
+		}
 		if (strpos($targetData['param'], '_all')) {
 			$endIndex = strpos($targetData['param'], '_all');
 			$postType = substr($targetData['param'], 0, $endIndex);

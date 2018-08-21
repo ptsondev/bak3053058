@@ -255,7 +255,7 @@ class SgpbPopupExtension implements SgpbIPopupExtension
 		);
 
 		$localizeData[] = array(
-			'handle' => 'Popup.js',
+			'handle' => 'PopupBuilder.js',
 			'name' => 'SGPB_JS_PARAMS',
 			'data' => array(
 				'ajaxUrl' => admin_url('admin-ajax.php'),

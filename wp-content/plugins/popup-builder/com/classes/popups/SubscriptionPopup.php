@@ -378,14 +378,9 @@ class SubscriptionPopup extends SGPopup
 
 	private function getSubscriptionValidationScripts($validateObj)
 	{
-		ob_start();
-		?>
-			<script type="text/javascript">
-				<?php echo $validateObj; ?>
-			</script>
-		<?php
-		$script = ob_get_clean();
-		ob_get_clean();
+		$script = '<script type="text/javascript">';
+		$script .= $validateObj;
+		$script .= '</script>';
 
 		return $script;
 	}

@@ -1,7 +1,7 @@
 <?php
 namespace sgpb;
 
-if (!class_exists('EDD_SL_Plugin_Updater')) {
+if (!class_exists('sgpb\EDD_SL_Plugin_Updater')) {
 	// load our custom updater if it doesn't already exist
 	require_once(SG_POPUP_LIBS_PATH .'EDD_SL_Plugin_Updater.php');
 }

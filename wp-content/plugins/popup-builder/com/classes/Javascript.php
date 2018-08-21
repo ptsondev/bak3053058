@@ -17,7 +17,7 @@ class Javascript
 		global $post_type;
 		$pageName = $hook;
 		$scripts = array();
-		$currentPostType = $post->post_type;
+		$currentPostType = @$post->post_type;
 		// in some themes global $post returns null
 		if (empty($currentPostType)) {
 			$currentPostType = $post_type;

@@ -194,7 +194,6 @@ class SGPBTable extends SGPBListTable
 		$subscriptionPopups = SubscriptionPopup::getAllSubscriptionForms();
 		$subscribersDates = SubscriptionPopup::getAllSubscribersDate();
 		$uniqueDates = array();
-		$uniqueDates[] = array('date-title' => 'All dates', 'date-value' => 'all');
 		foreach ($subscribersDates as $arr) {
 			$uniqueDates[] = $arr;
 		}
@@ -233,7 +232,7 @@ class SGPBTable extends SGPBListTable
 			<input type="hidden" class="sgpb-subscribers-date" name="sgpb-subscribers-date" value="<?php echo $selectedDate;?>">
 			<select name="sgpb-subscribers-dates" id="sgpb-subscribers-dates">
 				<?php
-				$dateList = '';
+				$gotDateList = '';
 				foreach ($uniqueDates as $date) {
 					if ($selectedDate == $date['date-value']) {
 						$selected = ' selected';
@@ -241,9 +240,12 @@ class SGPBTable extends SGPBListTable
 					else {
 						$selected = '';
 					}
-					$dateList .= '<option value="'.$date['date-value'].'"'.$selected.'>'.$date['date-title'].'</option>';
+					$gotDateList .= '<option value="'.$date['date-value'].'"'.$selected.'>'.date('d F Y', strtotime($date['date-title'])).'</option>';
 				}
-				echo $dateList;
+				if (empty($subscribersDates)) {
+					$gotDateList = '<option value="'.$date['date-value'].'"'.$selected.'>'.__('Date', SG_POPUP_TEXT_DOMAIN).'</option>';
+				}
+				echo $dateList.$gotDateList;
 				?>
 			</select>
 			<input name="filter_action" id="post-query-submit" class="button" value="<?php _e('Filter', SG_POPUP_TEXT_DOMAIN)?>" type="submit">

@@ -105,3 +105,9 @@ $subscribersSelectbox = AdminHelper::createSelectBox(
 	</div>
 </div>
 <!-- add subscribers popup end -->
+
+<style type="text/css">
+	.select2-container {
+		z-index: 9999;
+	}
+</style>

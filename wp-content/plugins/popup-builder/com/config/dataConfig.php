@@ -31,6 +31,7 @@ class SgpbDataConfig
 
 		$targetParams = array(
 			'not_rule' => __('Select rule', SG_POPUP_TEXT_DOMAIN),
+			'everywhere' => __('Everywhere', SG_POPUP_TEXT_DOMAIN),
 			'Post' => array(
 				'post_all' => __('All posts', SG_POPUP_TEXT_DOMAIN),
 				'post_selected' => __('Selected posts', SG_POPUP_TEXT_DOMAIN),
@@ -72,6 +73,7 @@ class SgpbDataConfig
 		$targetDataParams['page_type'] = apply_filters('sgPopupTargetPostType', ConfigDataHelper::getPageTypes());
 		$targetDataParams['page_template'] = apply_filters('sgPopupPageTemplates', array());
 		$targetDataParams['post_tags_ids'] = apply_filters('sgPopupTags', ConfigDataHelper::getAllTags());
+		$targetDataParams['everywhere'] = null;
 		$targetDataParams['not_rule'] = null;
 		$targetDataParams['post_all'] = null;
 		$targetDataParams['page_all'] = null;
@@ -232,7 +234,8 @@ class SgpbDataConfig
 		$params = array(
 			'load' => 'On load',
 			'inactivity'=>'Inactivity',
-			'onScroll'=> 'On scroll'
+			'onScroll'=> 'On scroll',
+			SGPB_CSS_CLASS_ACTIONS_KEY => __('Set by CSS class', SG_POPUP_TEXT_DOMAIN)
 		);
 
 		$hiddenOptionData['load'] = array(
@@ -249,6 +252,7 @@ class SgpbDataConfig
 		$eventsDataParams['load'] = $onLoadData;
 		$eventsDataParams['onScroll'] = $onScroll;
 		$eventsDataParams['inactivity'] = $inactivityData;
+		$eventsDataParams[SGPB_CSS_CLASS_ACTIONS_KEY] = null;
 		/*Hidden params data*/
 		$eventsDataParams['repetitive'] = '';
 		$eventsDataParams['repetitivePeriod'] = 0;

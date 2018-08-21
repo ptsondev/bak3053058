@@ -89,7 +89,7 @@ class PopupLoader
 		}
 		if (!empty($foundPopup)) {
 			global $SGPB_DATA_CONFIG_ARRAY;
-			if ($post->post_type == SG_POPUP_POST_TYPE) {
+			if (@$post->post_type == SG_POPUP_POST_TYPE) {
 				$targets = array($SGPB_DATA_CONFIG_ARRAY['target']['initialData']);
 
 				// for any targets preview popup should open
@@ -102,7 +102,7 @@ class PopupLoader
 					$popup->setTarget($targets);
 				}
 			}
-			if ($foundPopup->post_type == SG_POPUP_POST_TYPE) {
+			if (@$foundPopup->post_type == SG_POPUP_POST_TYPE) {
 				$popup = SGPopup::find($foundPopup, $popupPreviewArgs);
 
 				$popup->setEvents($SGPB_DATA_CONFIG_ARRAY['events']['initialData'][0]);

@@ -48,30 +48,33 @@
             <div class="col-sm-12 col-xs-12">
            
                 
-               <!-- <div id="ctkm">
+               <div id="ctkm">
                      <h3>Tri ân khách hàng - Ngập tràn quà tặng</h3>
 
-                    <div id="ctkm-des">
-                         ✅ Bếp là nơi mọi thành viên quay quần lại với nhau sau một ngày làm việc, học tập mệt mỏi. Mỗi người ai cũng đều có nhu cầu trang trí, sắm sửa sao cho căn bếp của mình trông thật tiện nghi và hiện đại. </br>
-                         ✅ Hiểu được điều này, bếp An Khang - chuyên cung cấp bếp từ và các thiết bị nhà bếp - cho ra chương trình khuyến mãi lớn nhất từ trước tới nay với mong muốn đem đến không gian bếp ấm áp cho các hộ gia đình.</br>
-
-                         ✅ Các model bếp từ chính hãng, bếp từ đôi, bếp 3 từ, 4 từ,... từ bếp cao cấp đến tầm trung, giá rẻ... Mọi sản phẩm sẽ được bán với giá cực hot vào đợt khuyến mãi này.</br>
-                    </div>-->
+                    
+           <b>Những model bếp từ cao cấp chính hãng đang được khuyến mãi với giá cực shock tại showroom Bếp An Khang. Sau đây là nội dung chương trình khuyến mãi. </b><br />
                 
                 <div id="ctkm">
-                    <div class="col-sm-3 col-xs-12">
-                        <img src="<?php echo PATH_TO_IMAGES;?>wc-banner.png" />
-                    </div>
                      
-                    <div id="ctkm-des" class="col-sm-9 col-xs-12">
-                        ✅ Chế độ hẹn giờ & khóa an toàn. <br/>
+                    <div id="ctkm-des" >
+                        ✅ Mua Bếp Từ TẶNG Bộ Nồi 5 Món <br/>
+                        ✅ Mua Bếp từ TẶNG Hút Mùi + Bộ Nồi 5 Món <br/>
+                        ✅ Mua Bếp từ TẶNG Lò Nướng + Tặng Hút Mùi + Bộ Nồi 5 Món <br/>
+                        ✅ Mua Chậu tặng Vòi <br/>
+                        ✅ Đóng Tủ Bếp Tặng Vòi + Chậu <br/> 
+                                       
+                        <img src="<?php echo PATH_TO_IMAGES; ?>khuyen-mai-mua-bep-tang-hut-noi.png" alt="khuyen mai mua bep tu tang hut mui va noi" />
+                        <h3>Những tính năng ưu việt của bếp từ</h3>
+                        ✅ An toàn & dễ sử dụng. <br/>
                         ✅ Tiết kiệm điện năng & thời gian. <br/>
                         ✅ Thẩm mỹ & dễ dàng vệ sinh. <br/>
-                        <i>Xem thêm <a href="https://bepankhang.com/qna/uu-diem-cua-bep-dien-tu/">những ưu điểm khác của bếp từ</a></i>
+                        <i>Xem thêm <a target="_blank" href="https://bepankhang.com/qna/uu-diem-cua-bep-dien-tu/">những ưu điểm khác của bếp từ</a></i><br /><br />                                          
                     </div>
+            
+                     
         
         
-       <div class="km-brand">
+        <div class="km-brand">
             <h4>Bếp từ Bosch cao cấp</h4>
             <div class="list-products row">
                 <?php 
@@ -112,7 +115,8 @@
             </div>    
             </div>                
         </div>
-        
+        <img src="<?php echo PATH_TO_IMAGES; ?>mua-bep-tu-cata-tang-bo-noi.jpg" alt="mua bep tu Cata tang bo noi" /><br />
+                    
         <div class="km-brand">
             <h4>Bếp từ Chefs</h4>
             <div class="list-products row">
@@ -188,7 +192,7 @@
                     display_product_item($product);
                     $product = get_post(1278);
                     display_product_item($product);
-                    $product = get_post(1314);
+                    $product = get_post(1468);
                     display_product_item($product);
                 ?>
             </div>
@@ -201,6 +205,11 @@
             </div>    
             </div>                
         </div>
+                    <br/><br/>
+                     [Nếu bạn không tìm thấy sản phẩm đang cần mua, vui lòng liên hệ Hotline của bếp An Khang để được tư vấn và báo giá: <a href="tel:0963391379">0963 39 1379</a>]
+                    <br/>
+                    <img src="<?php echo PATH_TO_IMAGES;?>/cac-thuong-hieu-bep-tu-chat-luong.png" alt="cac thuong hieu bep tu chat luong"/>
+                    <br/><br/>
         
         <div class="important">
             ✅ Tặng ngay voucher giảm giá 500.000đ khi đến xem và mua hàng trực tiếp tại showroom bếp An Khang 151 Tô Hiến Thành, Phường 13, Quận 10, TP HCM </br >
@@ -208,7 +217,11 @@
             ✅ Cần tư vấn thêm thông tin về bếp từ, vui lòng liên hệ hot line: <a href="tel:0963391379">0963 39 1379</a>
         </div>
         
-           
+            <div id="register-sale">
+<h3>Bạn cũng có thể để lại thông tin để chúng tôi có thể tư vấn rõ hơn về đợt khuyến mãi</h3>
+<?php echo do_shortcode('[contact-form-7 id="1548" title="Xin báo giá"]'); ?>
+
+</div>
            
         </div>
     </div>

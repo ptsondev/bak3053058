@@ -350,15 +350,15 @@ class AdminHelper
 		if (isset($_GET['sgpb-subscription-popup-id']) && !empty($_GET['sgpb-subscription-popup-id'])) {
 			$filterCriteria = esc_sql($_GET['sgpb-subscription-popup-id']);
 			if ($filterCriteria != 'all') {
-				$searchQuery .= "subscriptionType = $filterCriteria";
+				$searchQuery .= "(subscriptionType = $filterCriteria)";
 			}
 		}
 		if ($filterCriteria != '' && $filterCriteria != 'all' && isset($_GET['s']) && !empty($_GET['s'])) {
-			$searchQuery .= ' LIKE ';
+			$searchQuery .= ' AND ';
 		}
 		if (isset($_GET['s']) && !empty($_GET['s'])) {
 			$searchCriteria = esc_sql($_GET['s']);
-			$searchQuery .= " firstName LIKE '%$searchCriteria%' or lastName LIKE '%$searchCriteria%' or email LIKE '%$searchCriteria%' or $postsTablename.post_title LIKE '%$searchCriteria%'";
+			$searchQuery .= " (firstName LIKE '%$searchCriteria%' or lastName LIKE '%$searchCriteria%' or email LIKE '%$searchCriteria%' or $postsTablename.post_title LIKE '%$searchCriteria%')";
 		}
 		if (isset($_GET['sgpb-subscribers-date']) && !empty($_GET['sgpb-subscribers-date'])) {
 			$filterCriteria = esc_sql($_GET['sgpb-subscribers-date']);
@@ -370,7 +370,7 @@ class AdminHelper
 			}
 		}
 		if ($searchQuery != '') {
-			$query .= " WHERE ($searchQuery)";
+			$query .= " WHERE $searchQuery";
 		}
 
 		return $query;
@@ -449,18 +449,6 @@ class AdminHelper
 
 	public static function convertImageToData($image = '')
 	{
-		// already converted image or not set
-		if (substr($image, 0, 5) == 'data:' || $image == '') {
-			return $image;
-		}
-		$imageData = self::remoteFileExists($image);
-		if (empty($imageData)) {
-			return '';
-		}
-		$type = pathinfo($image, PATHINFO_EXTENSION);
-		$data = @file_get_contents($image);
-		$image = 'data:image/' . $type . ';base64,' . base64_encode($data);
-
 		return $image;
 	}
 
@@ -778,15 +766,5 @@ class AdminHelper
 		$content = ob_get_clean();
 
 		return $content;
-	}
-
-	public static function remoteFileExists($filename)
-	{
-		$file = wp_remote_head($filename);
-		if (!empty($file['response']['code']) == 200) {
-			return $file;
-		}
-
-		return array();
 	}
 }

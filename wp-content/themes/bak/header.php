@@ -97,7 +97,7 @@
                     <span class="col-sm-7 col-xs-6" id="primary-menu">
                         <li><a href="/">Trang Chủ</a></li>
                         <!--<li><a href="/bep-an-khang">Bếp An Khang</a></li>-->
-                        <li><a href="/khuyen-mai-cuc-shock-khi-mua-bep-tu/">Khuyến Mãi</a></li>
+                        <li><a href="/bep-tu-khuyen-mai//">Khuyến Mãi</a></li>
                         <li><a href="/qna">Câu hỏi thường gặp</a></li>
                         <li><a href="/dieu-khoan">Điều khoản</a></li>
                         <li><a href="/lien-he">Liên hệ</a></li>

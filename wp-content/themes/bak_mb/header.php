@@ -186,7 +186,7 @@
                                     echo '</li>';
                 
                             wp_reset_query();
-                                        echo '<li><a href="/khuyen-mai-cuc-shock-khi-mua-bep-tu/">Khuyến mãi</a></li>';
+                                        echo '<li><a href="/bep-tu-khuyen-mai/">Khuyến mãi</a></li>';
                                         echo '<li><a href="/lien-he">Liên Hệ</a></li>';
                                     ?>
                                                                                                     

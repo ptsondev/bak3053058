@@ -23,6 +23,25 @@ class Filters
 		add_filter('preview_post_link', array($this, 'editPopupPreviewLink'), 10, 2);
 		add_filter('upgrader_pre_download', array($this, 'maybeShortenEddFilename'), 10, 4);
 		add_filter('sgpbSavedPostData', array($this, 'savedPostData'), 10, 1);
+		add_filter('sgpbPopupEvents', array($this, 'popupEvents'), 10, 1);
+	}
+
+	public function popupEvents($events)
+	{
+		foreach ($events as $eventKey => $eventData) {
+			if (isset($eventData['param']) && $eventData['param'] == SGPB_CSS_CLASS_ACTIONS_KEY) {
+				unset($events[$eventKey]);
+				$events[] = array('param' => 'click');
+				$events[] = array('param' => 'hover');
+				$events[] = array('param' => 'confirm');
+
+				if (SGPB_POPUP_PKG > SGPB_POPUP_PKG_FREE) {
+					$events[] = array('param' => 'iframe');
+				}
+			}
+		}
+
+		return $events;
 	}
 
 	public function savedPostData($postData)
@@ -136,7 +155,7 @@ class Filters
 				continue;
 			}
 
-			$content = str_replace(' src="'.$urls[$key].'"', 'data-attr-src="'.esc_attr($urls[$key]).'"', $content);
+			$content = str_replace(' src="'.$urls[$key].'"', ' src="" data-attr-src="'.esc_attr($urls[$key]).'"', $content);
 		}
 
 		return do_shortcode($content);

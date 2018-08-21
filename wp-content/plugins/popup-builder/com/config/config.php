@@ -58,8 +58,6 @@ class SgpbPopupConfig
 		self::addDefine('SGPB_FILTER_REPEAT_INTERVAL', 50);
 		self::addDefine('SG_POPUP_TEXT_DOMAIN', 'popupBuilder');
 		self::addDefine('SG_POPUP_STORE_URL', 'https://popup-builder.com/');
-		// for popup builder license version
-		self::addDefine('SG_VERSION_POPUP_BUILDER', 4.0);
 		self::addDefine('SG_POPUP_AUTHOR', 'Sygnoos');
 		self::addDefine('SG_POPUP_KEY', 'POPUP_BUILDER');
 		self::addDefine('SG_AJAX_NONCE', 'popupBuilderAjaxNonce');
@@ -79,6 +77,7 @@ class SgpbPopupConfig
 		self::addDefine('SGPB_POPUP_EXTENSIONS_PATH', SG_POPUP_COM_PATH.'extensions/');
 		self::addDefine('SGPB_DONT_SHOW_POPUP_EXPIRY', 365);
 		self::addDefine('SGPB_CONTACT_FORM_7_BEHAVIOR_KEY', 'contact-form-7');
+		self::addDefine('SGPB_CSS_CLASS_ACTIONS_KEY', 'setByCssClass');
 		self::popupTypesInit();
 	}
 

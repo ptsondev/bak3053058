@@ -134,12 +134,12 @@ abstract class SGPopup
 			$events = array_merge($events, $optionEvents);
 		}
 
-		return $events;
+		return apply_filters('sgpbPopupEvents', $events);
 	}
 
 	public function getContent()
 	{
-		return $this->content;
+		return wpautop($this->content);
 	}
 
 	public function setPostData($postData)
@@ -656,7 +656,7 @@ abstract class SGPopup
 	public static function getEventsDataById($popupId, $saveMode = '')
 	{
 		$eventsData = array();
-		if (get_post_meta($popupId, 'sg_popup_events'.$saveMode)) {
+		if (get_post_meta($popupId, 'sg_popup_events'.$saveMode, true)) {
 			$eventsData = get_post_meta($popupId, 'sg_popup_events'.$saveMode, true);
 		}
 
@@ -667,7 +667,7 @@ abstract class SGPopup
 	{
 		$targetData = array();
 
-		if (get_post_meta($popupId, 'sg_popup_target'.$saveMode)) {
+		if (get_post_meta($popupId, 'sg_popup_target'.$saveMode, true)) {
 			$targetData = get_post_meta($popupId, 'sg_popup_target'.$saveMode, true);
 		}
 
@@ -677,7 +677,7 @@ abstract class SGPopup
 	public static function getPopupOptionsById($popupId, $saveMode = '')
 	{
 		$optionsData = array();
-		if (get_post_meta($popupId, 'sg_popup_options'.$saveMode)) {
+		if (get_post_meta($popupId, 'sg_popup_options'.$saveMode, true)) {
 			$optionsData = get_post_meta($popupId, 'sg_popup_options'.$saveMode, true);
 		}
 

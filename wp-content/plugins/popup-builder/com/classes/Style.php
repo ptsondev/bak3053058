@@ -14,9 +14,10 @@ class Style
 	public static function enqueueStyles($hook)
 	{
 		global $post;
+		global $post_type;
 		$pageName = $hook;
 		$styles = array();
-		$currentPostType = $post->post_type;
+		$currentPostType = @$post->post_type;
 		// in some themes global $post returns null
 		if (empty($currentPostType)) {
 			$currentPostType = $post_type;

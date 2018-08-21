@@ -7,6 +7,7 @@ class ScriptsLoader
 {
 	// all loadable popups objects
 	private $loadablePopups = array();
+	private $isAdmin = false;
 
 	public function setLoadablePopups($loadablePopups)
 	{
@@ -15,51 +16,116 @@ class ScriptsLoader
 
 	public function getLoadablePopups()
 	{
-		return $this->loadablePopups;
+		return apply_filters('sgpbLoadablePopups', $this->loadablePopups);
+	}
+
+	public function setIsAdmin($isAdmin)
+	{
+		$this->isAdmin = $isAdmin;
+	}
+
+	public function getIsAdmin()
+	{
+		return $this->isAdmin;
+	}
+
+	/**
+	 * Get encoded popup options
+	 *
+	 * @since 3.0.4
+	 *
+	 * @param object $popup
+	 *
+	 * @return array|mixed|string|void $popupOptions
+	 */
+	private function getEncodedOptionsFromPopup($popup)
+	{
+		$extraOptions = $popup->getExtraRenderOptions();
+		$popupOptions = $popup->getOptions();
+		$popupOptions = apply_filters('sgpbPopupRenderOptions', $popupOptions);
+
+		$popupOptions = array_merge($popupOptions, $extraOptions);
+
+		// These two lines have been added in order to not use the json_econde and to support PHP 5.3 version.
+		$popupOptions = AdminHelper::serializeData($popupOptions);
+		$popupOptions = base64_encode($popupOptions);
+
+		return $popupOptions;
 	}
 
 	// load popup scripts and styles and add popup data to the footer
 	public function loadToFooter()
 	{
 		$popups = $this->getLoadablePopups();
+
+		if (empty($popups)) {
+			return false;
+		}
+
+		if ($this->getIsAdmin()) {
+			$this->loadToAdmin();
+			return true;
+		}
+
 		global $post;
 		if (empty($post)) {
 			return false;
 		}
 		$postId = $post->ID;
 
-		if (!empty($popups)) {
-			foreach ($popups as $popup) {
-				$popupId = $popup->getId();
+		foreach ($popups as $popup) {
+			$popupId = $popup->getId();
 
-				$extraOptions = $popup->getExtraRenderOptions();
-				$events = $popup->getPopupAllEvents($postId, $popupId);
+			$events = $popup->getPopupAllEvents($postId, $popupId);
 
-				$events = json_encode($events);
+			$events = json_encode($events);
 
-				$popupOptions = $popup->getOptions();
-				$popupOptions = apply_filters('sgpbPopupRenderOptions', $popupOptions);
+			$popupOptions = $this->getEncodedOptionsFromPopup($popup);
 
-				$popupOptions = array_merge($popupOptions, $extraOptions);
+			$popupContent = apply_filters('sgpbPopupContentLoadToPage', $popup->getPopupTypeContent());
 
-				$popupOptions = AdminHelper::serializeData($popupOptions);
-				$popupOptions = htmlspecialchars($popupOptions);
-
-				$popupContent = apply_filters('sgpbPopupContentLoadToPage', $popup->getPopupTypeContent());
-
-				add_action('wp_footer', function() use ($popupId, $events, $popupOptions, $popupContent) {
-					$footerPopupContent = '<div style="position:absolute;top: -999999999999999999999px;">
+			add_action('wp_footer', function() use ($popupId, $events, $popupOptions, $popupContent) {
+				$footerPopupContent = '<div style="position:fixed;bottom: -999999999999999999999px;">
 							<div class="sg-popup-builder-content" id="sg-popup-content-wrapper-'.$popupId.'" data-id="'.esc_attr($popupId).'" data-events="'.esc_attr($events).'" data-options="'.esc_attr($popupOptions).'">
 								<div class="sgpb-popup-builder-content-'.esc_attr($popupId).' sgpb-popup-builder-content-html">'.$popupContent.'</div>
 							</div>
 						  </div>';
 
-					echo $footerPopupContent;
-				});
-			}
-			$this->includeScripts();
-			$this->includeStyles();
+				echo $footerPopupContent;
+			});
 		}
+		$this->includeScripts();
+		$this->includeStyles();
+	}
+
+	public function loadToAdmin()
+	{
+		$popups = $this->getLoadablePopups();
+
+		foreach ($popups as $popup) {
+			$popupId = $popup->getId();
+
+			$events = array();
+
+			$events = json_encode($events);
+
+			$popupOptions = $this->getEncodedOptionsFromPopup($popup);
+
+			$popupContent = apply_filters('sgpbPopupContentLoadToPage', $popup->getPopupTypeContent());
+
+			add_action('admin_footer', function() use ($popupId, $events, $popupOptions, $popupContent) {
+				$footerPopupContent = '<div style="position:absolute;top: -999999999999999999999px;">
+							<div class="sg-popup-builder-content" id="sg-popup-content-wrapper-'.$popupId.'" data-id="'.esc_attr($popupId).'" data-events="'.esc_attr($events).'" data-options="'.esc_attr($popupOptions).'">
+								<div class="sgpb-popup-builder-content-'.esc_attr($popupId).' sgpb-popup-builder-content-html">'.$popupContent.'</div>
+							</div>
+						  </div>';
+
+				echo $footerPopupContent;
+			});
+		}
+		$this->includeScripts();
+		$this->includeStyles();
+
 	}
 
 	private function includeScripts()

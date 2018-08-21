@@ -237,6 +237,8 @@ class Installer
 			return $tables;
 		}
 
+		require_once(SG_POPUP_CONFIG_PATH.'configPackage.php');
+
 		foreach ($popupTypes as $popupTypeKey => $popupTypeLevel) {
 			if (SGPB_POPUP_PKG >= $popupTypeLevel) {
 				$className = ucfirst($popupTypeKey).'Popup';
