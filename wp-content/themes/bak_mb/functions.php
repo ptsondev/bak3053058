@@ -275,7 +275,8 @@ function display_product_item($product){
                 echo '<div class="best-seller"></div>';
             }
             echo '<div class="thumb"><a href="'.get_permalink($product->ID).'">';
-                echo '<img src="'.bak_get_thumbnail($product->ID, 400, 300).'" />';
+                $img_html = '<img src="'.bak_get_thumbnail($product->ID, 400, 300).'" />';
+                echo apply_filters( 'bj_lazy_load_html', $img_html );
             echo '</a></div>';
             echo '<div class="info">';
                 echo '<div class="title"><a href="'.get_permalink($product->ID).'">'.$product->post_title.'</a></div>';

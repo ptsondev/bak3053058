@@ -1,5 +1,5 @@
 <?php
-DEFINE('PATH_TO_IMAGES', get_template_directory_uri().'/images/');
+DEFINE('PATH_TO_IMAGES', '/wp-content/themes/bak/images/');
 DEFINE('AK_DT_BAN', '02838625420');
 DEFINE('AK_DT_BAN_SHOW', '02838 625 420');
 DEFINE('AK_HOTLINE', '0963391379');
@@ -274,8 +274,9 @@ function display_product_item($product){
             if(is_array($show) && count($show)>0){
                 echo '<div class="best-seller"></div>';
             }
-            echo '<div class="thumb"><a href="'.get_permalink($product->ID).'">';
-                echo '<img src="'.bak_get_thumbnail($product->ID, 400, 300).'" />';
+            echo '<div class="thumb"><a href="'.get_permalink($product->ID).'">';                    
+                $img_html = '<img src="'.bak_get_thumbnail($product->ID, 400, 300).'" />';
+                echo apply_filters( 'bj_lazy_load_html', $img_html );
             echo '</a></div>';
             echo '<div class="info">';
                 echo '<div class="title"><a href="'.get_permalink($product->ID).'">'.$product->post_title.'</a></div>';
@@ -339,4 +340,8 @@ function my_style_script(){
     wp_enqueue_script('parallax', get_template_directory_uri().'/js/parallax.js');
     wp_enqueue_script('myjs', get_template_directory_uri().'/js/myjs.js');  
 }
-add_action('init', 'my_style_script');
+if(!is_admin()){
+    add_action('init', 'my_style_script');
+}else{
+    //phpinfo();die;
+}

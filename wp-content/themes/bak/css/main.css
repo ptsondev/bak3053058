@@ -1219,6 +1219,27 @@ box-shadow: 0px 3px 16px 0px rgba(0,0,0,0.75);
 #main-sidebar #knowledges{
     margin-bottom: 20px;
 }
+
+#sform-coupon input{
+    padding: 5px 10px;     
+    width: 100%;
+}
+#sform-coupon .wpcf7-form-control-wrap{
+    width: 48%;
+    margin: 3px 1%;
+    display: inline-block;
+    float: left;
+}
+#sform-coupon br{
+    display: none;
+}
+#sform-coupon input[type="submit"]{
+    background: #f7930f; 
+    color:#FFF;
+    border: none;
+    padding: 10px 5px;
+}
+
 @media (max-width: 768px){   
     #breadcrumb{
         margin-top: 60px;

@@ -1282,6 +1282,31 @@ box-shadow: 0px 3px 16px 0px rgba(0,0,0,0.75);
 #register-sale input{
     width: 100%;
 }
+
+#sform-coupon input{
+    padding: 5px 10px;     
+    width: 90%;
+    margin: 3px 0;
+}
+#sform-coupon .wpcf7-form-control-wrap{
+    width: 90%;
+    margin: 4px 5%;
+}
+#sform-coupon br{
+    display: none;
+}
+#sform-coupon input[type="submit"]{
+    background: #f7930f; 
+    color:#FFF;
+    border: none;
+    padding: 10px 5px;
+    display: block;
+    margin: auto;
+}
+#imgPopUpKM{
+ 
+}
+
 @media (max-width: 768px){   
     #breadcrumb{
         

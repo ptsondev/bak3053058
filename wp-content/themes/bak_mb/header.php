@@ -25,12 +25,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
      <link rel="shortcut icon" type="image/png" href="<?php echo get_template_directory_uri(); ?>/images/bep-an-khang.ico"/>
-    <!--
-    <link rel="stylesheet" href="<?php echo get_template_directory_uri(); ?>/css/bootstrap.css" />
-    <link rel="stylesheet" href="<?php echo get_template_directory_uri(); ?>/css/fonts.css" />
-    <link rel="stylesheet" href="<?php echo get_template_directory_uri(); ?>/css/jquery-ui.css" />
-    <link rel="stylesheet" href="<?php echo get_template_directory_uri(); ?>/css/main.css" />
-    -->
+   
     <?php wp_head(); ?>
     <?php
          echo '<script type="text/javascript">
@@ -68,25 +63,25 @@
 </head>
 
 <body <?php body_class($res_class); ?>>
-    <div id="fb-root"></div>
-<!-- Load Facebook SDK for JavaScript -->
-<div id="fb-root"></div>
-<script>(function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) return;
-  js = d.createElement(s); js.id = id;
-  js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js#xfbml=1&version=v2.12&autoLogAppEvents=1';
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));</script>
-
-<!-- Your customer chat code 
-<div class="fb-customerchat"
-  attribution="setup_tool"
-  page_id="272758219930982"
-  logged_in_greeting="Xin chào. Bếp An Khang đã sẵn sàng để phục vụ quý khách."
-  logged_out_greeting="Xin chào. Bếp An Khang hân hạnh phục vụ quý khách.">
-</div>-->
     
+    <!-- Facebook Pixel Code -->
+<script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '996859750375075');
+  fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=996859750375075&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Facebook Pixel Code -->
+
     <?php 
         $active = '';
         $breadcrumb = check_current_page($active);     
