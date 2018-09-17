@@ -179,7 +179,7 @@
         
             <div id="register-sale">
 <h3>Bạn cũng có thể để lại thông tin để chúng tôi có thể tư vấn rõ hơn về đợt khuyến mãi</h3>
-<?php echo do_shortcode('[contact-form-7 id="1548" title="Xin báo giá"]'); ?>
+<?php echo do_shortcode('[contact-form-7 id="1592" title="Nhận coupon giảm giá" html_id="sform-coupon"]'); ?>
 
 </div>
             </div>

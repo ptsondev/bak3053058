@@ -126,7 +126,8 @@
                         </div></a>
                      
                         <div id="main-menu">
-                            
+                            <li><a href="/loi-ngo">Lời Ngỏ</a></li>
+                        
                                     <?php 
                                         $terms = get_terms( 'product-category', array(
                                             'hide_empty'=>0,

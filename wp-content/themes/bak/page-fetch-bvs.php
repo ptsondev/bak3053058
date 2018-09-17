@@ -9,7 +9,7 @@
 // khong bat khi khong xai den
 
 
-DEFINE('CAT_ID', 27); // nhớ tự thay cái này
+DEFINE('CAT_ID', 63); // nhớ tự thay cái này
 
 $title='Bếp điện âm Bosch PKF645E14E';
 $content = 'some content';
@@ -27,11 +27,12 @@ foreach($grid->find('a.woocommerce-LoopProduct-link') as $element){
     fetchProduct($element->href);
 }
 */
-fetchProduct('http://bepvuson.vn/bep-tu-canzy-cz-200ss.html'); 
+fetchProduct('http://bepvuson.vn/bep-tu-d-mestik-es742-dki.html'); 
 echo "okie";
 
 function fetchProduct($url){
     $html = file_get_html($url);
+    var_dump($html);die;
     $title = $html->find('h1',0);
     $title = $title->plaintext;
 

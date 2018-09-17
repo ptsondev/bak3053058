@@ -93,15 +93,6 @@
 <!-- End Facebook Pixel Code -->
 
 
-    
-<!-- Your customer chat code 
-<div class="fb-customerchat"
-  attribution="setup_tool"
-  page_id="272758219930982"
-  logged_in_greeting="Xin chào. Bếp An Khang đã sẵn sàng để phục vụ quý khách."
-  logged_out_greeting="Xin chào. Bếp An Khang hân hạnh phục vụ quý khách.">
-</div>-->
-    
     <?php 
         $active = '';
         $breadcrumb = check_current_page($active);     
@@ -116,9 +107,9 @@
                 <div class="row">
                     <span class="col-sm-7 col-xs-6" id="primary-menu">
                         <li><a href="/">Trang Chủ</a></li>
-                        <!--<li><a href="/bep-an-khang">Bếp An Khang</a></li>-->
+                        <li><a href="/loi-ngo">Lời Ngỏ</a></li>
                         <li><a href="/bep-tu-khuyen-mai//">Khuyến Mãi</a></li>
-                        <li><a href="/qna">Câu hỏi thường gặp</a></li>
+                        
                         <li><a href="/dieu-khoan">Điều khoản</a></li>
                         <li><a href="/lien-he">Liên hệ</a></li>
                     </span>
