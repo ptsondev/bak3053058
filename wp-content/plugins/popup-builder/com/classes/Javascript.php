@@ -13,15 +13,11 @@ class Javascript
 {
 	public static function enqueueScripts($hook)
 	{
-		global $post;
-		global $post_type;
 		$pageName = $hook;
 		$scripts = array();
-		$currentPostType = @$post->post_type;
-		// in some themes global $post returns null
-		if (empty($currentPostType)) {
-			$currentPostType = $post_type;
-		}
+		$popupType = AdminHelper::getCurrentPopupType();
+		$currentPostType = AdminHelper::getCurrentPostType();
+
 		if($hook == 'popupbuilder_page_popupbuilder') {
 			$pageName = 'popupType';
 		}
@@ -74,7 +70,10 @@ class Javascript
 			if(!$classObj instanceof $extensionInterface) {
 				continue;
 			}
-			$scriptData = $classObj->getScripts($pageName , array());
+			$args  = array(
+				'popupType' => $popupType
+			);
+			$scriptData = $classObj->getScripts($pageName , $args);
 
 			$scripts[] = $scriptData;
 		}

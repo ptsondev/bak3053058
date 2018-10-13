@@ -1,6 +1,28 @@
 /*Bootstrap customization*/
-
 /*General Styles*/
+.sgpb-dashboard-popup-count-wrapper {
+	display: inline-block;
+	margin: 5px 5px 0 0;
+	float: left;
+}
+
+.sgpb-counter-wrapper {
+	max-width: 90px;
+}
+
+.sgpb-reset-count-btn {
+	float: right;
+}
+
+.sgpb-popup-content-direction-right .sgpb-contact-admin-wrapper,
+.sgpb-popup-content-direction-right .sgpb-subscription-admin-wrapper,
+.sgpb-forms-preview-direction,
+.sgpb-forms-preview-direction input[type="url"],
+.sgpb-forms-preview-direction input[type="email"] {
+	direction: rtl !important;
+	text-align: right !important;
+}
+
 .sg-hide-condition-row {
 	display: none !important;
 }
@@ -434,6 +456,10 @@
 	background-image: url("../img/analyticsTypeIcon.png") !important;
 }
 
+.sgpbRecentSales-popup-pro {
+	background-image: url("../img/recentSales.png") !important;
+}
+
 .sgpb-sgpbAnalitics-div {
 	background-color: rgba(250, 166, 40, 0.4);
 }
@@ -444,6 +470,22 @@
 
 .sgpbExitIntent-popup-pro{
 	background-image: url("../img/exitIntentTypeIcon.png") !important;
+}
+
+.recentSales-popup {
+	background-image: url("../img/recentSales.png") !important;
+}
+
+.sgpb-recentSales-div {
+	background-color: #ea7e11 !important;
+}
+
+.sgpb-recentSales-div:hover {
+	background-color: #ffa142 !important;
+}
+
+.sgpb-sgpbRecentSales-div {
+	background-color: #ffa142 !important;
 }
 
 .sgpb-sgpbExitIntent-div {
@@ -524,6 +566,21 @@
 
 .contactForm-popup-pro-wrapper:hover {
 	background-color: rgba(251, 175, 93, 0.4);
+}
+
+.Woo-popup,
+.sgpbWOO-popup-pro {
+	background-image: url("../img/wooTypeIcon.png");
+}
+
+.sgpb-Woo-div,
+.sgpb-sgpbWOO-div {
+	background-color: #a46497 !important;
+}
+
+.sgpb-Woo-div:hover,
+.sgpb-sgpbWOO-div:hover {
+	background-color: #cb7fbb !important;
 }
 
 .sgpb-popup-type-pro-ribbon {
@@ -657,6 +714,7 @@
 }
 
 .sgpb-show-button-image-container,
+.sgpb-show-sales-image-container,
 .sgpb-show-background-image-container {
 	background-color: #F8F8F8;
 	background-size: contain;
@@ -666,7 +724,8 @@
 	border-radius: 3px;
 }
 
-.sgpb-show-button-image-container {
+.sgpb-show-button-image-container,
+.sgpb-show-sales-image-container {
 	width: 35px;
 	height: 35px;
 }
@@ -1078,6 +1137,10 @@ input:checked + .sgpb-slider:before {
 	margin-left: 0 !important;
 }
 
+.sgpb-col-no-padding {
+	padding: 0 !important;
+}
+
 .sgpb-info-icon-align-inputs {
 	margin-top: 15px !important;
 }
@@ -1189,7 +1252,8 @@ input:checked + .sgpb-slider:before {
 	}
 }
 
-.sgpb-preview-animation {
+.sgpb-preview-animation,
+.sgpb-preview-close-animation {
 	background-image: url(../img/preview-eye.png);
 	width: 30px;
 	height: 30px;
@@ -1197,7 +1261,8 @@ input:checked + .sgpb-slider:before {
 	cursor: pointer;
 }
 
-#js-open-animation-effect {
+#js-open-animation-effect,
+#js-close-animation-effect {
 	display: none;
 	width: 150px;
 	height: 150px;
@@ -1267,6 +1332,11 @@ input:checked + .sgpb-slider:before {
 .sgpb-double-sub-option {
 	padding-left: 60px !important;
 	font-weight: lighter !important;
+}
+
+.sgpb-double-sub-option-label {
+	padding-left: 60px !important;
+	font-weight: 500 !important;
 }
 
 .sgpb-sub-option-label label {
@@ -1425,26 +1495,6 @@ input:checked + .sgpb-slider:before {
 	display: block;
 }
 
-.AdBlockPro {
-	background-image: url("../img/AdblockPro.png");
-}
-
-.AnalyticsPro {
-	background-image: url("../img/AnalyticsPro.png");
-}
-
-.AWeberPro {
-	background-image: url("../img/AWeberPro.png");
-}
-
-.ExitIntentPro {
-	background-image: url("../img/ExitIntentPro.png");
-}
-
-.MailchimpPro {
-	background-image: url("../img/MailchimpPro.png");
-}
-
 .col-md-2.sgpb-pro-options-row {
 	min-width: 80px !important;
 }
@@ -1494,7 +1544,7 @@ input:checked + .sgpb-slider:before {
 
 .sgpb-other-pro-options {
 	position:absolute;
-	background-color: rgb(255, 255, 255, 0.6);
+	background-color: rgba(255, 255, 255, 0.6);
 	width: 99%;
 	height: 96%;
 	top: 0;

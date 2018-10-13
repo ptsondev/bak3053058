@@ -1,4 +1,5 @@
 <?php
+define( 'WPCACHEHOME', '/var/www/bepankhang.com/public_html/wp-content/plugins/wp-super-cache/' );
 define("WP_CACHE", true);
 /**
  * The base configuration for WordPress
@@ -81,7 +82,11 @@ $table_prefix  = 'bak_';
  *
  * @link https://codex.wordpress.org/Debugging_in_WordPress
  */
-define('WP_DEBUG', false);
+ // Enable WP_DEBUG mode
+define( 'WP_DEBUG', false);
+
+// Use dev versions of core JS and CSS files (only needed if you are modifying these core files)
+define( 'SCRIPT_DEBUG', true );
 
 /* That's all, stop editing! Happy blogging. */
 

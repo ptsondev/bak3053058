@@ -24,6 +24,88 @@ class Filters
 		add_filter('upgrader_pre_download', array($this, 'maybeShortenEddFilename'), 10, 4);
 		add_filter('sgpbSavedPostData', array($this, 'savedPostData'), 10, 1);
 		add_filter('sgpbPopupEvents', array($this, 'popupEvents'), 10, 1);
+		add_filter('sgpbAdditionalMetaboxes', array($this, 'metaboxes'), 10, 1);
+	}
+
+	public function metaboxes($metaboxes)
+	{
+		$conditionsProLabel = '';
+		$conditionsCanBeUsed = PopupBuilderActivePackage::canUseSection('popupConditionsSection');
+		if (!$conditionsCanBeUsed) {
+			$conditionsProLabel .= '<a href="'.SG_POPUP_PRO_URL.'" target="_blank" class="sgpb-pro-label-metabox">';
+			$conditionsProLabel .= __('Upgrade to PRO', SG_POPUP_TEXT_DOMAIN).'</a>';
+		}
+
+		$otherConditionsProLabel = '';
+		$otherConditionsCanBeUsed = PopupBuilderActivePackage::canUseSection('popupOtherConditionsSection');
+		if (!$otherConditionsCanBeUsed) {
+			$otherConditionsProLabel .= '<a href="'.SG_POPUP_PRO_URL.'" target="_blank" class="sgpb-pro-label-metabox">';
+			$otherConditionsProLabel .= __('Upgrade to PRO', SG_POPUP_TEXT_DOMAIN).'</a>';
+		}
+		$metaboxes['targetMetaboxView'] = array(
+			'key' => 'targetMetaboxView',
+			'displayName' => 'Popup Display Rules',
+			'filePath' => SG_POPUP_VIEWS_PATH.'targetView.php',
+			'priority' => 'high'
+		);
+
+		$metaboxes['eventsMetaboxView'] = array(
+			'key' => 'eventsMetaboxView',
+			'displayName' => 'Popup Events',
+			'filePath' => SG_POPUP_VIEWS_PATH.'eventsView.php',
+			'priority' => 'high'
+		);
+
+		$metaboxes['conditionsMetaboxView'] = array(
+			'key' => 'conditionsMetaboxView',
+			'displayName' => 'Popup Conditions'.$conditionsProLabel,
+			'filePath' => SG_POPUP_VIEWS_PATH.'conditionsView.php',
+			'priority' => 'high'
+		);
+
+		$metaboxes['behaviorAfterSpecialEventsMetaboxView'] = array(
+			'key' => 'behaviorAfterSpecialEventsMetaboxView',
+			'displayName' => 'Behavior After Special Events',
+			'filePath' => SG_POPUP_VIEWS_PATH.'behaviorAfterSpecialEventsView.php',
+			'priority' => 'high'
+		);
+
+		$metaboxes['popupDesignMetaBoxView'] = array(
+			'key' => 'popupDesignMetaBoxView',
+			'displayName' => 'Design',
+			'filePath' => SG_POPUP_VIEWS_PATH.'popupDesignView.php',
+			'priority' => 'high'
+		);
+
+		$metaboxes['closeSettings'] = array(
+			'key' => 'closeSettings',
+			'displayName' => 'Close Settings',
+			'filePath' => SG_POPUP_VIEWS_PATH.'closeSettingsView.php',
+			'priority' => 'high'
+		);
+
+		$metaboxes['spgdimension'] = array(
+			'key' => 'spgdimension',
+			'displayName' => 'Dimensions',
+			'filePath' => SG_POPUP_VIEWS_PATH.'dimensionsView.php',
+			'priority' => 'high'
+		);
+
+		$metaboxes['optionsMetaboxView'] = array(
+			'key' => 'optionsMetaboxView',
+			'displayName' => 'Popup Options',
+			'filePath' => SG_POPUP_VIEWS_PATH.'optionsView.php',
+			'priority' => 'high'
+		);
+
+		$metaboxes['otherConditionsMetaBoxView'] = array(
+			'key' => 'otherConditionsMetaBoxView',
+			'displayName' => 'Popup other Conditions'.$otherConditionsProLabel,
+			'filePath' => SG_POPUP_VIEWS_PATH.'otherConditionsView.php',
+			'priority' => 'high'
+		);
+
+		return $metaboxes;
 	}
 
 	public function popupEvents($events)
@@ -163,10 +245,6 @@ class Filters
 
 	public function renderOptions($options = array())
 	{
-		if (isset($options['sgpb-button-image'])) {
-			$options['sgpb-button-image'] = AdminHelper::convertImageToData($options['sgpb-button-image']);
-		}
-
 		return $options;
 	}
 

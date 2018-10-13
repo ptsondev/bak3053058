@@ -57,27 +57,30 @@
 				</div>
 			</div>
 			<div class="sg-full-width">
-				<div class="row form-group">
-					<label for="sgpb-close-button-delay" class="col-md-5 control-label sgpb-sub-option">
-						<?php _e('Button delay', SG_POPUP_TEXT_DOMAIN)?>:
-					</label>
-					<div class="col-md-6">
-						<input type="number" min="0" id="sgpb-close-button-delay" class="sgpb-full-width-events form-control" name="sgpb-close-button-delay" value="<?php echo $popupTypeObj->getOptionValue('sgpb-close-button-delay'); ?>" placeholder="e.g.: 1">
+				<?php if (empty($removedOptions['sgpb-close-button-delay'])) :?>
+					<div class="row form-group">
+						<label for="sgpb-close-button-delay" class="col-md-5 control-label sgpb-sub-option">
+							<?php _e('Button delay', SG_POPUP_TEXT_DOMAIN)?>:
+						</label>
+						<div class="col-md-6">
+							<input type="number" min="0" id="sgpb-close-button-delay" class="sgpb-full-width-events form-control" name="sgpb-close-button-delay" value="<?php echo $popupTypeObj->getOptionValue('sgpb-close-button-delay'); ?>" placeholder="e.g.: 1">
+						</div>
+						<div class="col-md-1 sgpb-info-wrapper">
+							<span class="dashicons dashicons-editor-help sgpb-info-icon sgpb-info-icon-align"></span>
+							<span class="infoSelectRepeat samefontStyle sgpb-info-text">
+								<?php _e('Specify the time (in seconds) after which the close button will appear. The close button will be shown by default without any delay if no time is specified', SG_POPUP_TEXT_DOMAIN)?>.
+							</span>
+						</div>
 					</div>
-					<div class="col-md-1 sgpb-info-wrapper">
-						<span class="dashicons dashicons-editor-help sgpb-info-icon sgpb-info-icon-align"></span>
-						<span class="infoSelectRepeat samefontStyle sgpb-info-text">
-							<?php _e('Specify the time (in seconds) after which the close button will appear. The close button will be shown by default without any delay if no time is specified', SG_POPUP_TEXT_DOMAIN)?>.
-						</span>
+				<?php endif; ?>
+				<?php if (empty($removedOptions['sgpb-close-button-position'])) :?>
+					<div class="row form-group">
+						<label for="redirect-to-url" class="col-md-5 control-label sgpb-sub-option">
+							<?php _e('Button position', SG_POPUP_TEXT_DOMAIN)?>:
+						</label>
+						<div class="col-md-6"><?php echo AdminHelper::createSelectBox($defaultCloseButtonPositions, $closeButtonPosition, array('name' => 'sgpb-close-button-position', 'class'=>'js-sg-select2 sgpb-close-button-position')); ?></div>
 					</div>
-				</div>
-				<div class="row form-group">
-					<label for="redirect-to-url" class="col-md-5 control-label sgpb-sub-option">
-						<?php _e('Button position', SG_POPUP_TEXT_DOMAIN)?>:
-					</label>
-					<div class="col-md-6"><?php echo AdminHelper::createSelectBox($defaultCloseButtonPositions, $closeButtonPosition, array('name' => 'sgpb-close-button-position', 'class'=>'js-sg-select2 sgpb-close-button-position')); ?></div>
-				</div>
-
+				<?php endif; ?>
 				<div class="<?php echo ($popupTypeObj->getOptionValue('sgpb-popup-themes') == 'sgpb-theme-4') ? 'sg-hide ' : '' ;?>sgpb-close-button-image-option-wrapper">
 					<div class="row form-group">
 						<label for="redirect-to-url" class="col-md-5 control-label sgpb-static-padding-top sgpb-sub-option">
@@ -91,7 +94,7 @@
 						<div class="col-md-7">
 							<div class="row">
 								<div class="col-md-3 sgpb-close-btn-image-wrapper">
-									<div class="sgpb-show-button-image-container" style="background-image: url(<?php echo $buttonImage;?>);">
+									<div class="sgpb-show-button-image-container" style="background-image: url(<?php echo 'data:image/png;base64,'.$buttonImage;?>);">
 										<span class="sgpb-no-image"></span>
 									</div>
 								</div>

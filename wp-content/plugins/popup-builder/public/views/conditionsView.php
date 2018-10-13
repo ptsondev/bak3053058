@@ -1,7 +1,6 @@
 <?php
 namespace sgpb;
 use sgpb\PopupBuilderActivePackage;
-
 $targetData = $popupTypeObj->getOptionValue('sgpb-conditions');
 $popupTargetData = ConditionBuilder::createConditionBuilder($targetData);
 $conditionsCanBeUsed = PopupBuilderActivePackage::canUseSection('popupConditionsSection');

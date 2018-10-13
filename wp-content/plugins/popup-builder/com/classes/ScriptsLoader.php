@@ -75,14 +75,13 @@ class ScriptsLoader
 
 		foreach ($popups as $popup) {
 			$popupId = $popup->getId();
+			$popupContent = apply_filters('sgpbPopupContentLoadToPage', $popup->getPopupTypeContent());
 
-			$events = $popup->getPopupAllEvents($postId, $popupId);
-
+			$events = $popup->getPopupAllEvents($postId, $popupId, $popup);
 			$events = json_encode($events);
 
 			$popupOptions = $this->getEncodedOptionsFromPopup($popup);
 
-			$popupContent = apply_filters('sgpbPopupContentLoadToPage', $popup->getPopupTypeContent());
 
 			add_action('wp_footer', function() use ($popupId, $events, $popupOptions, $popupContent) {
 				$footerPopupContent = '<div style="position:fixed;bottom: -999999999999999999999px;">

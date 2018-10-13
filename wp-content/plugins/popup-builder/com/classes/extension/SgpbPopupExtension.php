@@ -27,7 +27,9 @@ class SgpbPopupExtension implements SgpbIPopupExtension
 			'handle' => 'ExtensionsNotification.js',
 			'name' => 'SGPB_JS_EXTENSIONS_PARAMS',
 			'data' => array(
-				'nonce' => wp_create_nonce(SG_AJAX_NONCE)
+				'nonce' => wp_create_nonce(SG_AJAX_NONCE),
+				'popupPostType' => SG_POPUP_POST_TYPE,
+				'extendPage' => SG_POPUP_EXTEND_PAGE
 			)
 		);
 
@@ -189,8 +191,8 @@ class SgpbPopupExtension implements SgpbIPopupExtension
 			$cssFiles[] = array('folderUrl' => SG_POPUP_CSS_URL, 'filename' => 'popupAdminStyles.css', 'dep' => array(), 'ver' => SG_POPUP_VERSION, 'inFooter' => false);
 			$cssFiles[] = array('folderUrl' => SG_POPUP_CSS_URL, 'filename' => 'select2.min.css', 'dep' => array(), 'ver' => SG_POPUP_VERSION, 'inFooter' => false);
 			$cssFiles[] = array('folderUrl' => SG_POPUP_CSS_URL, 'filename' => 'sgPopupRangeSlider.css', 'dep' => array(), 'ver' => SG_POPUP_VERSION, 'inFooter' => false);
+			$cssFiles[] = array('folderUrl' => SG_POPUP_CSS_URL, 'filename' => 'theme.css', 'dep' => array(), 'ver' => SG_POPUP_VERSION, 'inFooter' => false);
 			$cssFiles[] = array('folderUrl' => '', 'filename' => 'wp-color-picker');
-			$cssFiles[] = array('folderUrl' => SG_POPUP_CSS_URL, 'filename' => 'animate.css');
 		}
 		else if ($pageName == 'subscribers') {
 			$cssFiles[] = array('folderUrl' => SG_POPUP_CSS_URL, 'filename' => 'sgbp-bootstrap.css', 'dep' => array(), 'ver' => SG_POPUP_VERSION, 'inFooter' => false);
@@ -231,7 +233,8 @@ class SgpbPopupExtension implements SgpbIPopupExtension
 				'homePageUrl' => get_home_url().'/',
 				'isPreview' => is_preview(),
 				'convertedIdsReverse' => AdminHelper::getReverseConvertIds(),
-				'dontShowPopupExpireTime' => SGPB_DONT_SHOW_POPUP_EXPIRY
+				'dontShowPopupExpireTime' => SGPB_DONT_SHOW_POPUP_EXPIRY,
+				'conditionalJsClasses' => apply_filters('sgpbConditionalJsClasses', array())
 			)
 		);
 		$localizeData[] = array(
@@ -277,7 +280,6 @@ class SgpbPopupExtension implements SgpbIPopupExtension
 	{
 		$cssFiles = array();
 		$cssFiles[] = array('folderUrl' => SG_POPUP_CSS_URL, 'filename' => 'theme.css', 'dep' => array(), 'ver' => SG_POPUP_VERSION, 'inFooter' => false);
-		$cssFiles[] = array('folderUrl' => SG_POPUP_CSS_URL, 'filename' => 'animate.css', 'dep' => array(), 'ver' => SG_POPUP_VERSION, 'inFooter' => false);
 
 		$cssData = array(
 			'cssFiles' => apply_filters('sgpbFrontendCssFiles', $cssFiles)

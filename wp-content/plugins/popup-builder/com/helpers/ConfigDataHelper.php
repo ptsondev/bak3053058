@@ -64,6 +64,10 @@ class ConfigDataHelper
 	public static function addPopupTargetParams($targetParams)
 	{
 		$allCustomPostTypes = self::getAllCustomPosts();
+		// for conditions, to exclude other post types, tags etc.
+		if (isset($targetParams['select_role']) && isset($targetParams['Groups'])) {
+			return $targetParams;
+		}
 
 		foreach ($allCustomPostTypes as $customPostType) {
 			$targetParams[$customPostType] = array(
@@ -404,6 +408,7 @@ class ConfigDataHelper
 			'Portuguese' => 'Português',
 			'Russian'    => 'Русский',
 			'Swedish'    => 'Svenska',
+			'Czech'      => 'Čeština',
 			'Chinese'    => '中文'
 		);
 
@@ -539,6 +544,48 @@ class ConfigDataHelper
 			)
 		);
 
+		$data['countdownDateFormat'] = array(
+			'template' => array(
+				'fieldWrapperAttr' => array(
+					'class' => 'col-md-5 sgpb-choice-option-wrapper'
+				),
+				'labelAttr' => array(
+					'class' => 'col-md-5 sgpb-choice-option-wrapper sgpb-sub-option-label'
+				),
+				'groupWrapperAttr' => array(
+					'class' => 'row form-group sgpb-choice-wrapper'
+				)
+			),
+			'buttonPosition' => 'right',
+			'nextNewLine' => true,
+			'fields' => array(
+				array(
+					'attr' => array(
+						'type' => 'radio',
+						'name' => 'sgpb-countdown-date-format',
+						'class' => 'sgpb-countdown-date-format-from-date',
+						'data-attr-href' => 'sgpb-countdown-date-format-from-date',
+						'value' => 'date'
+					),
+					'label' => array(
+						'name' => __('Due Date', SG_POPUP_TEXT_DOMAIN).':'
+					)
+				),
+				array(
+					'attr' => array(
+						'type' => 'radio',
+						'name' => 'sgpb-countdown-date-format',
+						'class' => 'sgpb-countdown-date-format-from-date',
+						'data-attr-href' => 'sgpb-countdown-date-format-from-input',
+						'value' => 'input'
+					),
+					'label' => array(
+						'name' => __('Duration', SG_POPUP_TEXT_DOMAIN).':'
+					)
+				)
+			)
+		);
+
 		$data['contactFormSuccessBehavior'] = array(
 			'template' => array(
 				'fieldWrapperAttr' => array(
@@ -638,7 +685,6 @@ class ConfigDataHelper
 		$data['backroundImageModes'] = array(
 			'no-repeat' => __('None', SG_POPUP_TEXT_DOMAIN),
 			'cover' => __('Cover', SG_POPUP_TEXT_DOMAIN),
-			'fit' => __('Fit', SG_POPUP_TEXT_DOMAIN),
 			'contain' => __('Contain', SG_POPUP_TEXT_DOMAIN),
 			'repeat' => __('Repeat', SG_POPUP_TEXT_DOMAIN)
 		);
@@ -660,6 +706,25 @@ class ConfigDataHelper
 			'sgpb-jello' => __('Jello', SG_POPUP_TEXT_DOMAIN),
 			'sgpb-rotateIn' => __('RotateIn', SG_POPUP_TEXT_DOMAIN),
 			'sgpb-fadeIn' => __('FadeIn', SG_POPUP_TEXT_DOMAIN)
+		);
+
+		$data['closeAnimationEfects'] = array(
+			'No effect' => __('None', SG_POPUP_TEXT_DOMAIN),
+			'sgpb-flipInX' => __('Flip', SG_POPUP_TEXT_DOMAIN),
+			'sgpb-shake' => __('Shake', SG_POPUP_TEXT_DOMAIN),
+			'sgpb-wobble' => __('Wobble', SG_POPUP_TEXT_DOMAIN),
+			'sgpb-swing' => __('Swing', SG_POPUP_TEXT_DOMAIN),
+			'sgpb-flash' => __('Flash', SG_POPUP_TEXT_DOMAIN),
+			'sgpb-bounce' => __('Bounce', SG_POPUP_TEXT_DOMAIN),
+			'sgpb-bounceOutLeft' => __('BounceOutLeft', SG_POPUP_TEXT_DOMAIN),
+			'sgpb-bounceOut' => __('BounceOut', SG_POPUP_TEXT_DOMAIN),
+			'sgpb-pulse' => __('Pulse', SG_POPUP_TEXT_DOMAIN),
+			'sgpb-rubberBand' => __('RubberBand', SG_POPUP_TEXT_DOMAIN),
+			'sgpb-tada' => __('Tada', SG_POPUP_TEXT_DOMAIN),
+			'sgpb-slideOutUp' => __('SlideOutUp', SG_POPUP_TEXT_DOMAIN),
+			'sgpb-jello' => __('Jello', SG_POPUP_TEXT_DOMAIN),
+			'sgpb-rotateOut' => __('RotateOut', SG_POPUP_TEXT_DOMAIN),
+			'sgpb-fadeOut' => __('FadeOut', SG_POPUP_TEXT_DOMAIN)
 		);
 
 		$data['userRoles'] = self::getAllUserRoles();

@@ -185,16 +185,8 @@ class ConditionCreator
 		//more code added because of the lack of abstraction
 		//todo: remove ASAP if possible
 		$sData = $conditionDataObj->getSavedData();
-		if ($ruleName == 'param' && in_array(
-			$sData['param'],
-			array(
-				'select_behavior',
-				'open-popup',
-				'close-popup',
-				'redirect-url'
-			)
-		)) {
-			$sData['param'] = 'contact-form-7';
+		if ($ruleName == 'param' && !empty($sData['tempParam'])) {
+			$sData['param'] = $sData['tempParam'];
 			$newObj = clone $conditionDataObj;
 			$newObj->setSavedData($sData);
 			$conditionDataObj = $newObj;

@@ -516,7 +516,7 @@ class PopupChecker
 		$popupOptions = $popup->getOptions();
 		$popupId = $popup->getId();
 
-		$dontAlowOpenPopup = apply_filters('sgpbOtherConditions', array('id' => $popupId, 'popupOptions' => $popupOptions));
+		$dontAlowOpenPopup = apply_filters('sgpbOtherConditions', array('id' => $popupId, 'popupOptions' => $popupOptions, 'popupObj' => $popup));
 
 		return $dontAlowOpenPopup;
 	}
@@ -659,7 +659,7 @@ class PopupChecker
 			$popupClassName = __NAMESPACE__.'\\'.$popupClassName;
 
 			if (method_exists($popupClassName, 'allowToOpen')) {
-				$allowToOpen = $popupClassName::allowToOpen($popupOptions);
+				$allowToOpen = $popupClassName::allowToOpen($popupOptions, $args);
 				return $allowToOpen;
 			}
 		}

@@ -10,6 +10,17 @@
 		$popupId = (int)$_GET['post'];
 	}
 	$subscriptionSubPopups = $popupTypeObj->getPopupsIdAndTitle();
+	$successPopup = $popupTypeObj->getOptionValue('sgpb-subs-success-popup');
+
+	// for old popups
+	if (function_exists('sgpb\sgpGetCorrectPopupId')) {
+		$successPopup = sgpb\sgpGetCorrectPopupId($successPopup);
+	}
+	$forceRtlClass = '';
+	$forceRtl = $popupTypeObj->getOptionValue('sgpb-force-rtl');
+	if ($forceRtl) {
+		$forceRtlClass = ' sgpb-forms-preview-direction';
+	}
 ?>
 <div class="sgpb-wrapper">
 	<div class="row">
@@ -351,7 +362,7 @@
 					<?php _e('Select popup', SG_POPUP_TEXT_DOMAIN)?>:
 				</label>
 				<div class="col-md-6">
-					<?php echo AdminHelper::createSelectBox($subscriptionSubPopups, $popupTypeObj->getOptionValue('sgpb-subs-success-popup'), array('name' => 'sgpb-subs-success-popup', 'class'=>'js-sg-select2 sgpb-full-width-events')); ?>
+					<?php echo AdminHelper::createSelectBox($subscriptionSubPopups, $successPopup, array('name' => 'sgpb-subs-success-popup', 'class'=>'js-sg-select2 sgpb-full-width-events')); ?>
 				</div>
 			</div>
 		</div>
@@ -362,7 +373,7 @@
 				$popupTypeObj->setSubsFormData(@$_GET['post']);
 				$formData = $popupTypeObj->createFormFieldsData();
 				?>
-				<div class="sgpb-subs-form-<?php echo $popupId; ?> sgpb-subscription-admin-wrapper">
+				<div class="sgpb-subs-form-<?php echo $popupId; ?> sgpb-subscription-admin-wrapper<?php echo $forceRtlClass; ?>">
 					<?php echo Functions::renderForm($formData); ?>
 				</div>
 				<?php

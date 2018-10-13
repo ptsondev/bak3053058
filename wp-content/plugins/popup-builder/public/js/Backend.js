@@ -41,6 +41,7 @@ SGPBBackend.prototype.sgInit = function()
 	this.soundPreview();
 	this.showInfo();
 	this.openAnimationPreview();
+	this.closeAnimationPreview();
 	this.resetToDefaultValue();
 };
 
@@ -217,6 +218,38 @@ SGPBBackend.prototype.openAnimationPreview = function()
 
 	jQuery('.sgpb-open-animation-effects').bind('change', openAnimationAction);
 	openAnimationPreview.bind('click', openAnimationAction);
+};
+
+SGPBBackend.prototype.closeAnimationPreview = function()
+{
+	var closeAnimationPreview = jQuery('.sgpb-preview-close-animation');
+
+	if (!closeAnimationPreview.length) {
+		return false;
+	}
+	var closeAnimation = jQuery('.sgpb-preview-close-animation');
+	var closeAnimationDiv = jQuery('#js-close-animation-effect');
+	var speed = jQuery('#sgpb-close-animation-speed');
+
+	var closeAnimationAction = function() {
+		var speedVal = parseInt(speed.val());
+
+		if (!speedVal) {
+			speedVal = 1;
+		}
+		var speedSeconds =  speedVal * 1000;
+
+		setTimeout(function() {
+			closeAnimationDiv.hide();
+		}, speedSeconds);
+		closeAnimationDiv.removeClass();
+		closeAnimationDiv.show();
+		closeAnimationDiv.css({'animationDuration' : speedSeconds + 'ms'});
+		closeAnimationDiv.addClass('sg-animated ' + jQuery('.sgpb-close-animation-effects option:selected').val());
+	};
+
+	jQuery('.sgpb-close-animation-effects').bind('change', closeAnimationAction);
+	closeAnimationPreview.bind('click', closeAnimationAction);
 };
 
 SGPBBackend.prototype.multipleChoiceButton = function()
@@ -618,21 +651,23 @@ SGPBBackend.prototype.changeConditionParams = function()
 	This junky code was added because the code related to the column creation is not abstract enough.
 	TODO: throw away all related code and create new architecture for the purpose.
 	*/
-	jQuery('.behavior-after-special-events-wrapper .sg-condition-operator-wrapper select').each(function() {
+	jQuery('.popup-special-conditions-wrapper .sg-condition-operator-wrapper select').each(function() {
 		jQuery(this).change(function(e) {
 			e.preventDefault();
 
 			var paramSavedValue = jQuery(this).val();
-			var conditionName = 'behavior-after-special-events';
+			var currentTargetDiv = jQuery(this).closest('.popup-special-conditions-wrapper');
+			var conditionName = currentTargetDiv.data('condition-type');
+			var paramValue = currentTargetDiv.find('.sg-condition-param-wrapper select').first().val();
 			var ruleId = 0;
 			var groupId = 0;
-			var currentTargetDiv = jQuery(this).parents('.'+conditionName+'-wrapper').first();
 
 			var data = {
 				action: 'change_condition_rule_row',
 				nonce_ajax: SGPB_JS_PARAMS.nonce,
 				conditionName: conditionName,
 				paramName: paramSavedValue,
+				paramValue: paramValue,
 				ruleId: ruleId,
 				groupId: groupId
 			};
@@ -1028,6 +1063,9 @@ SGPBBackend.prototype.buttonImageRemove = function()
 {
 	jQuery('#js-button-upload-image-remove-button').click(function(){
 		var selectedTheme = jQuery('.js-sgpb-popup-themes:checked').attr('data-popup-theme-number');
+		if (typeof selectedTheme == 'undefined') {
+			selectedTheme = 6;
+		}
 		jQuery(".sgpb-show-button-image-container").html("");
 		jQuery("#js-button-upload-image").attr('value', '');
 		jQuery('.sgpb-show-button-image-container').attr('style', 'background-image: url("' + sgpbPublicUrl + 'img/theme_' + selectedTheme + '/close.png")');
@@ -1340,6 +1378,21 @@ SGPBBackend.hexToRgba = function(hex, opacity)
 	}
 
 	throw new Error('Bad Hex');
+};
+
+SGPBBackend.resetCount = function(popupId)
+{
+	if (confirm(SGPB_JS_LOCALIZATION.areYouSure)) {
+		var data = {
+			nonce: SGPB_JS_PARAMS.nonce,
+			action: 'sgpb_reset_popup_opening_count',
+			popupId: popupId
+		};
+
+		jQuery.post(ajaxurl, data, function(response) {
+			location.reload();
+		});
+	}
 };
 
 jQuery(document).ready(function() {

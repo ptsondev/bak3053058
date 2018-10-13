@@ -504,6 +504,18 @@ class SgpbDataConfig
 			'key' => 'sgpbAWeber',
 			'url' => SG_POPUP_AWEBER_URL
 		);
+		$keys[] = array(
+			'label' => __('WooCommerce', SG_POPUP_TEXT_DOMAIN),
+			'pluginKey' =>  'popupbuilder-woocommerce/popupbuilderWoocommerce.php',
+			'key' => 'sgpbWOO',
+			'url' => SG_POPUP_WOOCOMMERCE_URL
+		);
+		$keys[] = array(
+			'label' => __('Recent Sales', SG_POPUP_TEXT_DOMAIN),
+			'pluginKey' =>  'popupbuilder-recent-sales/PopupBuilderRecentSales.php',
+			'key' => 'sgpbRecentSales',
+			'url' => SG_POPUP_RECENT_SALES_URL
+		);
 
 		return apply_filters('sgpbExtensionsKeys', $keys);
 	}
@@ -624,6 +636,7 @@ class SgpbDataConfig
 		$config['initialData'] = apply_filters('sgPopupSpecialEventsInitialData', $initialData);
 		$config['attrs'] = apply_filters('sgPopupSpecialEventsAttrs', $attrs);
 		$config['operators'] = apply_filters('sgPopupSpecialEventsOperators', array());
+		$config['specialDefaultOperator'] = apply_filters('sgPopupSpecialEventsOperators', ' ');
 
 		return $config;
 	}
@@ -655,6 +668,9 @@ class SgpbDataConfig
 		$options[] = array('name' => 'sgpb-click-redirect-to-url', 'type' => 'text', 'defaultValue' => '');
 		$options[] = array('name' => 'sgpb-redirect-to-new-tab', 'type' => 'checkbox', 'defaultValue' => '');
 		$options[] = array('name' => 'sgpb-copy-to-clipboard-text', 'type' => 'text', 'defaultValue' => '');
+		$options[] = array('name' => 'sgpb-copy-to-clipboard-close-popup', 'type' => 'checkbox', 'defaultValue' => 'on');
+		$options[] = array('name' => 'sgpb-copy-to-clipboard-alert', 'type' => 'checkbox', 'defaultValue' => 'on');
+		$options[] = array('name' => 'sgpb-copy-to-clipboard-message', 'type' => 'text', 'defaultValue' => __('Copied to Clipboard!', SG_POPUP_TEXT_DOMAIN));
 		$options[] = array('name' => 'sgpb-disable-popup-closing', 'type' => 'checkbox', 'defaultValue' => '', 'min-version' => SGPB_POPUP_PRO_MIN_VERSION, 'min-pkg' => SGPB_POPUP_PKG_SILVER);
 		$options[] = array('name' => 'sgpb-popup-dimension-mode', 'type' => 'text', 'defaultValue' => 'responsiveMode');
 		$options[] = array('name' => 'sgpb-popup-dimension-mode', 'type' => 'text', 'defaultValue' => '100');
@@ -685,7 +701,9 @@ class SgpbDataConfig
 		$options[] = array('name' => 'sgpb-open-sound', 'type' => 'checkbox', 'defaultValue' => '');
 		$options[] = array('name' => 'sgpb-sound-url', 'type' => 'text', 'defaultValue' => SG_POPUP_SOUND_URL.SGPB_POPUP_DEFAULT_SOUND);
 		$options[] = array('name' => 'sgpb-open-animation', 'type' => 'checkbox', 'defaultValue' => '');
+		$options[] = array('name' => 'sgpb-close-animation', 'type' => 'checkbox', 'defaultValue' => '');
 		$options[] = array('name' => 'sgpb-open-animation-speed', 'type' => 'text', 'defaultValue' => 1);
+		$options[] = array('name' => 'sgpb-close-animation-speed', 'type' => 'text', 'defaultValue' => 1);
 		$options[] = array('name' => 'sgpb-popup-themes', 'type' => 'text', 'defaultValue' => 'sgpb-theme-1');
 		$options[] = array('name' => 'sgpb-enable-popup-overlay', 'type' => 'checkbox', 'defaultValue' => 'on', 'min-version' => SGPB_POPUP_PRO_MIN_VERSION, 'min-pkg' => SGPB_POPUP_PKG_SILVER);
 		$options[] = array('name' => 'sgpb-overlay-custom-class', 'type' => 'text', 'defaultValue' => 'sgpb-popup-overlay');
@@ -699,6 +717,7 @@ class SgpbDataConfig
 		$options[] = array('name' => 'sgpb-iframe-same-origin-warning', 'type' => 'text', 'defaultValue' => __('This url may not work, as it doesn\'t allow embedding in iframes.', SG_POPUP_TEXT_DOMAIN));
 		$options[] = array('name' => 'sgpb-background-image', 'type' => 'text', 'defaultValue' => '');
 		$options[] = array('name' => 'sgpb-show-background', 'type' => 'checkbox', 'defaultValue' => '');
+		$options[] = array('name' => 'sgpb-force-rtl', 'type' => 'checkbox', 'defaultValue' => '');
 		$options[] = array('name' => 'sgpb-background-image-mode', 'type' => 'text', 'defaultValue' => 'no-repeat');
 		$options[] = array('name' => 'sgpb-image-url', 'type' => 'text', 'defaultValue' => '');
 		$options[] = array('name' => 'sgpb-close-button-delay', 'type' => 'number', 'defaultValue' => 0);
@@ -755,6 +774,8 @@ class SgpbDataConfig
 		$options[] = array('name' => 'sgpb-show-popup-same-user-count', 'type' => 'number', 'defaultValue' => 1);
 		$options[] = array('name' => 'sgpb-show-popup-same-user-expiry', 'type' => 'number', 'defaultValue' => 1);
 		$options[] = array('name' => 'sgpb-show-popup-same-user-page-level', 'type' => 'checkbox', 'defaultValue' => '');
+		$options[] = array('name' => 'sgpb-show-popup-after-x-pages', 'type' => 'checkbox', 'defaultValue' => '', 'min-pkg' => SGPB_POPUP_PKG_SILVER);
+		$options[] = array('name' => 'sgpb-show-popup-after-x-pages-count', 'type' => 'number', 'defaultValue' => '1');
 
 		$SGPB_OPTIONS = apply_filters('sgpbPopupDefaultOptions', $options);
 	}

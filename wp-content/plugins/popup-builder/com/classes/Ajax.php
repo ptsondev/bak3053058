@@ -57,11 +57,35 @@ class Ajax
 		add_action('wp_ajax_sgpb_send_newsletter', array($this, 'sendNewsletter'));
 		add_action('wp_ajax_sgpb_send_to_open_counter', array($this, 'addToCounter'));
 		add_action('wp_ajax_nopriv_sgpb_send_to_open_counter', array($this, 'addToCounter'));
-		add_action('wp_ajax_sgpb_send_to_open_counter', array($this, 'addToCounter'));
 		add_action('wp_ajax_sgpb_close_banner', array($this, 'closeMainRateUsBanner'));
+		add_action('wp_ajax_sgpb_reset_popup_opening_count', array($this, 'resetPopupOpeningCount'));
 		/*Extension notification panel*/
 		add_action('wp_ajax_sgpb_dont_show_extension_panel', array($this, 'extensionNotificationPanel'));
 		add_action('wp_ajax_sgpb_dont_show_problem_alert', array($this, 'dontShowProblemAlert'));
+	}
+
+	public function resetPopupOpeningCount()
+	{
+		check_ajax_referer(SG_AJAX_NONCE, 'nonce');
+
+		global $wpdb;
+		$popupId = (int)$_POST['popupId'];
+		$allPopupsCount = get_option('SgpbCounter');
+		if (empty($allPopupsCount)) {
+			echo SGPB_AJAX_STATUS_FALSE;
+			wp_die();
+		}
+		if (isset($allPopupsCount[$popupId])) {
+			$allPopupsCount[$popupId] = 0;
+		}
+		// 7, 12, 13 => exclude close, subscription success, contact success events
+		$stmt = $wpdb->prepare(' DELETE FROM '.$wpdb->prefix.'sgpb_analytics WHERE target_id = %d AND event_id NOT IN (7, 12, 13)', $popupId);
+		$popupAnalyticsData = $wpdb->get_var($stmt);
+
+		update_option('SgpbCounter', $allPopupsCount);
+
+		echo SGPB_AJAX_STATUS_TRUE;
+		wp_die();
 	}
 
 	public function dontShowProblemAlert()
@@ -144,7 +168,7 @@ class Ajax
 			}
 			// edit existing
 			else {
-				$sql = $wpdb->prepare('UPDATE '.$wpdb->prefix.SGPB_SUBSCRIBERS_TABLE_NAME.' SET firstName = %s, lastName = %s, email = %s, cDate = %s, subscriptionType = %d WHERE id = %d', $firstName, $lastName, $email, $date, $subscriptionPopupId, $res['id']);
+				$sql = $wpdb->prepare('UPDATE '.$wpdb->prefix.SGPB_SUBSCRIBERS_TABLE_NAME.' SET firstName = %s, lastName = %s, email = %s, cDate = %s, subscriptionType = %d, unsubscribered = 0 WHERE id = %d', $firstName, $lastName, $email, $date, $subscriptionPopupId, $res['id']);
 				$wpdb->query($sql);
 				$res = 1;
 			}
@@ -258,7 +282,7 @@ class Ajax
 			's'              => $search,
 			'post__in'       => ! empty( $_REQUEST['include'] ) ? array_map( 'intval', $_REQUEST['include'] ) : null,
 			'page'           => ! empty( $_REQUEST['page'] ) ? absint( $_REQUEST['page'] ) : null,
-			'posts_per_page' => 10,
+			'posts_per_page' => 100,
 			'post_type'      => $postTypeName
 		);
 		$searchResults = ConfigDataHelper::getPostTypeData($args);
@@ -343,10 +367,14 @@ class Ajax
 		if ($targetType == 'target' || $targetType == 'conditions') {
 			$savedData['operator'] = '==';
 		}
-		else if ($targetType == 'behavior-after-special-events') {
+		else if ($conditionConfig['specialDefaultOperator']) {
 			$savedData['operator'] = $paramName;
 		}
 
+		if (!empty($_POST['paramValue'])) {
+			$savedData['tempParam'] = sanitize_text_field($_POST['paramValue']);
+			$savedData['operator'] = $paramName;
+		}
 		$savedData['value'] = @$conditionConfig['paramsData'][$paramName];
 		$savedData['hiddenOption'] = @$conditionConfig['hiddenOptionData'][$paramName];
 

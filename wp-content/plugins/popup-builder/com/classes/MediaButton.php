@@ -53,12 +53,15 @@ class MediaButton
 		}
 
 		$buttonTitle = __('Insert custom JS variable', SG_POPUP_TEXT_DOMAIN);
-		require_once(SG_POPUP_VIEWS_PATH.'jsVariableView.php');
+		ob_start();
+			@include(SG_POPUP_VIEWS_PATH.'jsVariableView.php');
+		$jsVariableContent = ob_get_contents();
+		ob_end_clean();
 
 		$img = '<span class="dashicons dashicons-welcome-widgets-menus" style="padding: 3px 2px 0px 0px"></span>';
 		$output = '<a data-id="sgpb-js-variable-wrapper" href="javascript:void(0);" class="button sgpb-insert-js-variable" title="'.$buttonTitle.'" style="padding-left: .4em;">'. $img.$buttonTitle.'</a>';
 
-		return $output;
+		return $output.$jsVariableContent;
 	}
 
 	private function mediaButton()
@@ -69,7 +72,11 @@ class MediaButton
 			return $output;
 		}
 
-		require_once(SG_POPUP_VIEWS_PATH.'mediaButton.php');
+		ob_start();
+			@include(SG_POPUP_VIEWS_PATH.'mediaButton.php');
+		$mediaButtonContent = ob_get_contents();
+		ob_end_clean();
+
 		$showCurrentUser = AdminHelper::showMenuForCurrentUser();
 
 		if (!$showCurrentUser) {
@@ -80,6 +87,6 @@ class MediaButton
 		$img = '<span class="dashicons dashicons-welcome-widgets-menus" style="padding: 3px 2px 0px 0px"></span>';
 		$output = '<a data-id="sgpb-hidden-media-popup" href="javascript:void(0);" class="button sgpb-insert-media-button-js" title="'.$buttonTitle.'" style="padding-left: .4em;">'. $img.$buttonTitle.'</a>';
 
-		return $output;
+		return $output.$mediaButtonContent;
 	}
 }

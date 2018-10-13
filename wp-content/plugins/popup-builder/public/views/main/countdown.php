@@ -1,5 +1,7 @@
 <?php
 	use sgpb\AdminHelper;
+	use sgpb\MultipleChoiceButton;
+
 	$defaultData = ConfigDataHelper::defaultData();
 	$popupId = $popupTypeObj->getOptionValue('sgpb-post-id');
 	if (!$popupId) {
@@ -40,12 +42,35 @@
 					</div>
 				</div>
 			</div>
-			<div class="row form-group">
-				<label for="sgpb-counter-due-date" class="col-md-5 control-label">
-					<?php _e('Due date', SG_POPUP_TEXT_DOMAIN)?>:
-				</label>
-				<div class="col-md-6">
-					<input type="text" id="sgpb-date-picker" class="sgpb-full-width form-control" name="sgpb-countdown-due-date" value="<?php echo esc_html($popupTypeObj->getOptionValue('sgpb-countdown-due-date')); ?>">
+			<?php
+				$multipleChoiceButton = new MultipleChoiceButton($defaultData['countdownDateFormat'], $popupTypeObj->getOptionValue('sgpb-countdown-date-format'));
+				echo $multipleChoiceButton;
+			?>
+			<div class="sg-hide sg-full-width" id="sgpb-countdown-date-format-from-date">
+				<div class="row form-group">
+					<label for="sgpb-counter-due-date" class="col-md-5 control-label sgpb-double-sub-option">
+					</label>
+					<div class="col-md-6">
+						<input type="text" id="sgpb-date-picker" class="sgpb-full-width form-control" name="sgpb-countdown-due-date" value="<?php echo esc_html($popupTypeObj->getOptionValue('sgpb-countdown-due-date')); ?>">
+					</div>
+				</div>
+			</div>
+			<div class="sg-hide sg-full-width" id="sgpb-countdown-date-format-from-input">
+				<div class="row form-group">
+					<label for="sgpb-counter-due-date" class="col-md-5 control-label sgpb-double-sub-option">
+					</label>
+					<div class="col-md-2">
+						<label for="sgpb-countdown-date-days"><?php _e('Days', SG_POPUP_TEXT_DOMAIN);?></label>
+						<input type="number" data-type="days" class="sgpb-full-width-events form-control sgpb-countdown-date-input" id="sgpb-countdown-date-days" name="sgpb-countdown-date-days" value="<?php echo esc_attr($popupTypeObj->getOptionValue('sgpb-countdown-date-days'))?>">
+					</div>
+					<div class="col-md-2">
+						<label for="sgpb-countdown-date-hours"><?php _e('Hours', SG_POPUP_TEXT_DOMAIN);?></label>
+						<input type="number" max="60" data-type="hours" class="sgpb-full-width-events form-control sgpb-countdown-date-input" id="sgpb-countdown-date-hours" name="sgpb-countdown-date-hours" value="<?php echo esc_attr($popupTypeObj->getOptionValue('sgpb-countdown-date-hours'))?>">
+					</div>
+					<div class="col-md-2">
+						<label for="sgpb-countdown-date-minutes"><?php _e('Minutes', SG_POPUP_TEXT_DOMAIN);?></label>
+						<input type="number" max="60" data-type="minutes" class="sgpb-full-width-events form-control sgpb-countdown-date-input" id="sgpb-countdown-date-minutes" name="sgpb-countdown-date-minutes" value="<?php echo esc_attr($popupTypeObj->getOptionValue('sgpb-countdown-date-minutes'))?>">
+					</div>
 				</div>
 			</div>
 			<div class="row form-group">

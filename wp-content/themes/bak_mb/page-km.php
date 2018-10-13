@@ -13,7 +13,7 @@
                 <h1><?php the_title(); ?></h1>
            
                 
-                <b>Những model bếp từ cao cấp chính hãng đang được khuyến mãi với giá cực shock tại showroom Bếp An Khang. Sau đây là nội dung chương trình khuyến mãi. </b><br />
+                <b>Nhằm tri ân khách hàng trong ngày phụ nữ Việt Nam 20/10, nhiều model bếp từ cao cấp chính hãng đang được khuyến mãi với giá cực shock tại showroom Bếp An Khang. Đây sẽ là món quà ý nghĩa dành cho các bà nội trợ trong việc nấu nướng cho gia đình bởi những tính năng ưu việt cuả bếp từ. Chương trình kéo dài từ nay đến hết tháng 10/2018, sau đây là nội dung khuyến mãi: </b><br />
                 
                 <div id="ctkm">
                      
@@ -172,7 +172,6 @@
                     <br/><br/>
         
         <div class="important">
-            ✅ Tặng ngay voucher giảm giá 500.000đ khi đến xem và mua hàng trực tiếp tại showroom bếp An Khang 151 Tô Hiến Thành, Phường 13, Quận 10, TP HCM </br >
             ✅ Miễn phí giao hàng và lắp đặt đối với tất cả các sản phẩm trên.</br >
             ✅ Cần tư vấn thêm thông tin về bếp từ, vui lòng liên hệ hot line: <a href="tel:0963391379">0963 39 1379</a>
         </div>

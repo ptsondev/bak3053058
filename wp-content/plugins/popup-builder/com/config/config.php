@@ -18,6 +18,8 @@ class SgpbPopupConfig
 		self::addDefine('SGPB_POPUP_PKG_GOLD', 3);
 		self::addDefine('SGPB_POPUP_PKG_PLATINUM', 4);
 		self::addDefine('SG_POPUP_PRO_URL', 'https://popup-builder.com/#prices');
+		self::addDefine('SG_POPUP_EXTENSIONS_URL', 'https://popup-builder.com/#extensions');
+		self::addDefine('SG_POPUP_SUPPORT_URL', 'https://wordpress.org/support/plugin/popup-builder');
 		self::addDefine('SG_POPUP_TICKET_URL', 'https://sygnoos.ladesk.com/submit_ticket');
 		self::addDefine('SG_POPUP_RATE_US_URL', 'https://wordpress.org/support/plugin/popup-builder/reviews/?filter=5');
 		self::addDefine('SG_POPUP_AD_BLOCK_URL', 'https://popup-builder.com/downloads/adblock/');
@@ -25,6 +27,8 @@ class SgpbPopupConfig
 		self::addDefine('SG_POPUP_EXIT_INTENT_URL', 'https://popup-builder.com/downloads/exit-intent/');
 		self::addDefine('SG_POPUP_MAILCHIMP_URL', 'https://popup-builder.com/downloads/mailchimp/');
 		self::addDefine('SG_POPUP_AWEBER_URL', 'https://popup-builder.com/downloads/aweber/');
+		self::addDefine('SG_POPUP_WOOCOMMERCE_URL', 'https://popup-builder.com/downloads/woocommerce/');
+		self::addDefine('SG_POPUP_RECENT_SALES_URL', 'https://popup-builder.com/downloads/recent-sales/');
 		self::addDefine('SG_POPUP_ADMIN_URL', admin_url());
 		self::addDefine('SG_POPUP_BUILDER_URL', plugins_url().'/'.SG_POPUP_FOLDER_NAME.'/');
 		self::addDefine('SG_POPUP_BUILDER_PATH', WP_PLUGIN_DIR.'/'.SG_POPUP_FOLDER_NAME.'/');
@@ -55,6 +59,7 @@ class SgpbPopupConfig
 		self::addDefine('SG_POPUP_NEWSLETTER_PAGE', 'newsletter');
 		self::addDefine('SG_POPUP_SETTINGS_PAGE', 'settings');
 		self::addDefine('SGPB_POPUP_LICENSE', 'license');
+		self::addDefine('SG_POPUP_EXTEND_PAGE', 'extend');
 		self::addDefine('SGPB_FILTER_REPEAT_INTERVAL', 50);
 		self::addDefine('SG_POPUP_TEXT_DOMAIN', 'popupBuilder');
 		self::addDefine('SG_POPUP_STORE_URL', 'https://popup-builder.com/');

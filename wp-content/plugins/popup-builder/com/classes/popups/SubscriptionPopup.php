@@ -8,10 +8,15 @@ class SubscriptionPopup extends SGPopup
 
 	public function __construct()
 	{
-		add_filter('sgpbFrontendJsFiles', array($this, 'frontJsFilter'), 1, 1);
-		add_filter('sgpbFrontendCssFiles', array($this, 'frontCssFilter'), 1, 1);
+		add_filter('sgpbPopupRenderOptions', array($this, 'renderOptions'), 12, 1);
 		add_filter('sgpbAdminJsFiles', array($this, 'adminJsFilter'), 1, 1);
 		add_filter('sgpbAdminCssFiles', array($this, 'adminCssFilter'), 1, 1);
+	}
+
+	private function frontendFilters()
+	{
+		add_filter('sgpbFrontendJsFiles', array($this, 'frontJsFilter'), 1, 1);
+		add_filter('sgpbFrontendCssFiles', array($this, 'frontCssFilter'), 1, 1);
 	}
 
 	public function setData($data)
@@ -117,6 +122,7 @@ class SubscriptionPopup extends SGPopup
 	public function addAdditionalSettings($postData = array(), $obj = null)
 	{
 		$this->setData($postData);
+		$this->setPostData($postData);
 		$postData['sgpb-subs-fields'] = $this->createFormFieldsData();
 
 		return $postData;
@@ -220,7 +226,8 @@ class SubscriptionPopup extends SGPopup
 		);
 
 		$firstNamePlaceholder = $this->getFieldValue('sgpb-subs-first-placeholder');
-		$firstNameRequired = (!empty($postData['sgpb-subs-first-name-required'])) ? true : false;
+		$firstNameRequired = $this->getOptionValueFromSavedData('sgpb-subs-first-name-required');
+		$firstNameRequired = (!empty($firstNameRequired)) ? true : false;
 		$isShow = ($this->getFieldValue('sgpb-subs-first-name-status')) ? true : false;
 
 		$formData['first-name'] = array(
@@ -238,7 +245,8 @@ class SubscriptionPopup extends SGPopup
 		);
 
 		$lastNamePlaceholder = $this->getFieldValue('sgpb-subs-last-placeholder');
-		$lastNameRequired = (!empty($postData['sgpb-subs-last-name-required'])) ? true : false;
+		$lastNameRequired = $this->getOptionValueFromSavedData('sgpb-subs-last-name-required');
+		$lastNameRequired = (!empty($lastNameRequired)) ? true : false;
 		$isShow = ($this->getFieldValue('sgpb-subs-last-name-status')) ? true : false;
 
 		$formData['last-name'] = array(
@@ -256,9 +264,9 @@ class SubscriptionPopup extends SGPopup
 		);
 
 		/* GDPR checkbox */
-		$gdprLabel = $this->getFieldValue('sgpb-subs-gdpr-label');
-		$gdprRequired = ($this->getFieldValue('sgpb-subs-gdpr-status')) ? true : false;
-		$isShow = ($this->getFieldValue('sgpb-subs-gdpr-status')) ? true : false;
+		$gdprLabel = $this->getOptionValueFromSavedData('sgpb-subs-gdpr-label');
+		$gdprRequired = ($this->getOptionValueFromSavedData('sgpb-subs-gdpr-status')) ? true : false;
+		$isShow = ($this->getOptionValueFromSavedData('sgpb-subs-gdpr-status')) ? true : false;
 
 		$formData['gdpr'] = array(
 			'isShow' => $isShow,
@@ -464,18 +472,30 @@ class SubscriptionPopup extends SGPopup
 		return $messages;
 	}
 
+	public function renderOptions($options)
+	{
+		// for old popups
+		if (isset($options['sgpb-subs-success-popup']) && function_exists('sgpb\sgpGetCorrectPopupId')) {
+			$options['sgpb-subs-success-popup'] = sgpGetCorrectPopupId($options['sgpb-subs-success-popup']);
+		}
+
+		return $options;
+	}
+
 	public function getPopupTypeContent()
 	{
+		$this->frontendFilters();
 		$popupContent = $this->getContent();
 		$popupOptions = $this->getOptions();
 		$subsFields = $this->getOptionValue('sgpb-subs-fields');
+
+		if (empty($subsFields)) {
+			$subsFields = $this->createFormFieldsData();
+		}
+
 		$subsRequiredMessages = '';
 		if (!empty($popupOptions['sgpb-subs-validation-message'])) {
 			$subsRequiredMessages = $popupOptions['sgpb-subs-validation-message'];
-		}
-
-		if (empty($subsFields)) {
-			return $popupContent;
 		}
 
 		$validationMessages = array(
@@ -485,8 +505,8 @@ class SubscriptionPopup extends SGPopup
 		$styleData = array(
 			'placeholderColor' => $popupOptions['sgpb-subs-text-placeholder-color'],
 			'formColor' => $popupOptions['sgpb-subs-form-bg-color'],
-			'formPadding' => $popupOptions['sgpb-subs-form-padding'],
-			'formBackgroundOpacity' => $popupOptions['sgpb-subs-form-bg-opacity']
+			'formPadding' => @$popupOptions['sgpb-subs-form-padding'],
+			'formBackgroundOpacity' => @$popupOptions['sgpb-subs-form-bg-opacity']
 		);
 
 		$validateScript = $this->createValidateObj($subsFields, $validationMessages);
@@ -506,6 +526,11 @@ class SubscriptionPopup extends SGPopup
 
 			if (empty($subPopupId)) {
 				return $subPopups;
+			}
+
+			// for old popups
+			if (function_exists('sgpb\sgpGetCorrectPopupId')) {
+				$subPopupId = sgpGetCorrectPopupId($subPopupId);
 			}
 
 			$subPopupObj = SGPopup::find($subPopupId);

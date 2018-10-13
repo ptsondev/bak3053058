@@ -17,11 +17,8 @@ class Style
 		global $post_type;
 		$pageName = $hook;
 		$styles = array();
-		$currentPostType = @$post->post_type;
-		// in some themes global $post returns null
-		if (empty($currentPostType)) {
-			$currentPostType = $post_type;
-		}
+		$popupType = AdminHelper::getCurrentPopupType();
+		$currentPostType = AdminHelper::getCurrentPostType();
 
 		if ($hook == 'popupbuilder_page_popupbuilder') {
 			$pageName = 'popupType';
@@ -73,8 +70,10 @@ class Style
 			if (!$classObj instanceof $extensionInterface) {
 				continue;
 			}
-
-			$styleData = $classObj->getStyles($pageName , array());
+			$args  = array(
+				'popupType' => $popupType
+			);
+			$styleData = $classObj->getStyles($pageName , $args);
 			if (!empty($styleData['cssFiles'])) {
 				$styles[] = $styleData;
 			}

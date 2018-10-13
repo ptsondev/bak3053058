@@ -5,6 +5,7 @@ DEFINE('AK_DT_BAN_SHOW', '02838 625 420');
 DEFINE('AK_HOTLINE', '0963391379');
 DEFINE('AK_HOTLINE_SHOW', '0963 39 1379');
 DEFINE('TID_PARENT_INDUCTION_HOB', 7);
+DEFINE('TID_PARENT_HUT_MUI', 17);
 require_once(get_template_directory().'/aio_image_resize.php');
 require_once(get_template_directory().'/simple_html_dom.php');
 
@@ -307,6 +308,21 @@ function check_is_bep_tu($tid){
     $children = get_terms( 'product-category', array(
         'hide_empty'=>0,
         'parent'=>TID_PARENT_INDUCTION_HOB
+    )); 
+    foreach($children as $child){
+        if($child->term_id == $tid){
+            return true;
+        }
+    }
+    return false;
+}
+
+function check_is_hut_mui($tid){
+    if($tid==TID_PARENT_HUT_MUI)
+        return true;
+    $children = get_terms( 'product-category', array(
+        'hide_empty'=>0,
+        'parent'=>TID_PARENT_HUT_MUI
     )); 
     foreach($children as $child){
         if($child->term_id == $tid){

@@ -57,6 +57,9 @@
         jQuery("[href^='tel:']").click(function(){
             gtag('event', 'click', {  'event_category': 'button', 'event_label': 'hotline' });
         });
+        jQuery("input.wpcf7-submit").click(function(){
+            gtag('event', 'click', {  'event_category': 'button', 'event_label': 'submitform' }); 
+        });
     });
 </script>
     
