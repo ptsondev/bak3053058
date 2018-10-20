@@ -1321,6 +1321,8 @@ box-shadow: 0px 3px 16px 0px rgba(0,0,0,0.75);
     -webkit-border-radius: 10px;
     -moz-border-radius: 10px;
     border-radius: 10px;
+     display: inline-block;
+    width: 100%;
 }
 @media (max-width: 768px){   
     #breadcrumb{

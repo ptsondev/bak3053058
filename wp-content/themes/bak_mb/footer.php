@@ -108,8 +108,8 @@ hs.src = ('//s10.histats.com/js15_as.js');
 <noscript><a href="/" target="_blank"><img  src="//sstatic1.histats.com/0.gif?4119412&101" alt="" border="0"></a></noscript>
 <!-- Histats.com  END  -->
     
-                <script type="text/javascript" src="https://tracking.autoads.asia/js/tracking.js"></script>
-            <script type="text/javascript">novaon_behavior.init(14093);</script>
+                <!--<script type="text/javascript" src="https://tracking.autoads.asia/js/tracking.js"></script>
+            <script type="text/javascript">novaon_behavior.init(14093);</script>-->
         
 </body>
 </html>
