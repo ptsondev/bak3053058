@@ -11,173 +11,110 @@
         <div class="row main-p-products">            
             <div class="col-sm-9 col-xs-12">
                 <h1><?php the_title(); ?></h1>
-           
-                 <b>Nhằm tri ân khách hàng trong ngày phụ nữ Việt Nam 20/10, nhiều model bếp từ cao cấp chính hãng đang được khuyến mãi với giá cực shock tại showroom Bếp An Khang. Đây sẽ là món quà ý nghĩa dành cho các bà nội trợ trong việc nấu nướng cho gia đình bởi những tính năng ưu việt cuả bếp từ. Chương trình kéo dài từ nay đến hết tháng 10/2018, sau đây là nội dung khuyến mãi: </b><br />
-                
+                            
                 <div id="ctkm">
-                     
-                    <div id="ctkm-des" >
-                        ✅ Mua Bếp Từ TẶNG Bộ Nồi 5 Món <br/>
-                        ✅ Mua Bếp từ TẶNG Hút Mùi + Bộ Nồi 5 Món <br/>
-                        ✅ Mua Bếp từ TẶNG Lò Nướng + Tặng Hút Mùi + Bộ Nồi 5 Món <br/>
-                        ✅ Mua Chậu tặng Vòi <br/>
-                        ✅ Đóng Tủ Bếp Tặng Vòi + Chậu <br/> 
-                                       
-                        <img src="<?php echo PATH_TO_IMAGES; ?>khuyen-mai-mua-bep-tang-hut-noi.png" alt="khuyen mai mua bep tu tang hut mui va noi" />
-                        <h3>Những tính năng ưu việt của bếp từ</h3>
-                        ✅ An toàn & dễ sử dụng. <br/>
-                        ✅ Tiết kiệm điện năng & thời gian. <br/>
-                        ✅ Thẩm mỹ & dễ dàng vệ sinh. <br/>
-                        <i>Xem thêm <a target="_blank" href="https://bepankhang.com/qna/uu-diem-cua-bep-dien-tu/">những ưu điểm khác của bếp từ</a></i><br /><br />                                          
-                    </div>
-            
-                     
-        
-        
-        <div class="km-brand">
-            <h4>Bếp từ Bosch cao cấp</h4>
-            <div class="list-products row">
-                <?php 
-                    $product = get_post(78);
-                    display_product_item($product);
-                    $product = get_post(221);
-                    display_product_item($product);
-                    $product = get_post(1334);
-                    display_product_item($product);
-                ?>
-            </div>
-            <div class="show-more">
-                Xem thêm các model khác của
-                <a href="https://bepankhang.com/sp/bep-tu/bep-tu-bosch/">
-                     bếp từ Bosch
-                </a>
-            </div>                
-        </div>
-        
-        <div class="km-brand">
-            <h4>Bếp từ Cata</h4>
-            <div class="list-products row">
-                <?php 
-                    $product = get_post(62);
-                    display_product_item($product);
-                    $product = get_post(81);
-                    display_product_item($product);
-                    $product = get_post(212);
-                    display_product_item($product);
-                ?>
-            </div>
-            <div class="show-more">
-                <div class="show-more">
-                Xem thêm các model khác của
-                <a href="https://bepankhang.com/sp/bep-tu/bep-tu-cata/">
-                     bếp từ Cata
-                </a>
-            </div>    
-            </div>                
-        </div>
-        <img src="<?php echo PATH_TO_IMAGES; ?>mua-bep-tu-cata-tang-bo-noi.jpg" alt="mua bep tu Cata tang bo noi" /><br />
                     
-        <div class="km-brand">
-            <h4>Bếp từ Chefs</h4>
-            <div class="list-products row">
-                <?php 
-                    $product = get_post(39);
-                    display_product_item($product);
-                    $product = get_post(58);
-                    display_product_item($product);
-                    $product = get_post(231);
-                    display_product_item($product);
-                ?>
-            </div>
-            <div class="show-more">
-                <div class="show-more">
-                Xem thêm các model khác của
-                <a href="https://bepankhang.com/sp/bep-tu/bep-tu-chefs/">
-                     bếp từ Chefs
-                </a>
-            </div>    
-            </div>                
-        </div>
+                    <h3>THÁNG TEKA - MUA HÀNG THẢ GA</h3>                                         
+                        ✅   Sale <b>30%</b> toàn bộ sản phẩm từ 15/11 - 30/11 <br />
+                         ✅ Nhiều phần quà hấp dẫn <br />
+                        ✅ Tặng ngay phiếu voucher <b>1.000.000</b><br />
+                         ✅ Chiết khấu cực cao khi mua combo<br />
+                         ✅ Made in Spain<br />
+                         ✅ Cam kết chính hãng 100% <br />
+                         ✅ Bảo hành 24 tháng             <br />                                               
+                    <div class="km-brand">
+                        <div class="list-products row">
+                            <?php 
+                                $product = get_post(158);
+                                display_product_item($product);
+                                $product = get_post(1792);
+                                display_product_item($product);
+                                $product = get_post(1346);
+                                display_product_item($product);
+                            ?>
+                        </div>
+                    </div>
+                    
+                    
+                    <h3>CÙNG BOSCH - DÙNG HÀNG THƯƠNG HIỆU</h3>                                         
+                        ✅   Sale <b>30%</b> Deal giá ngập tràn <br />
+                         ✅ Nhiều phần quà hấp dẫn <br />
+                         ✅ Made in Germany<br />
+                         ✅ Cam kết chính hãng 100% <br />
+                         ✅ Bảo hành 24 tháng             <br />                                               
+                    <div class="km-brand">
+                        <div class="list-products row">
+                            <?php 
+                                $product = get_post(221);
+                                display_product_item($product);
+                                $product = get_post(1520);
+                                display_product_item($product);
+                                $product = get_post(78);
+                                display_product_item($product);
+                            ?>
+                        </div>
+                    </div>
+                    
+                    
+                    
+                    
+                    <h3>Dmestik - Mua bếp tặng hút mùi</h3>                                         
+                        ✅ Áp dụng cho tất cả các model bếp từ & bếp điện <br />
+                         ✅ Cam kết chính hãng 100% <br />
+                         ✅ Bảo hành 24 tháng <br />                                               
+                    <div class="km-brand">
+                        <div class="list-products row">
+                            <?php 
+                                $product = get_post(1306);
+                                display_product_item($product);
+                                $product = get_post(1699);
+                                display_product_item($product);
+                                $product = get_post(1705);
+                                display_product_item($product);
+                            ?>
+                        </div>
+                    </div>
+                    
+                    
+                    
+                    <h3>CANZY - MADE IN ITALY</h3>                                         
+                        ✅   Tân trang nhà cửa - Giá chỉ 1 nửa <br />
+                        ✅ Tặng ngay phiếu voucher <b>1.000.000</b><br />
+                         ✅ Chiết khấu cực cao khi mua combo<br />
+                         ✅ Cam kết chính hãng 100% <br />
+                         ✅ Bảo hành 24 tháng             <br />                                               
+                    <div class="km-brand">
+                        <div class="list-products row">
+                            <?php 
+                                $product = get_post(1794);
+                                display_product_item($product);
+                                $product = get_post(1509);
+                                display_product_item($product);
+                                $product = get_post(2340);
+                                display_product_item($product);
+                            ?>
+                        </div>
+                    </div>
+                    
+                    
+                    
+                  
         
-        <div class="km-brand">
-            <h4>Bếp từ Teka</h4>
-            <div class="list-products row">
-                <?php 
-                    $product = get_post(158);
-                    display_product_item($product);
-                    $product = get_post(1346);
-                    display_product_item($product);
-                    $product = get_post(169);
-                    display_product_item($product);
-                ?>
-            </div>
-            <div class="show-more">
-                <div class="show-more">
-                Xem thêm các model khác của
-                <a href="https://bepankhang.com/sp/bep-tu/bep-tu-teka/">
-                     bếp từ Teka
-                </a>
-            </div>    
-            </div>                
-        </div>
-        
-        <div class="km-brand">
-            <h4>Bếp từ Electrolux</h4>
-            <div class="list-products row">
-                <?php 
-                    $product = get_post(1207);
-                    display_product_item($product);
-                    $product = get_post(1211);
-                    display_product_item($product);
-                    $product = get_post(1201);
-                    display_product_item($product);
-                ?>
-            </div>
-            <div class="show-more">
-                <div class="show-more">
-                Xem thêm các model khác của
-                <a href="https://bepankhang.com/sp/bep-tu/bep-tu-electrolux/">
-                     bếp từ Electrolux
-                </a>
-            </div>    
-            </div>                
-        </div>
-        
-        
-        <div class="km-brand">
-            <h4>Bếp từ Canzy</h4>
-            <div class="list-products row">
-                <?php 
-                    $product = get_post(138);
-                    display_product_item($product);
-                    $product = get_post(1278);
-                    display_product_item($product);
-                    $product = get_post(1468);
-                    display_product_item($product);
-                ?>
-            </div>
-            <div class="show-more">
-                <div class="show-more">
-                Xem thêm các model khác của
-                <a href="https://bepankhang.com/sp/bep-tu/bep-tu-canzy/">
-                     bếp từ Canzy
-                </a>
-            </div>    
-            </div>                
-        </div>
+       
                     <br/><br/>
-                     [Nếu bạn không tìm thấy sản phẩm đang cần mua, vui lòng liên hệ Hotline của bếp An Khang để được tư vấn và báo giá: <a href="tel:0963391379">0963 39 1379</a>]
+                      [Cùng vô số sản phẩm khác đang khuyến mãi với mức ưu đãi khủng, vui lòng liên hệ Bếp An Khang để được tư vấn và báo giá: <a href="tel:0963391379">0963 39 1379</a>]
                     <br/>
                     <img src="<?php echo PATH_TO_IMAGES;?>/cac-thuong-hieu-bep-tu-chat-luong.png" alt="cac thuong hieu bep tu chat luong"/>
                     <br/><br/>
         
         <div class="important">
-            ✅ Miễn phí giao hàng và lắp đặt đối với tất cả các sản phẩm trên.</br >
-            ✅ Cần tư vấn thêm thông tin về bếp từ, vui lòng liên hệ hot line: <a href="tel:0963391379">0963 39 1379</a>
+            ✅ Cam kết hàng chính hãng và các chế độ bảo hành.<br />
+            ✅ Miễn phí giao hàng và lắp đặt đối với tất cả các sản phẩm trên.<br />
+            ✅ Bạn cần được tư vấn chi tiết và rõ ràng hơn? vui lòng liên hệ hot line: <a href="tel:0963391379">0963 39 1379</a>
         </div>
         
             <div id="register-sale">
-<h3>Bạn cũng có thể để lại thông tin để chúng tôi có thể tư vấn rõ hơn về đợt khuyến mãi</h3>
+<h3>Bạn cũng có thể để lại thông tin để chúng tôi chủ động liên hệ lại</h3>
 <?php echo do_shortcode('[contact-form-7 id="1592" title="Nhận coupon giảm giá" html_id="sform-coupon"]'); ?>
 
 </div>

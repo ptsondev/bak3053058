@@ -15,6 +15,7 @@ class Actions
 
 	public function init()
 	{
+		add_action('init', array($this, 'wpInit'), 9999999999);
 		add_action('init', array($this, 'postTypeInit'), 9999);
 		add_action('admin_menu', array($this, 'addSubMenu'));
 		add_action('admin_menu', array($this, 'supportLinks'), 999);
@@ -30,8 +31,7 @@ class Actions
 		add_action('admin_enqueue_scripts', array($this, 'adminLoadPopups'));
 		add_action('admin_action_popupSaveAsNew', array($this, 'popupSaveAsNew'));
 		add_action('dp_duplicate_post', array($this, 'popupCopyPostMetaInfo'), 10, 2);
-		add_filter('sgpbOtherConditions', array($this ,'conditionsSatisfy'));
-		add_filter(SG_POPUP_CATEGORY_TAXONOMY.'_row_actions' , array($this, 'taxonomyRowActions'), 2, 2);
+		add_filter('sgpbOtherConditions', array($this ,'conditionsSatisfy'), 11, 1);
 		add_filter('post_updated_messages', array($this, 'popupPublishedMessage'), 1, 1);
 		add_action('admin_post_csv_file', array($this, 'getSubscribersCsvFile'));
 		add_action('before_delete_post', array($this, 'deleteSubscribersWithPopup'), 1, 1);
@@ -50,7 +50,22 @@ class Actions
 		// for change admin popup list order
 		add_action('pre_get_posts', array($this, 'preGetPosts'));
 		add_action('template_redirect',array($this, 'redirectFromPopupPage'));
+
+
+		add_filter('views_edit-popupbuilder', array($this, 'mainActionButtons'), 10, 1);
 		new Ajax();
+	}
+
+	public function wpInit()
+	{
+		new Updates();
+	}
+
+	public function mainActionButtons($views)
+	{
+		require_once(SG_POPUP_VIEWS_PATH.'mainActionButtons.php');
+
+		return $views;
 	}
 
 	/**
@@ -131,6 +146,10 @@ class Actions
 		if (!get_option('SGPB_PROMOTIONAL_BANNER_CLOSED') && $post_type == SG_POPUP_POST_TYPE) {
 			require_once(SG_POPUP_VIEWS_PATH.'mainRateUsBanner.php');
 		}
+
+		if (!get_option('SGPB_ASK_FOR_REVIEW_BANNER_CLOSED') && $post_type == SG_POPUP_POST_TYPE) {
+			echo AdminHelper::showReviewPopup();
+		}
 	}
 
 	public function pluginNotices()
@@ -169,8 +188,16 @@ class Actions
 		return true;
 	}
 
+	private function registerImporter()
+	{
+		require_once SG_POPUP_LIBS_PATH.'Importer.php';
+		$importer = new WP_Import();
+		register_importer(SG_POPUP_POST_TYPE, SG_POPUP_POST_TYPE, __('Importer', SG_POPUP_TEXT_DOMAIN), array($importer, 'dispatch'));
+	}
+
 	public function pluginLoaded()
 	{
+		$this->registerImporter();
 		$versionPopup = get_option('SG_POPUP_VERSION');
 		$convert = get_option('sgpbConvertToNewVersion');
 		$unsubscribeColumnFixed = get_option('sgpbUnsubscribeColumnFixed');
@@ -178,7 +205,7 @@ class Actions
 		if (!$unsubscribeColumnFixed) {
 			AdminHelper::addUnsubscribeColumn();
 			update_option('sgpbUnsubscribeColumnFixed', 1);
-			delete_option('sgpbUnsubscribeColumn', 1);
+			delete_option('sgpbUnsubscribeColumn');
 		}
 
 		if ($versionPopup && !$convert) {
@@ -470,15 +497,6 @@ class Actions
 		AdminHelper::deleteUserFromSubscribers($params);
 	}
 
-	public function taxonomyRowActions($actions, $row)
-	{
-		if ($row->slug == SG_RANDOM_TAXONOMY_SLUG) {
-			return array();
-		}
-
-		return $actions;
-	}
-
 	public function enqueuePopupBuilderScripts()
 	{
 		// for old popups
@@ -516,7 +534,6 @@ class Actions
 		}
 
 		$unsubscribeArgs = $this->collectUnsubscriberArgs();
-
 		if (!empty($unsubscribeArgs)) {
 			$this->unsubscribe($unsubscribeArgs);
 		}
@@ -526,6 +543,9 @@ class Actions
 
 	public function collectUnsubscriberArgs()
 	{
+		if (!isset($_GET['sgpbUnsubscribe'])) {
+			return false;
+		}
 		$args = array();
 		if (isset($_GET['sgpbUnsubscribe'])) {
 			$args['token'] = $_GET['sgpbUnsubscribe'];
@@ -545,16 +565,16 @@ class Actions
 		$this->customPostTypeObj->addSubMenu();
 	}
 
-	public function popupMetaboxes()
-	{
-		$this->customPostTypeObj->addPopupMetaboxes();
-	}
-
 	public function supportLinks()
 	{
 		if (SGPB_POPUP_PKG == SGPB_POPUP_PKG_FREE) {
 			$this->customPostTypeObj->supportLinks();
 		}
+	}
+
+	public function popupMetaboxes()
+	{
+		$this->customPostTypeObj->addPopupMetaboxes();
 	}
 
 	public function savePost($postId = 0, $post = array(), $update = false)
@@ -635,9 +655,14 @@ class Actions
 	 * @return bool
 	 *
 	 */
-	public function conditionsSatisfy($args)
+	public function conditionsSatisfy($args = array())
 	{
-		return PopupChecker::checkOtherConditionsActions($args);
+		if (isset($args['status']) && $args['status'] === false) {
+			return $args;
+		}
+		$args['status'] = PopupChecker::checkOtherConditionsActions($args);
+
+		return $args;
 	}
 
 	public function popupsTableColumnsValues($column, $postId)

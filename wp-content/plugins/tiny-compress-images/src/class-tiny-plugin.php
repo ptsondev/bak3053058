@@ -18,7 +18,7 @@
 * Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 class Tiny_Plugin extends Tiny_WP_Base {
-	const VERSION = '3.0.1';
+	const VERSION = '3.1.0';
 	const MEDIA_COLUMN = self::NAME;
 	const DATETIME_FORMAT = 'Y-m-d G:i:s';
 
@@ -61,6 +61,8 @@ class Tiny_Plugin extends Tiny_WP_Base {
 			10, 2
 		);
 
+		/* When touching any functionality linked to image compressions when
+			 uploading images make sure it also works with XML-RPC. See NOTES. */
 		add_filter( 'wp_ajax_nopriv_tiny_rpc',
 			$this->get_method( 'process_rpc_request' )
 		);
@@ -138,6 +140,8 @@ class Tiny_Plugin extends Tiny_WP_Base {
 			10, 2
 		);
 
+		$this->tiny_compatibility();
+
 		add_thickbox();
 	}
 
@@ -163,6 +167,12 @@ class Tiny_Plugin extends Tiny_WP_Base {
 			),
 		);
 		return array_merge( $additional, $current_links );
+	}
+
+	public function tiny_compatibility() {
+		if ( defined( 'ICL_SITEPRESS_VERSION' ) ) {
+			$tiny_wpml_compatibility = new Tiny_WPML();
+		}
 	}
 
 	public function compress_retina_image( $attachment_id, $path, $size_name ) {
@@ -602,7 +612,13 @@ class Tiny_Plugin extends Tiny_WP_Base {
 		);
 		$admin_colors = self::retrieve_admin_colors();
 
+		/* This makes sure that up to date information is retrieved from the API. */
+		$this->settings->get_compressor()->get_status();
+
 		$active_tinify_sizes = $this->settings->get_active_tinify_sizes();
+		$remaining_credits = $this->settings->get_remaining_credits();
+		$is_on_free_plan = $this->settings->is_on_free_plan();
+		$email_address = $this->settings->get_email_address();
 
 		include( dirname( __FILE__ ) . '/views/bulk-optimization.php' );
 	}

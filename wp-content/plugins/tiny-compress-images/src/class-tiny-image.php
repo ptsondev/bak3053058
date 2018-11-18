@@ -223,6 +223,13 @@ class Tiny_Image {
 				$this->update_tiny_post_meta();
 			}
 		}
+
+		/*
+			Other plugins can hook into this action to execute custom logic
+			after the image sizes have been compressed, ie. cache flushing.
+		*/
+		do_action( 'tiny_image_after_compression', $this->id, $success );
+
 		return array(
 			'success' => $success,
 			'failed' => $failed,
@@ -284,6 +291,11 @@ class Tiny_Image {
 			$tiny_metadata[ $size_name ] = $size->meta;
 		}
 		update_post_meta( $this->id, Tiny_Config::META_KEY, $tiny_metadata );
+		/*
+			This action is being used by WPML:
+			https://gist.github.com/srdjan-jcc/5c47685cda4da471dff5757ba3ce5ab1
+		*/
+		do_action( 'updated_tiny_postmeta', $this->id, Tiny_Config::META_KEY, $tiny_metadata );
 	}
 
 	public function get_image_sizes() {
@@ -366,7 +378,7 @@ class Tiny_Image {
 				if ( isset( $size->meta['error'] ) && isset( $size->meta['message'] ) ) {
 					if ( null === $last_timestamp || $last_timestamp < $size->meta['timestamp'] ) {
 						$last_timestamp = $size->meta['timestamp'];
-						$error_message = $size->meta['message'];
+						$error_message = mb_strimwidth( $size->meta['message'], 0 , 140, '...' );
 					}
 				}
 			}

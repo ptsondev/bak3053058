@@ -14,7 +14,6 @@ class Filters
 		add_filter('admin_menu', array($this, 'removeAddNewSubmenu'), 10, 2);
 		add_filter('manage_'.SG_POPUP_POST_TYPE.'_posts_columns', array($this, 'popupsTableColumns'));
 		add_filter('post_row_actions', array($this, 'quickRowLinksManager'), 10, 2);
-		add_filter('sgpbPopupRenderOptions', array($this, 'renderOptions'), 10, 1);
 		add_filter('sgpbAdminJs', array($this, 'adminJsFilter'), 1, 1);
 		add_filter('sgpbAdminCssFiles', array($this, 'sgpbAdminCssFiles'), 1, 1);
 		add_filter('sgpbPopupContentLoadToPage', array($this, 'filterPopupContent'), 10, 1);
@@ -25,6 +24,39 @@ class Filters
 		add_filter('sgpbSavedPostData', array($this, 'savedPostData'), 10, 1);
 		add_filter('sgpbPopupEvents', array($this, 'popupEvents'), 10, 1);
 		add_filter('sgpbAdditionalMetaboxes', array($this, 'metaboxes'), 10, 1);
+		add_filter('sgpbOptionAvailable', array($this, 'filterOption'), 10, 1);
+		add_filter('export_wp_filename', array($this, 'exportFileName'), 10, 1);
+	}
+
+	public function exportFileName($fileName)
+	{
+		if (!empty($_GET['sgpbExportAction'])) {
+			return SGPB_POPUP_EXPORT_FILE_NAME;
+		}
+
+		return $fileName;
+	}
+
+	public function filterOption($filterOption)
+	{
+		$extensionOptionsData = AdminHelper::getExtensionAvaliabilityOptions();
+
+		if (empty($extensionOptionsData)) {
+			return $filterOption;
+		}
+
+		foreach ($extensionOptionsData as $extensionKey => $extensionOptions) {
+			$isAdvancedClosingActive = is_plugin_active($extensionKey);
+			if (isset($filterOption['name']) && !$isAdvancedClosingActive) {
+				$name = $filterOption['name'];
+
+				if (in_array($name, $extensionOptions)) {
+					$filterOption['status'] = false;
+				}
+			}
+		}
+
+		return $filterOption;
 	}
 
 	public function metaboxes($metaboxes)
@@ -32,15 +64,15 @@ class Filters
 		$conditionsProLabel = '';
 		$conditionsCanBeUsed = PopupBuilderActivePackage::canUseSection('popupConditionsSection');
 		if (!$conditionsCanBeUsed) {
-			$conditionsProLabel .= '<a href="'.SG_POPUP_PRO_URL.'" target="_blank" class="sgpb-pro-label-metabox">';
-			$conditionsProLabel .= __('Upgrade to PRO', SG_POPUP_TEXT_DOMAIN).'</a>';
+			$conditionsProLabel .= '<a href="'.SG_POPUP_ADVANCED_TARGETING_URL.'" target="_blank" class="sgpb-pro-label-metabox sgpb-advanced-targeting-pro-label">';
+			$conditionsProLabel .= __('GET OPTIONS', SG_POPUP_TEXT_DOMAIN).'</a>';
 		}
 
 		$otherConditionsProLabel = '';
 		$otherConditionsCanBeUsed = PopupBuilderActivePackage::canUseSection('popupOtherConditionsSection');
 		if (!$otherConditionsCanBeUsed) {
-			$otherConditionsProLabel .= '<a href="'.SG_POPUP_PRO_URL.'" target="_blank" class="sgpb-pro-label-metabox">';
-			$otherConditionsProLabel .= __('Upgrade to PRO', SG_POPUP_TEXT_DOMAIN).'</a>';
+			$otherConditionsProLabel .= '<a href="'.SG_POPUP_SCHEDULING_URL.'" target="_blank" class="sgpb-pro-label-metabox sgpb-scheduling-pro-label">';
+			$otherConditionsProLabel .= __('GET OPTION', SG_POPUP_TEXT_DOMAIN).'</a>';
 		}
 		$metaboxes['targetMetaboxView'] = array(
 			'key' => 'targetMetaboxView',
@@ -111,14 +143,18 @@ class Filters
 	public function popupEvents($events)
 	{
 		foreach ($events as $eventKey => $eventData) {
-			if (isset($eventData['param']) && $eventData['param'] == SGPB_CSS_CLASS_ACTIONS_KEY) {
-				unset($events[$eventKey]);
-				$events[] = array('param' => 'click');
-				$events[] = array('param' => 'hover');
-				$events[] = array('param' => 'confirm');
-
-				if (SGPB_POPUP_PKG > SGPB_POPUP_PKG_FREE) {
-					$events[] = array('param' => 'iframe');
+			if (isset($eventData['param'])) {
+				if ($eventData['param'] == SGPB_CSS_CLASS_ACTIONS_KEY) {
+					unset($events[$eventKey]);
+					$events[] = array('param' => 'click');
+					$events[] = array('param' => 'hover');
+					$events[] = array('param' => 'confirm');
+				}
+				else if ($eventData['param'] == SGPB_CLICK_ACTION_KEY) {
+					$events[$eventKey]['param'] = 'click';
+				}
+				else if ($eventData['param'] == SGPB_HOVER_ACTION_KEY) {
+					$events[$eventKey]['param'] = 'hover';
 				}
 			}
 		}
@@ -243,11 +279,6 @@ class Filters
 		return do_shortcode($content);
 	}
 
-	public function renderOptions($options = array())
-	{
-		return $options;
-	}
-
 	public function addNewPostUrl($url, $path)
 	{
 		if ($path == 'post-new.php?post_type='.SG_POPUP_POST_TYPE) {
@@ -262,7 +293,7 @@ class Filters
 		unset($columns['date']);
 
 		$additionalItems = array();
-		$additionalItems['counter'] = __('Show count', SG_POPUP_TEXT_DOMAIN);
+		$additionalItems['counter'] = __('Views', SG_POPUP_TEXT_DOMAIN);
 		$additionalItems['onOff'] = __('Enabled (show popup)', SG_POPUP_TEXT_DOMAIN);
 		$additionalItems['type'] = __('Type', SG_POPUP_TEXT_DOMAIN);
 		$additionalItems['shortcode'] = __('Shortcode', SG_POPUP_TEXT_DOMAIN);
@@ -343,7 +374,9 @@ class Filters
 				'name' => 'mediaButtonParams',
 				'data' => array(
 					'currentPostType' => get_post_type(),
-					'popupBuilderPostType' => SG_POPUP_POST_TYPE
+					'popupBuilderPostType' => SG_POPUP_POST_TYPE,
+					'ajaxUrl'   => admin_url('admin-ajax.php'),
+					'nonce' => wp_create_nonce(SG_AJAX_NONCE)
 				)
 			);
 		}

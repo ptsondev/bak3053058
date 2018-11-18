@@ -112,7 +112,7 @@
                     <span class="col-sm-7 col-xs-6" id="primary-menu">
                         <li><a href="/">Trang Chủ</a></li>
                         <li><a href="/loi-ngo">Lời Ngỏ</a></li>
-                        <li><a href="/bep-tu-khuyen-mai//">Khuyến Mãi</a></li>
+                        <li><a href="/bep-tu-khuyen-mai/">Khuyến Mãi</a></li>
                         
                         <li><a href="/dieu-khoan">Điều khoản</a></li>
                         <li><a href="/lien-he">Liên hệ</a></li>
@@ -182,11 +182,62 @@
     </div>
     
     
+    <div id="slider-wrapper">
+                <div id="slide-region">                  
+                    <div id="slider1_container" style="position: relative; top: 0px; left: 0px; width: 300px; height: 100px;">
+                            <!-- Slides Container -->
+    <div u="slides" style="cursor: move; position: absolute; overflow: hidden; left: 0px; top: 0px; width: 300px; height: 100px;">
+        <!--<div><img u="image" src="<?php echo PATH_TO_IMAGES; ?>slide1.jpg" /></div>-->
+        <div><img u="image" src="<?php echo PATH_TO_IMAGES; ?>ts3.png" /></div>
+        <div><img u="image" src="<?php echo PATH_TO_IMAGES; ?>ts2.png" /></div>
+        <div><img u="image" src="<?php echo PATH_TO_IMAGES; ?>ts5.png" /></div>
+    </div>
+    
+                        <!--#region Arrow Navigator Skin Begin -->
+        <!-- Help: https://www.jssor.com/development/slider-with-arrow-navigator.html -->
+        <style>
+            .jssora082 {display:block;position:absolute;cursor:pointer;}
+            .jssora082 .c {fill:#fff;fill-opacity:.5;stroke:#000;stroke-width:160;stroke-miterlimit:10;stroke-opacity:0.3;}
+            .jssora082 .a {fill:#000;opacity:.8;}
+            .jssora082:hover .c {fill-opacity:.3;}
+            .jssora082:hover .a {opacity:1;}
+            .jssora082.jssora082dn {opacity:.5;}
+            .jssora082.jssora082ds {opacity:.3;pointer-events:none;}
+        </style>
+        <div data-u="arrowleft" class="jssora082" style="width:30px;height:40px;top:0px;left:30px;" data-autocenter="2" data-scale="0.75" data-scale-left="0.75">
+            <svg viewBox="2000 0 12000 16000" style="position:absolute;top:0;left:0;width:100%;height:100%;">
+                <path class="c" d="M4800,14080h6400c528,0,960-432,960-960V2880c0-528-432-960-960-960H4800c-528,0-960,432-960,960 v10240C3840,13648,4272,14080,4800,14080z"></path>
+                <path class="a" d="M6860.8,8102.7l1693.9,1693.9c28.9,28.9,63.2,43.4,102.7,43.4s73.8-14.5,102.7-43.4l379-379 c28.9-28.9,43.4-63.2,43.4-102.7c0-39.6-14.5-73.8-43.4-102.7L7926.9,8000l1212.2-1212.2c28.9-28.9,43.4-63.2,43.4-102.7 c0-39.6-14.5-73.8-43.4-102.7l-379-379c-28.9-28.9-63.2-43.4-102.7-43.4s-73.8,14.5-102.7,43.4L6860.8,7897.3 c-28.9,28.9-43.4,63.2-43.4,102.7S6831.9,8073.8,6860.8,8102.7L6860.8,8102.7z"></path>
+            </svg>
+        </div>
+        <div data-u="arrowright" class="jssora082" style="width:30px;height:40px;top:0px;right:30px;" data-autocenter="2" data-scale="0.75" data-scale-right="0.75">
+            <svg viewBox="2000 0 12000 16000" style="position:absolute;top:0;left:0;width:100%;height:100%;">
+                <path class="c" d="M11200,14080H4800c-528,0-960-432-960-960V2880c0-528,432-960,960-960h6400 c528,0,960,432,960,960v10240C12160,13648,11728,14080,11200,14080z"></path>
+                <path class="a" d="M9139.2,8102.7L7445.3,9796.6c-28.9,28.9-63.2,43.4-102.7,43.4c-39.6,0-73.8-14.5-102.7-43.4 l-379-379c-28.9-28.9-43.4-63.2-43.4-102.7c0-39.6,14.5-73.8,43.4-102.7L8073.1,8000L6860.8,6787.8 c-28.9-28.9-43.4-63.2-43.4-102.7c0-39.6,14.5-73.8,43.4-102.7l379-379c28.9-28.9,63.2-43.4,102.7-43.4 c39.6,0,73.8,14.5,102.7,43.4l1693.9,1693.9c28.9,28.9,43.4,63.2,43.4,102.7S9168.1,8073.8,9139.2,8102.7L9139.2,8102.7z"></path>
+            </svg>
+        </div>
+        <!--#endregion Arrow Navigator Skin End -->
+                        
+</div>
+                    
+                    
+                </div>
+                <!--<div id="slide-des">
+                    <h2>Bếp An Khang</h2>
+                    <h4>Trải nghiệm 1 phong cách nấu nướng hoàn toàn mới.</h4>
+                    <h4>Tận hưởng cảm giác relax ngay trong nhà bếp của bạn.</h4>
+                    <h4>Với những thiết bị nhà bếp cao cấp</h4>
+                </div>-->
+             <div id="slide-hide"></div>
+</div>
+
+    
+    
 <?php if(!is_home()){ 
     //echo do_shortcode('[sg_popup id="1554"]'); // popup hiện 1 lần ở các trang
     ?>    
     
-    <div id="sub-header"></div>
+    <!--<a href="/bep-tu-khuyen-mai/"><div id="sub-header"></div></a>-->
     
     <div id="breadcrumb">
         <div class="container">
@@ -230,3 +281,4 @@
 </script>    
     
 
+    

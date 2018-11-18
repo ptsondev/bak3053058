@@ -8,6 +8,7 @@ class ScriptsLoader
 	// all loadable popups objects
 	private $loadablePopups = array();
 	private $isAdmin = false;
+	private static $alreadyLoadedPopups = array();
 
 	public function setLoadablePopups($loadablePopups)
 	{
@@ -43,9 +44,10 @@ class ScriptsLoader
 		$extraOptions = $popup->getExtraRenderOptions();
 		$popupOptions = $popup->getOptions();
 		$popupOptions = apply_filters('sgpbPopupRenderOptions', $popupOptions);
+		$popupCondition = $popup->getConditions();
 
 		$popupOptions = array_merge($popupOptions, $extraOptions);
-
+		$popupOptions['sgpbConditions'] = apply_filters('sgpbRenderCondtions',  $popupCondition);
 		// These two lines have been added in order to not use the json_econde and to support PHP 5.3 version.
 		$popupOptions = AdminHelper::serializeData($popupOptions);
 		$popupOptions = base64_encode($popupOptions);
@@ -56,6 +58,7 @@ class ScriptsLoader
 	// load popup scripts and styles and add popup data to the footer
 	public function loadToFooter()
 	{
+		$alreadyLoadedPopups = array();
 		$popups = $this->getLoadablePopups();
 
 		if (empty($popups)) {
@@ -75,13 +78,29 @@ class ScriptsLoader
 
 		foreach ($popups as $popup) {
 			$popupId = $popup->getId();
+
 			$popupContent = apply_filters('sgpbPopupContentLoadToPage', $popup->getPopupTypeContent());
 
 			$events = $popup->getPopupAllEvents($postId, $popupId, $popup);
+			// if popup's data has already loaded into the page with the same event
+			if (isset(self::$alreadyLoadedPopups[$popupId])) {
+				if (self::$alreadyLoadedPopups[$popupId] == $events) {
+					continue;
+				}
+			}
+			foreach ($events as $event) {
+				if (isset($event['param'])) {
+					if (isset(self::$alreadyLoadedPopups[$popupId])) {
+						if (self::$alreadyLoadedPopups[$popupId] == $event['param']) {
+							continue;
+						}
+					}
+				}
+			}
+			self::$alreadyLoadedPopups[$popupId] = $events;
 			$events = json_encode($events);
 
 			$popupOptions = $this->getEncodedOptionsFromPopup($popup);
-
 
 			add_action('wp_footer', function() use ($popupId, $events, $popupOptions, $popupContent) {
 				$footerPopupContent = '<div style="position:fixed;bottom: -999999999999999999999px;">
@@ -93,6 +112,7 @@ class ScriptsLoader
 				echo $footerPopupContent;
 			});
 		}
+
 		$this->includeScripts();
 		$this->includeStyles();
 	}

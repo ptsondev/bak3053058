@@ -322,6 +322,10 @@
 	background-color: #d4a6e0 !important;
 }
 
+.sgpb-extensions-wrapper .sgpb-iframe-div {
+	background-color: rgba(212, 166, 224, 0.4) !important;
+}
+
 .video-popup {
 	background-image: url("../img/videoTypeIcon.png");
 }
@@ -334,6 +338,10 @@
 	background-color: #f34133 !important;
 }
 
+.sgpb-extensions-wrapper .sgpb-video-div {
+	background-color: rgba(243, 65, 51, 0.4) !important;
+}
+
 .ageRestriction-popup {
 	background-image: url("../img/restrictionTyoeIcon.png");
 }
@@ -343,6 +351,10 @@
 }
 
 .sgpb-ageRestriction-div:hover {
+	background-color: #ffdd73 !important;
+}
+
+.sgpb-extensions-wrapper .sgpb-ageRestriction-div {
 	background-color: #ffdd73 !important;
 }
 
@@ -358,6 +370,10 @@
 	background-color: #cef398 !important;
 }
 
+.sgpb-extensions-wrapper .sgpb-countdown-div {
+	background-color: #cef398 !important;
+}
+
 .social-popup {
 	background-image: url("../img/socialTypeIcon.png");
 }
@@ -368,6 +384,10 @@
 
 .sgpb-social-div:hover {
 	background-color: #2da9ed !important;
+}
+
+.sgpb-extensions-wrapper .sgpb-social-div {
+	background-color: rgba(45, 169, 237, 0.4) !important;
 }
 
 .sg-exit-intent {
@@ -399,11 +419,11 @@
 }
 
 .sgpb-mailchimp-div {
-	background-color: #3fbdd6 !important;
+	background-color: #ffe01b !important;
 }
 
 .sgpb-mailchimp-div:hover {
-	background-color: #5ee1fb !important;
+	background-color: #ffe74e !important;
 }
 
 .sgpb-aweber-div {
@@ -419,6 +439,18 @@
 	background-image: url("../img/aweberTypeIcon.png") !important;
 }
 
+.scheduling-popup-pro {
+	background-image: url("../img/schedulingTypeIcon.png") !important;
+}
+
+.geo-targeting-popup-pro {
+	background-image: url("../img/geoTypeIcon.png") !important;
+}
+
+.sgpb-geo-targeting-div {
+	background-color: rgba(73, 185, 173, 0.4) !important;
+}
+
 .sgpb-sgpbAWeber-div {
 	background-color: rgba(0, 121, 193, 0.4);
 }
@@ -427,17 +459,38 @@
 	background-color: rgba(0, 121, 193, 0.4);
 }
 
+.sgpb-login-div {
+	background-color: #7accc8 !important;
+}
+
+.sgpb-login-div:hover {
+	background-color: #87ddd9 !important;
+}
+
+.login-popup-pro,
+.login-popup {
+	background-image: url("../img/loginTypeIcon.png") !important;
+}
+
 .sgpbMailchimp-popup-pro,
 .mailchimp-popup {
 	background-image: url("../img/mailchimpTypeIcon.png") !important;
 }
 
-.sgpb-sgpbMailchimp-div {
-	background-color: rgba(63, 189, 214, 0.4);
+.sgpb-scheduling-div {
+	background-color: #1976d3;
 }
 
-.sgpb-sgpbMailchimp-div:hover {
-	background-color: rgba(63, 189, 214, 0.4);
+.sgpb-scheduling-div:hover {
+	background-color: #308ee8;
+}
+
+.sgpb-extensions-wrapper .sgpb-scheduling-div {
+	background-color: rgba(48, 142, 232, 0.4) !important;
+}
+
+.sgpb-sgpbMailchimp-div {
+	background-color: rgba(255, 224, 27, 0.4) !important
 }
 
 .sgpbAdBlock-popup-pro {
@@ -450,6 +503,66 @@
 
 .sgpb-sgpbAdBlock-div:hover {
 	background-color: rgba(249, 61, 62, 0.4);
+}
+
+.sgpbScroll-popup-pro {
+	background-image: url("../img/scroll.png") !important;
+}
+
+.sgpb-sgpbScroll-div {
+	background-color: rgba(73,185,173, 0.4);
+}
+
+.sgpb-sgpbScroll-div:hover {
+	background-color: rgba(73,185,173, 0.4);
+}
+
+.sgpbInactivity-popup-pro {
+	background-image: url("../img/inactivity.png") !important;
+}
+
+.sgpb-sgpbInactivity-div {
+	background-color: rgba(197,212,61, 0.4);
+}
+
+.sgpb-sgpbInactivity-div:hover {
+	background-color: rgba(197,212,61, 0.4);
+}
+
+.sgpbRandom-popup-pro {
+	background-image: url("../img/random.png") !important;
+}
+
+.sgpb-sgpbRandom-div {
+	background-color: rgba(225,240,85, 0.4);
+}
+
+.sgpb-sgpbRandom-div:hover {
+	background-color: rgba(225,240,85, 0.4);
+}
+
+.advancedClosing-popup-pro {
+	background-image: url("../img/advancesClosing.png") !important;
+}
+
+.sgpb-advancedClosing-div {
+	background-color: rgba(241,139,64, 0.4);
+}
+
+.sgpb-advancedClosing-div:hover {
+	background-color: rgba(241,139,64, 0.4);
+}
+
+.sgpbAdvancedTargeting-popup-pro {
+	background-image: url("../img/advancedTargeting.png") !important;
+}
+
+.sgpb-sgpbAdvancedTargeting-div {
+	background-color: rgba(245,110,107, 0.4);
+}
+
+.sgpb-sgpbAdvancedTargeting-div:hover {
+	background-color: rgba(245,110,107, 0.4);
 }
 
 .sgpbAnalitics-popup-pro {
@@ -580,6 +693,10 @@
 
 .sgpb-Woo-div:hover,
 .sgpb-sgpbWOO-div:hover {
+	background-color: #cb7fbb !important;
+}
+
+.sgpb-extensions-wrapper .sgpb-sgpbWOO-div {
 	background-color: #cb7fbb !important;
 }
 
@@ -1027,11 +1144,11 @@ input:checked + .sgpb-slider:before {
 	border-top: none !important;
 }
 
-@media only screen and (max-width: 782px) {
+/*@media only screen and (max-width: 782px) {
 	.wp-list-table tr:not(.inline-edit-row):not(.no-items) td:not(.check-column) {
 		display: table-cell !important;
 	}
-}
+}*/
 
 .sgpb-options-content {
 	padding: 10px;
@@ -1345,20 +1462,6 @@ input:checked + .sgpb-slider:before {
 
 .sgpb-hidden-full-width-column {
 	padding-left: 27px !important;
-}
-
-#sgpb-popup-end-timer,
-#sgpb-popup-start-timer {
-	max-width: 308px !important;
-}
-
-#sgpb-schedule-start-time,
-#sgpb-schedule-end-time {
-	max-width: 76px !important;
-}
-
-.sgpb-schedule-from-start {
-	padding-left: 0;
 }
 
 #sgpb-subs-gdpr-text {
@@ -1746,6 +1849,25 @@ input:checked + .sgpb-slider:before {
 	margin-right: 20px;
 }
 
+.sgpb-review-popup-banner-wrapper {
+	clear: both;
+	overflow: hidden;
+	padding-top: 20px;
+	margin: 10px 20px 10px 0;
+	background-color: #ffffff;
+}
+
+.sgpb-review-popup-banner-wrapper h1,
+.sgpb-review-popup-banner-wrapper h2 {
+	font-size: 22px;
+	font-weight: normal;
+	line-height: 1.384;
+}
+
+.sgpb-review-popup-banner-wrapper h1 {
+	margin: 0;
+}
+
 .sgpb-upgrade-banner-btn {
 	width: 85% !important;
 	margin-top: 80px !important;
@@ -1753,7 +1875,7 @@ input:checked + .sgpb-slider:before {
 	color: #49bbef !important;
 	font-size: 1.8vw !important;
 	background-color: #2a283b !important;
-	line-height: 45px !important;
+	line-height: 50px !important;
 }
 
 .sgpb-upgrade-banner-btn:hover {
@@ -1803,11 +1925,11 @@ input:checked + .sgpb-slider:before {
 .sgpb-dashicons-admin-plugins:before,
 .sgpb-dashicons-editor-help:before,
 .sgpb-dashicons-email-alt:before {
-    background-size: 100%;
-    display: inline-block;
-    width: 20px;
-    height: 20px;
-    content:"";
+	background-size: 100%;
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	content: '';
 }
 
 .sgpb-dashicons-heart:before {
@@ -1834,6 +1956,10 @@ input:checked + .sgpb-slider:before {
 	width: 20px;
 	background-size: 20px 17px;
 	height: 17px;
+}
+
+.sgpb-sgpbAdvancedTargeting-div p {
+	font-size: 20px;
 }
 
 @media (max-width: 840px) {
@@ -1873,3 +1999,39 @@ input:checked + .sgpb-slider:before {
 	}
 }
 /*banner end*/
+
+.sgpb-advanced-closing-pro-label {
+	background-color: #F08B3F !important;
+}
+
+.sgpb-advanced-closing-pro-label:hover {
+	background-color: #F2A15E !important;
+	border-color:  #F2A15E !important;
+}
+
+.sgpb-scheduling-pro-label {
+	background-color: #1C76D3 !important;
+}
+
+.sgpb-scheduling-pro-label:hover {
+	background-color: #308DE8 !important;
+	border-color:  #308DE8 !important;
+}
+
+.sgpb-advanced-targeting-pro-label {
+	background-color: #EB5F46 !important;
+}
+
+.sgpb-advanced-targeting-pro-label:hover {
+	background-color: rgba(235, 95, 70, 0.6) !important;
+	border-color: rgba(235, 95, 70, 0.2) !important;
+}
+
+.sgpb-import-wrapper input {
+	display: inline-block !important;
+}
+
+.sgpb-import-wrapper .submit {
+	float: none !important;
+	padding: 0 !important;
+}

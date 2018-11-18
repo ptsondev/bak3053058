@@ -143,19 +143,6 @@ class RegisterPostType
 
 		register_taxonomy(SG_POPUP_CATEGORY_TAXONOMY, SG_POPUP_POST_TYPE, $args);
 		register_taxonomy_for_object_type(SG_POPUP_CATEGORY_TAXONOMY, SG_POPUP_POST_TYPE);
-
-		if (SGPB_POPUP_PKG >= SGPB_POPUP_PKG_SILVER) {
-			wp_insert_term(
-				__('Random popups', SG_POPUP_TEXT_DOMAIN),
-				SG_POPUP_CATEGORY_TAXONOMY, // the taxonomy
-				array(
-					'description' => __('Random popups', SG_POPUP_TEXT_DOMAIN),
-					'slug' => SG_RANDOM_TAXONOMY_SLUG,
-					'parent' => '',
-					'can_disable_terms' => false,
-				)
-			);
-		}
 	}
 
 	public function postTypeSupportForPopupTypes($supports)

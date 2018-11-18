@@ -1,33 +1,8 @@
 <?php
 namespace sgpb;
-use \SxGeo;
 
 class Functions
 {
-	public static function getIpAddress()
-	{
-		if (getenv('HTTP_CLIENT_IP'))
-			$ipAddress = getenv('HTTP_CLIENT_IP');
-		else if (getenv('HTTP_X_FORWARDED_FOR'))
-			$ipAddress = getenv('HTTP_X_FORWARDED_FOR');
-		else if (getenv('HTTP_X_FORWARDED'))
-			$ipAddress = getenv('HTTP_X_FORWARDED');
-		else if (getenv('HTTP_FORWARDED_FOR'))
-			$ipAddress = getenv('HTTP_FORWARDED_FOR');
-		else if (getenv('HTTP_FORWARDED'))
-			$ipAddress = getenv('HTTP_FORWARDED');
-		else if (getenv('REMOTE_ADDR'))
-			$ipAddress = getenv('REMOTE_ADDR');
-		else
-			$ipAddress = 'UNKNOWN';
-
-		return $ipAddress;
-	}
-
-	// proStartPlatinumproEndPlatinum
-
-	// proStartSilverproEndSilver
-
 	public static function renderForm($formFields)
 	{
 		$form = '';
@@ -38,6 +13,7 @@ class Functions
 		$simpleElements = array(
 			'text',
 			'email',
+			'password',
 			'hidden',
 			'submit',
 			'button'
@@ -46,12 +22,16 @@ class Functions
 		$form = '<form class="sgpb-form" id="sgpb-form" method="post">';
 		$fields = '<div class="sgpb-form-wrapper">';
 		foreach ($formFields as $fieldKey => $formField) {
+			$params = $formField;
 			$htmlElement = '';
 			$hideClassName = '';
 			$type = 'text';
 
 			if (!empty($formField['attrs']['type'])) {
 				$type = $formField['attrs']['type'];
+				if ($type == 'customCheckbox') {
+					$formField['attrs']['type'] = 'checkbox';
+				}
 			}
 
 			$styles = '';
@@ -102,19 +82,23 @@ class Functions
 			}
 
 			if (in_array($type, $simpleElements)) {
-				$htmlElement = self::createInputElement($attrs, $styles, $errorWrapperClassName, $errorMessageBoxStyles);
+				if (!isset($formField['attrs']['hasLabel']) || !$formField['attrs']['hasLabel']) {
+					$params = array();
+				}
+				$htmlElement = self::createInputElement($attrs, $styles, $errorWrapperClassName, $errorMessageBoxStyles, $params);
 			}
 			else if ($type == 'checkbox') {
 				$htmlElement = self::createCheckbox($attrs, $styles);
-				if (strpos(@$formField['attrs']['name'], 'gdpr') !== false) {
-					$label = $formField['label'];
-					if (isset($formField['text'])) {
-						$gdprText = $formField['text'];
-					}
-					$formField['style'] = array('color' => @$formField['style']['color'], 'width' => @$formField['style']['width']);
-					$gdprWrapperStyles = 'style="color:'.@$formField['style']['color'].'"';
-					$htmlElement = self::createGdprCheckbox($attrs, $styles, $label, $gdprWrapperStyles, $gdprText);
+
+			}
+			else if ($type == 'customCheckbox') {
+				$label = $formField['label'];
+				if (isset($formField['text'])) {
+					$gdprText = $formField['text'];
 				}
+				$formField['style'] = array('color' => @$formField['style']['color'], 'width' => @$formField['style']['width']);
+				$gdprWrapperStyles = 'style="color:'.@$formField['style']['color'].'"';
+				$htmlElement = self::createGdprCheckbox($attrs, $styles, $label, $gdprWrapperStyles, $gdprText);
 			}
 			else if ($type == 'textarea') {
 				$htmlElement = self::createTextArea($attrs, $styles, $errorWrapperClassName);
@@ -137,10 +121,12 @@ class Functions
 		return $form;
 	}
 
-	public static function createInputElement($attrs, $styles = '', $errorWrapperClassName = '')
+	public static function createInputElement($attrs, $styles = '', $errorWrapperClassName = '', $errorMessageBoxStyles = '', $labelArgs = array())
 	{
 		$inputElement = "<input $attrs $styles>";
-
+		if (!empty($labelArgs)) {
+			$inputElement = '<label for="'.@$labelArgs['attrs']['sgpb-login-username'].'"><p class="sgpb-login-input-label '.@$labelArgs['attrs']['labelClass'].'">'.@$labelArgs['attrs']['hasLabel'].'</p>'.$inputElement.'</label>';
+		}
 		if (!empty($errorWrapperClassName)) {
 			$inputElement .= "<div class='$errorWrapperClassName'></div>";
 		}
@@ -158,7 +144,7 @@ class Functions
 	public static function createGdprCheckbox($attrs, $styles, $label = '', $gdprWrapperStyles = '', $text = '')
 	{
 		$inputElement = "<input $attrs>";
-		$inputElement = '<div class="sgpb-gdpr-label-wrapper" '.$styles.'>'.$inputElement.'<label for="sgpb-gdpr-field-label">'.$label.'</label><div class="sgpb-gdpr-error-message"></div></div>';
+		$inputElement = '<div class="sgpb-gdpr-label-wrapper" '.$styles.'>'.$inputElement.'<label class="js-login-remember-me-label-edit" for="sgpb-gdpr-field-label">'.$label.'</label><div class="sgpb-gdpr-error-message"></div></div>';
 		if ($text == '') {
 			return $inputElement;
 		}

@@ -5,9 +5,9 @@ Author: Popup Builder
 Donate link: https://popup-builder.com
 Tags: popup, pop up, wordpress popup, popup maker, exit popup, popup builder, wordpress popup plugin
 Requires at least: 3.8
-Tested up to: 4.9.8
+Tested up to: 5.0
 Requires PHP: 5.3.3
-Stable tag: trunk
+Stable tag: 3.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -174,6 +174,34 @@ Go to the Popup Builder settings and set your desired options.
 
 == Changelog ==
 
+= Version 3.1 =
+* Bug fixed related to cookie saving for Safari and Internet Explorer.
+* Add new option to show categories for WooCommerce product(s).
+* Bug fixed related to 'unsubscribe' link.
+* Code improvements and minor bug fixes.
+
+= Version 3.0.9.1 =
+* Deafult values added for conditions section.
+* Media button dublicate localization removed.
+* Bug fixed related to page/post selection.
+
+= Version 3.0.9 =
+* Bug fixed connected to page scrolling when after popup appearance page srolled up.
+* Bug fixed for the admin side related to subscribers export list.
+* Improvements connected to subscription live preview.
+* Improvement: If more than one ShortCode (same popup) is added into the page, we will load the data only once.
+* Image popup optimization.
+* Bug fixed realted to overlay closing.
+* Minor fixes and improvements.
+
+= Version 3.0.8 =
+* Conflict fixed connected to 'unsubscribe' link with othe plugins.
+* Image popup responsivenes improvements.
+* Onclick and Onhover events added inside events dropdown metabox.
+* Padding removed from image popup.
+* Added while content is loading.
+* Code improvements and minor bug fixes.
+
 = Version 3.0.7 =
 * Hot fix connected to subscribers table.
 
@@ -222,7 +250,7 @@ Go to the Popup Builder settings and set your desired options.
 * Bug fixed connected to mail subject.
 * Bug fixed subscription popup type.
 * Bug fixed connected to banner.
-* Bug fixed connected to 'draf' status.
+* Bug fixed connected to 'draft' status.
 * Optimization of images.
 
 = Version 3.0.1 =
@@ -847,7 +875,7 @@ Leave us a good review :)
 
 == Upgrade Notice ==
 
-Current Version of Popup Builder is 3.0.5
+Current Version of Popup Builder is 3.1
 
 == Other Notes ==
 

@@ -16,12 +16,20 @@ function parallax() {
          console.log(scrollPos);
         $('#our-clients').css('backgroundPosition', "50% " + Math.round(($('#our-clients').offset().top - scrollPos) * 0.2) + "px");
      }
-    
+    /*
      if ($("#sub-header").length) {
         $('#sub-header').css('backgroundPosition', "50% " + Math.round((scrollPos - $('#sub-header').offset().top) * 1.1) + "px");
     }
     if ($("#sub-footer").length) {
         $('#sub-footer').css('backgroundPosition', "50% " + Math.round((scrollPos - $('#sub-footer').offset().top) * 1.1) + "px");
     }
+    */
+    if (scrollPos > 500) {
+            $('.scroll-to-top').fadeIn();
+        } else {
+            $('.scroll-to-top').fadeOut();	
+        }
+
+		
   
 }

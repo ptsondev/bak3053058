@@ -2,8 +2,8 @@
 	$upgradeLink = SG_POPUP_RATE_US_URL;
 	$buttonText = 'RATE US';
 	if (SGPB_POPUP_PKG == SGPB_POPUP_PKG_FREE) {
-		$upgradeLink = SG_POPUP_PRO_URL;
-		$buttonText = 'UPGRADE NOW';
+		$upgradeLink = SG_POPUP_ALL_EXTENSIONS_URL;
+		$buttonText = 'MORE EXTENSIONS';
 	}
 ?>
 <div class="sgpb-wrapper sgpb-banner-wrapper">
@@ -15,7 +15,7 @@
 						<div class="row">
 							<div class="col-xs-2"></div>
 							<div class="col-xs-7">
-								<a href="<?php echo SG_POPUP_PRO_URL ;?>" target="_blank" class="sgpb-banner-logo-link"><div class="sgpb-banner-logo"></div></a>
+								<a href="<?php echo SG_POPUP_ALL_EXTENSIONS_URL ;?>" target="_blank" class="sgpb-banner-logo-link"><div class="sgpb-banner-logo"></div></a>
 							</div>
 						</div>
 					</div>

@@ -712,12 +712,12 @@ class Tiny_Settings extends Tiny_WP_Base {
 			'strong' => array(),
 		);
 
-		echo '<p class="tiny-resize-unavailable" style="display: none">';
+		echo '<div class="tiny-resize-unavailable" style="display: none">';
 		esc_html_e(
 			'Enable compression of the original image size for more options.',
 			'tiny-compress-images'
 		);
-		echo '</p>';
+		echo '</div>';
 
 		$id = self::get_prefixed_name( 'resize_original_enabled' );
 		$name = self::get_prefixed_name( 'resize_original[enabled]' );
@@ -844,14 +844,50 @@ class Tiny_Settings extends Tiny_WP_Base {
 		return $this->compressor->limit_reached();
 	}
 
+	public function get_remaining_credits() {
+		$field = self::get_prefixed_name( 'remaining_credits' );
+		return get_option( $field );
+	}
+
+	public function get_paying_state() {
+		$field = self::get_prefixed_name( 'paying_state' );
+		return get_option( $field );
+	}
+
+	public function is_on_free_plan() {
+		return self::get_paying_state() === 'free';
+	}
+
+	public function get_email_address() {
+		$field = self::get_prefixed_name( 'email_address' );
+		return get_option( $field );
+	}
+
 	public function after_compress_callback( $compressor ) {
 		$count = $compressor->get_compression_count();
 		if ( ! is_null( $count ) ) {
 			$field = self::get_prefixed_name( 'status' );
 			update_option( $field, $count );
 		}
+		$remaining_credits = $compressor->get_remaining_credits();
+		if ( ! is_null( $remaining_credits ) ) {
+			$field = self::get_prefixed_name( 'remaining_credits' );
+			update_option( $field, $remaining_credits );
+		}
+		$paying_state = $compressor->get_paying_state();
+		if ( ! is_null( $paying_state ) ) {
+			$field = self::get_prefixed_name( 'paying_state' );
+			update_option( $field, $paying_state );
+		}
+		$email_address = $compressor->get_email_address();
+		if ( ! is_null( $email_address ) ) {
+			$field = self::get_prefixed_name( 'email_address' );
+			update_option( $field, $email_address );
+		}
 		if ( $compressor->limit_reached() ) {
-			$link = '<a href="https://tinypng.com/dashboard/api" target="_blank">' .
+			$encoded_email = str_replace( '%20', '%2B', rawurlencode( $email_address ) );
+			$url = 'https://tinypng.com/dashboard/api?type=upgrade&mail=' . $encoded_email;
+			$link = '<a href="' . $url . '" target="_blank">' .
 				esc_html__( 'TinyPNG API account', 'tiny-compress-images' ) . '</a>';
 
 			$this->notices->add('limit-reached',

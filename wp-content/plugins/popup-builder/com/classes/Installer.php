@@ -70,6 +70,8 @@ class Installer
 
 		self::createTables($filteredTables);
 
+		self::setupInstallationsDateConfig($filteredTables);
+
 		// get_current_blog_id() == 1 When plugin activated inside the child of multisite instance
 		if (is_multisite() && get_current_blog_id() == 1) {
 			global $wp_version;
@@ -97,6 +99,27 @@ class Installer
 		}
 	}
 
+	public static function setupInstallationsDateConfig()
+	{
+		$usageDays = get_option('SGPBUsageDays');
+		if (!$usageDays) {
+			update_option('SGPBUsageDays', 0);
+
+			$timeDate = new \DateTime('now');
+			$installTime = strtotime($timeDate->format('Y-m-d H:i:s'));
+			update_option('SGPBInstallDate', $installTime);
+			$timeDate->modify('+'.SGPB_REVIEW_POPUP_PERIOD.' day');
+
+			$timeNow = strtotime($timeDate->format('Y-m-d H:i:s'));
+			update_option('SGPBOpenNextTime', $timeNow);
+		}
+
+		$maxPopupCount = get_option('SGPBMaxOpenCount');
+		if (!$maxPopupCount) {
+			update_option('SGPBMaxOpenCount', SGPB_ASK_REVIEW_POPUP_COUNT);
+		}
+	}
+
 	public static function uninstall()
 	{
 		delete_option('sgpb-user-roles');
@@ -111,7 +134,6 @@ class Installer
 		do_action('sgpbDeletePopupData');
 
 		self::deletePopups();
-		self::deleteCustomTerms(SG_POPUP_CATEGORY_TAXONOMY);
 		self::deleteCustomTables();
 
 		if (is_multisite()) {

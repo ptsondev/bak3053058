@@ -7,7 +7,7 @@
                 <?php
                     while ( have_posts() ) : the_post();
                         echo '<h1>'.get_the_title().'</h1>';
-                        echo '<div class="post-date created">'.get_the_date().'</div>';                        
+                        //echo '<div class="post-date created">'.get_the_date().'</div>';                        
                         echo '<div id="main-content">'.get_the_content().'</div>';
                         echo bak_social_share();
                     endwhile;

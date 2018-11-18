@@ -249,7 +249,7 @@ abstract class SGPopup
 			return false;
 		}
 
-		$type = $savedData['sgpb-type'];
+		$type = @$savedData['sgpb-type'];
 
 		$popupClassName = self::getPopupClassNameFormType($type);
 		$typePath = self::getPopupTypeClassPath($type);
@@ -577,7 +577,7 @@ abstract class SGPopup
 				$hiddenOptions = array();
 				$currentData = array();
 				foreach ($ruleData as $name => $value) {
-					if ($name == 'param' || $name == 'value') {
+					if ($name == 'param' || $name == 'value' || $name == 'operator') {
 						$currentData[$name] = $value;
 					}
 					else {
@@ -1202,7 +1202,29 @@ abstract class SGPopup
 	public static function getPopupsByTermSlug($popupTermSlug)
 	{
 		$popupIds = array();
-		// proStartSilverproEndSilver
+		// proStartSilver
+		$termPopups = get_posts(
+			array(
+				'post_type' => 'popupbuilder',
+				'numberposts' => -1,
+				'tax_query' => array(
+					array(
+						'taxonomy' => SG_POPUP_CATEGORY_TAXONOMY,
+						'field' => 'slug',
+						'terms' => $popupTermSlug
+					)
+				)
+			)
+		);
+
+		if (empty($termPopups)) {
+			return $popupIds;
+		}
+
+		foreach ($termPopups as $termPopup) {
+			$popupIds[] = $termPopup->ID;
+		}
+		// proEndSilver
 		return $popupIds;
 	}
 
@@ -1281,7 +1303,7 @@ abstract class SGPopup
 	{
 		$removeOptions = array();
 
-		return $removeOptions;
+		return apply_filters('sgpbRemoveOptions', $removeOptions);
 	}
 
 	public static function createPopupTypeObjById($popupId)
@@ -1505,7 +1527,7 @@ abstract class SGPopup
 		$popupCountFromAnalyticsData = 0;
 		$tableName = $wpdb->prefix.'sgpb_analytics';
 		if ($wpdb->get_var("SHOW TABLES LIKE '$tableName'") == $tableName) {
-			$popupCountFromAnalyticsData = $this->getAnalyticsDataByPopupId($popupId);
+			$popupCountFromAnalyticsData = self::getAnalyticsDataByPopupId($popupId);
 		}
 		if (isset($popupsCounterData[$popupId])) {
 			$allCount += $popupsCounterData[$popupId];
@@ -1515,7 +1537,7 @@ abstract class SGPopup
 		return $allCount;
 	}
 
-	public function getAnalyticsDataByPopupId($popupId)
+	public static function getAnalyticsDataByPopupId($popupId)
 	{
 		global $wpdb;
 		// 7, 12, 13 => exclude close, subscription success, contact success events

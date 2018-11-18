@@ -51,17 +51,66 @@ class Ajax
 		add_action('wp_ajax_sgpb_subscription_submission', array($this, 'subscriptionSubmission'));
 		add_action('wp_ajax_nopriv_sgpb_subscription_submission', array($this, 'subscriptionSubmission'));
 		add_action('wp_ajax_change_popup_status', array($this, 'changePopupStatus'));
-		// proStartGoldproEndGold
+		// proStartGold
+		add_action('wp_ajax_check_same_origin', array($this, 'checkSameOrigin'));
+		// proEndGold
 		add_action('wp_ajax_sgpb_subscribers_delete', array($this, 'deleteSubscribers'));
 		add_action('wp_ajax_sgpb_add_subscribers', array($this, 'addSubscribers'));
 		add_action('wp_ajax_sgpb_send_newsletter', array($this, 'sendNewsletter'));
 		add_action('wp_ajax_sgpb_send_to_open_counter', array($this, 'addToCounter'));
+		add_action('wp_ajax_sgpb_change_review_popup_show_period', array($this, 'changeReviewPopupPeriod'));
+		add_action('wp_ajax_nopriv_sgpb_change_review_popup_show_period', array($this, 'changeReviewPopupPeriod'));
+		add_action('wp_ajax_sgpb_dont_show_review_popup', array($this, 'dontShowReviewPopup'));
+		add_action('wp_ajax_nopriv_sgpb_dont_show_review_popup', array($this, 'dontShowReviewPopup'));
 		add_action('wp_ajax_nopriv_sgpb_send_to_open_counter', array($this, 'addToCounter'));
 		add_action('wp_ajax_sgpb_close_banner', array($this, 'closeMainRateUsBanner'));
+		add_action('wp_ajax_sgpb_hide_ask_review_popup', array($this, 'dontShowAskReviewBanner'));
 		add_action('wp_ajax_sgpb_reset_popup_opening_count', array($this, 'resetPopupOpeningCount'));
 		/*Extension notification panel*/
 		add_action('wp_ajax_sgpb_dont_show_extension_panel', array($this, 'extensionNotificationPanel'));
 		add_action('wp_ajax_sgpb_dont_show_problem_alert', array($this, 'dontShowProblemAlert'));
+	}
+
+	public function dontShowReviewPopup()
+	{
+		check_ajax_referer(SG_AJAX_NONCE, 'nonce');
+		update_option('SGPBCloseReviewPopup', true);
+		wp_die();
+	}
+
+	public function changeReviewPopupPeriod()
+	{
+		check_ajax_referer(SG_AJAX_NONCE, 'nonce');
+		$messageType = sanitize_text_field($_POST['messageType']);
+
+		if ($messageType == 'count') {
+			$maxPopupCount = get_option('SGPBMaxOpenCount');
+			if (!$maxPopupCount) {
+				$maxPopupCount = SGPB_ASK_REVIEW_POPUP_COUNT;
+			}
+			$maxPopupData = AdminHelper::getMaxOpenPopupId();
+			if (!empty($maxPopupData['maxCount'])) {
+				$maxPopupCount = $maxPopupData['maxCount'];
+			}
+
+			$maxPopupCount += SGPB_ASK_REVIEW_POPUP_COUNT;
+			update_option('SGPBMaxOpenCount', $maxPopupCount);
+			wp_die();
+		}
+
+		$popupTimeZone = get_option('timezone_string');
+		if (!$popupTimeZone) {
+			$popupTimeZone = SG_POPUP_DEFAULT_TIME_ZONE;
+		}
+		$timeDate = new \DateTime('now', new \DateTimeZone($popupTimeZone));
+		$timeDate->modify('+'.SGPB_REVIEW_POPUP_PERIOD.' day');
+
+		$timeNow = strtotime($timeDate->format('Y-m-d H:i:s'));
+		update_option('SGPBOpenNextTime', $timeNow);
+		$usageDays = get_option('SGPBUsageDays');
+		$usageDays += SGPB_REVIEW_POPUP_PERIOD;
+		update_option('SGPBUsageDays', $usageDays);
+		wp_die();
 	}
 
 	public function resetPopupOpeningCount()
@@ -84,6 +133,12 @@ class Ajax
 
 		update_option('SgpbCounter', $allPopupsCount);
 
+	}
+
+	public function dontShowAskReviewBanner()
+	{
+		check_ajax_referer(SG_AJAX_NONCE, 'nonce');
+		update_option('sgpbDontShowAskReviewBanner', 1);
 		echo SGPB_AJAX_STATUS_TRUE;
 		wp_die();
 	}
@@ -200,7 +255,50 @@ class Ajax
 		wp_die();
 	}
 
-	// proStartGoldproEndGold
+	// proStartGold
+	public function checkSameOrigin()
+	{
+		check_ajax_referer(SG_AJAX_NONCE, 'nonce');
+
+		$url = esc_url($_POST['iframeUrl']);
+		$status = SGPB_AJAX_STATUS_FALSE;
+
+		$remoteGet = wp_remote_get($url);
+
+		if (is_array($remoteGet) && !empty($remoteGet['headers']['x-frame-options'])) {
+			$siteUrl = esc_url($_POST['siteUrl']);
+			$xFrameOptions = $remoteGet['headers']['x-frame-options'];
+			$mayNotShow = false;
+
+			if ($xFrameOptions == 'deny') {
+				$mayNotShow = true;
+			}
+			else if ($xFrameOptions == 'SAMEORIGIN') {
+				if (strpos($url, $siteUrl) === false) {
+					$mayNotShow = true;
+				}
+			}
+			else {
+				if (strpos($xFrameOptions, $siteUrl) === false) {
+					$mayNotShow = true;;
+				}
+			}
+
+			if ($mayNotShow) {
+				echo $status;
+				wp_die();
+			}
+		}
+
+		// $remoteGet['response']['code'] < 400 it's mean correct status
+		if (is_array($remoteGet) && isset($remoteGet['response']['code']) && $remoteGet['response']['code'] < 400) {
+			$status = SGPB_AJAX_STATUS_TRUE;
+		}
+
+		echo $status;
+		wp_die();
+	}
+	// proEndGold
 
 	public function changePopupStatus()
 	{
@@ -358,6 +456,7 @@ class Ajax
 		$conditionConfig = $SGPB_DATA_CONFIG_ARRAY[$targetType];
 		$groupId = (int)$_POST['groupId'];
 		$ruleId = (int)$_POST['ruleId'];
+		$popupId = (int)$_POST['popupId'];
 		$paramName = sanitize_text_field($_POST['paramName']);
 
 		$savedData = array(
@@ -375,9 +474,26 @@ class Ajax
 			$savedData['tempParam'] = sanitize_text_field($_POST['paramValue']);
 			$savedData['operator'] = $paramName;
 		}
-		$savedData['value'] = @$conditionConfig['paramsData'][$paramName];
+		// change operator value related to condition value
+		if (!empty($conditionConfig['operatorAllowInConditions']) && in_array($paramName, $conditionConfig['operatorAllowInConditions'])) {
+			$conditionConfig['paramsData']['operator'] = array();
+
+			if (!empty($conditionConfig['paramsData'][$paramName.'Operator'])) {
+				$operatorData = $conditionConfig['paramsData'][$paramName.'Operator'];
+				$SGPB_DATA_CONFIG_ARRAY[$targetType]['paramsData']['operator'] = $operatorData;
+				// change take value related to condition value
+				$operatorDataKeys = array_keys($operatorData);
+				if (!empty($operatorDataKeys[0])) {
+					$savedData['operator'] = $operatorDataKeys[0];
+					$builderObj->setTakeValueFrom('operator');
+				}
+			}
+		}
+		// by default set empty value for users' role (adv. tar.)
+		$savedData['value'] = array();
 		$savedData['hiddenOption'] = @$conditionConfig['hiddenOptionData'][$paramName];
 
+		$builderObj->setPopupId($popupId);
 		$builderObj->setGroupId($groupId);
 		$builderObj->setRuleId($ruleId);
 		$builderObj->setSavedData($savedData);

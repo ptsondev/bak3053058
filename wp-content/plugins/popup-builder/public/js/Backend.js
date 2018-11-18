@@ -20,8 +20,6 @@ SGPBBackend.prototype.sgInit = function()
 	this.sgTabs();
 	this.accordion();
 	this.initRadioAccordions();
-	this.timePicker();
-	this.fullTimePicker();
 	this.fixedPositionSelection();
 	this.popupThemesPreview();
 	this.colorPicker();
@@ -595,6 +593,21 @@ SGPBBackend.prototype.removeRuleButton = function()
 	});
 };
 
+SGPBBackend.getParamFromUrl = function(param)
+{
+	var url = window.location.href;
+	param = param.replace(/[\[\]]/g, "\\$&");
+	var regex = new RegExp("[?&]" + param + "(=([^&#]*)|&|#|$)"),
+		results = regex.exec(url);
+	if (!results) {
+		return null;
+	}
+	if (!results[2]) {
+		return '';
+	}
+	return decodeURIComponent(results[2].replace(/\+/g, " "));
+};
+
 SGPBBackend.prototype.changeConditionParams = function()
 {
 	var that = this;
@@ -627,6 +640,7 @@ SGPBBackend.prototype.changeConditionParams = function()
 				nonce_ajax: SGPB_JS_PARAMS.nonce,
 				conditionName: conditionName,
 				paramName: paramSavedValue,
+				popupId: SGPBBackend.getParamFromUrl('post'),
 				ruleId: ruleId,
 				groupId: groupId
 			};
@@ -668,6 +682,7 @@ SGPBBackend.prototype.changeConditionParams = function()
 				conditionName: conditionName,
 				paramName: paramSavedValue,
 				paramValue: paramValue,
+				popupId: SGPBBackend.getParamFromUrl('post'),
 				ruleId: ruleId,
 				groupId: groupId
 			};
@@ -733,52 +748,6 @@ SGPBBackend.prototype.popupSelect2 = function()
 		}
 
 		jQuery(this).sgpbselect2(options);
-	});
-};
-
-SGPBBackend.prototype.timePicker = function()
-{
-	if (jQuery('.sg-time-picker').length == 0) {
-		return;
-	}
-	jQuery('.sg-time-picker').datetimepicker({
-		datepicker:false,
-		format:'H:i'
-	});
-};
-
-SGPBBackend.prototype.fullTimePicker = function()
-{
-	var startTimerOptions = {
-		format:'M d y H:i',
-		minDate: 0
-	};
-	var finishTimerOptions = {
-		format:'M d y H:i',
-		minDate: 0
-	};
-
-	/*  for escape javascript errors if element does not exist */
-	if (jQuery('.popup-start-timer').length == 0) {
-		return;
-	}
-
-	var startCalendar = jQuery('.popup-start-timer').datetimepicker(startTimerOptions);
-	var finishCalendar = jQuery('.popup-finish-timer').datetimepicker(finishTimerOptions);
-
-	/* Detect start change for disable finish date before current start date */
-	startCalendar.change(function() {
-		/* Current start date */
-		var currentStartDate = jQuery(this).val();
-		/*Start date to UTC for for minDate */
-		var startDate = new Date(currentStartDate);
-
-		var finishTimerOptions = {
-			format:'M d y H:i',
-			minDate: startDate
-		};
-		/*Change finish minimum date disabel days */
-		jQuery('.popup-finish-timer').datetimepicker(finishTimerOptions)
 	});
 };
 
@@ -930,7 +899,7 @@ SGPBBackend.prototype.popupThemesPreview = function()
 SGPBBackend.prototype.rangeSlider = function()
 {
 	if (typeof Powerange != 'undefined') {
-		var powerRangeSelectors = ['js-popup-overlay-opacity', 'js-popup-content-opacity', 'js-subs-bg-opacity', 'js-contact-bg-opacity'];
+		var powerRangeSelectors = ['js-popup-overlay-opacity', 'js-popup-content-opacity', 'js-subs-bg-opacity', 'js-contact-bg-opacity', 'js-login-bg-opacity'];
 
 		for (var i in powerRangeSelectors) {
 			if (typeof powerRangeSelectors[i] != 'string') {

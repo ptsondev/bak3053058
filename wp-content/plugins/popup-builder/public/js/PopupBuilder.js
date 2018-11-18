@@ -30,22 +30,25 @@ SGPBPopup.prototype.getCountPopupOpen = function()
 	return this.countPopupOpen;
 }
 
+SGPBPopup.prototype.playMusic = function(e) {
+	var args = e.detail;
+	var popupId = parseInt(args.popupId);
+	var options = SGPBPopup.getPopupOptionsById(popupId);
+	var soundUrl = options['sgpb-sound-url'];
+	var soundStatus = options['sgpb-open-sound'];
+
+	if (soundStatus && soundUrl && !window.SGPB_SOUND[popupId]) {
+		var audio = new Audio(soundUrl);
+		audio.play();
+		window.SGPB_SOUND[popupId] = audio;
+	}
+}
+
 SGPBPopup.prototype.initialsListeners = function()
 {
 	window.SGPB_SOUND = [];
-	sgAddEvent(window, 'sgpbDidOpen', function(e) {
-		var args = e.detail;
-		var popupId = parseInt(args.popupId);
-		var options = SGPBPopup.getPopupOptionsById(popupId);
-		var soundUrl = options['sgpb-sound-url'];
-		var soundStatus = options['sgpb-open-sound'];
-
-		if (soundStatus && soundUrl && !window.SGPB_SOUND[popupId]) {
-			var audio = new Audio(soundUrl);
-			audio.play();
-			window.SGPB_SOUND[popupId] = audio;
-		}
-	});
+	var that = this;
+	sgAddEvent(window, 'sgpbDidOpen', function(e) {that.playMusic(e)});
 
 	sgAddEvent(window, 'sgpbDidClose', function(e) {
 		var args = e.detail;
@@ -386,7 +389,7 @@ SGPBPopup.prototype.isAllowJsConditions = function() {
 		var obj = new className;
 		/* call allowToOpen function if exists */
 		if (typeof obj.allowToOpen === 'function') {
-			var allowToOpen = obj.allowToOpen(this.id);
+			var allowToOpen = obj.allowToOpen(this.id, this);
 			if (!allowToOpen) {
 				isAllow = allowToOpen;
 				break;
@@ -490,6 +493,19 @@ SGPBPopup.prototype.themeCreator = function()
 	var contentClass = popupData['sgpb-content-custom-class'];
 	var closeButtonImage = popupConfig.closeButtonImage;
 	var themeNumber = 1;
+	var backgroundColor = 'black';
+	var recentSalesPopup = false;
+	if (typeof SgpbRecentSalesPopupType != 'undefined') {
+		if (popupType == SgpbRecentSalesPopupType) {
+			recentSalesPopup = true;
+			popupTheme = 'sgpb-theme-2';
+			closeButtonPosition = 'topRight';
+			backgroundColor = 'white';
+			popupConfig.magicCall('setShadowSpread', 3);
+			popupConfig.magicCall('setContentShadowBlur', 5);
+			popupConfig.magicCall('setOverlayVisible', false);
+		}
+	}
 	if (forceRtl) {
 		forceRtlClass = ' sgpb-popup-content-direction-right';
 	}
@@ -510,19 +526,6 @@ SGPBPopup.prototype.themeCreator = function()
 	else {
 		var closeButtonPosition = popupData['sgpb-close-button-position'];
 		popupConfig.magicCall('setButtonPosition', closeButtonPosition);
-	}
-
-	var backgroundColor = 'black';
-	var recentSalesPopup = false;
-	if (typeof SgpbRecentSalesPopupType != 'undefined') {
-		if (popupType == SgpbRecentSalesPopupType) {
-			recentSalesPopup = true;
-			popupTheme = 'sgpb-theme-2';
-			closeButtonPosition = 'topRight';
-			backgroundColor = 'white';
-			popupConfig.magicCall('setShadowSpread', 3);
-			popupConfig.magicCall('setContentShadowBlur', 5);
-		}
 	}
 
 	if (popupTheme == 'sgpb-theme-1') {
@@ -737,18 +740,14 @@ SGPBPopup.prototype.themeCustomizations = function()
 	}
 
 	var overlayClasses = popupTheme+'-overlay sgpb-popup-overlay-'+popupId;
-	if (SGPBPopup.varToBool(popupData['sgpb-enable-popup-overlay']) || SGPB_JS_PACKAGES.packages['current'] == SGPB_JS_PACKAGES.packages['free']) {
-		if (SGPB_JS_PACKAGES.packages['current'] != SGPB_JS_PACKAGES.packages['free']) {
-			popupConfig.magicCall('setOverlayVisible', SGPBPopup.varToBool(popupData['sgpb-enable-popup-overlay']));
-		}
-		popupConfig.magicCall('setOverlayAddClass', overlayClasses + ' ' + popupData['sgpb-overlay-custom-class']);
-		popupConfig.magicCall('setOverlayOpacity', popupData['sgpb-overlay-opacity'] * 100);
+	if (typeof popupData['sgpb-enable-popup-overlay'] == 'undefined' && !SGPB_JS_PACKAGES.extensions['advanced-closing']) {
+		popupData['sgpb-enable-popup-overlay'] = true;
 	}
-	else {
-		if (SGPB_JS_PACKAGES.packages['current'] == SGPB_JS_PACKAGES.packages['free']) {
-			popupData['sgpb-enable-popup-overlay'] = true;
-		}
-		popupConfig.magicCall('setOverlayVisible', SGPBPopup.varToBool(popupData['sgpb-enable-popup-overlay']));
+	popupConfig.magicCall('setOverlayVisible', SGPBPopup.varToBool(popupData['sgpb-enable-popup-overlay']));
+	if (SGPBPopup.varToBool(popupData['sgpb-enable-popup-overlay'])) {
+		popupConfig.magicCall('setOverlayAddClass', overlayClasses + ' ' + popupData['sgpb-overlay-custom-class']);
+		var overlayOpacity = popupData['sgpb-overlay-opacity'] || 0.8;
+		popupConfig.magicCall('setOverlayOpacity', overlayOpacity * 100);
 	}
 };
 
@@ -927,7 +926,7 @@ SGPBPopup.prototype.popupTriggeringListeners = function()
 			jQuery('.sgpb-theme-1-overlay').css({'background-image': 'none'});
 		}
 		if (SGPBPopup.varToBool(disablePageScrolling)) {
-			jQuery('html, body').addClass('sgpb-overflow-hidden');
+			jQuery('html').addClass('sgpb-overflow-hidden');
 		}
 	});
 
@@ -937,16 +936,10 @@ SGPBPopup.prototype.popupTriggeringListeners = function()
 		that.htmlIframeFilterForOpen(args.popupId, 'open');
 		that.replaceWithCustomShortcode(popupId);
 		that.sgpbDontShowPopup(popupId);
-		var autoCloseStatus = SGPBPopup.varToBool(popupData['sgpb-auto-close']);
+
 		var closeButtonDelay = parseInt(popupData['sgpb-close-button-delay']);
 		if (closeButtonDelay) {
 			that.closeButtonDisplay(popupData['sgpb-post-id'], 'hide');
-		}
-		if (autoCloseStatus) {
-			var autoCloseTime = parseInt(popupData['sgpb-auto-close-time'])*1000;
-			setTimeout(function() {
-				SGPBPopup.closePopupById(that.getPopupId());
-			}, autoCloseTime);
 		}
 	});
 
@@ -1171,8 +1164,12 @@ SGPBPopup.prototype.contentCloseBehavior = function()
 		if (popupId != e.detail.popupId || e.detail.popupData['sgpb-content-click'] == 'undefined') {
 			return false;
 		}
+		if (contentClickBehavior == 'redirect') {
+			jQuery('.sgpb-content-'+popupId).addClass('sgpb-cursor-pointer');
+		}
 		jQuery('.sgpb-content-'+e.detail.popupId).on('click', function(event) {
 			if (contentClickBehavior == 'redirect') {
+
 				if (redirectToNewTab) {
 					window.open(redirectUrl);
 					SGPBPopup.closePopupById(that.getPopupId());
@@ -1297,21 +1294,34 @@ SGPBPopup.prototype.setPopupDimensions = function()
 			popupConfig.magicCall('setContentBackgroundImage', popupData['sgpb-image-url']);
 		}
 		popupConfig.magicCall('setContentBackgroundMode', 'contain');
+		if (dimensionData == 'customMode') {
+			popupConfig.magicCall('setContentBackgroundPosition', 'center center');
+		}
 	}
 	if (dimensionData == 'responsiveMode') {
 		/* for image popup type and responsive mode, set background image to fit */
 		if (popupType == 'image') {
 			popupConfig.magicCall('setContentBackgroundMode', 'fit');
+			this.setMaxWidthForResponsiveImage();
 		}
 
 		var dimensionMeasure = popupData['sgpb-responsive-dimension-measure'];
 		var popupConfig = this.getPopupConfig();
-
 		if (dimensionMeasure != 'auto') {
 			popupConfig.magicCall('setWidth', dimensionMeasure+'%');
+			popupConfig.magicCall('setContentBackgroundPosition', 'center');
 		}
 		else {
-			popupConfig.magicCall('setWidth', jQuery('.sgpb-popup-builder-content-'+popupId).width() + (contentPadding*2) + 'px');
+			var widthToSet = jQuery('.sgpb-popup-builder-content-'+popupId).width() + (contentPadding*2);
+
+			if (isNaN(widthToSet)) {
+				widthToSet = 'auto';
+			}
+			else {
+				popupConfig.magicCall('setContentBackgroundPosition', 'center center');
+				widthToSet += 'px';
+			}
+			popupConfig.magicCall('setWidth', widthToSet);
 		}
 
 		return popupConfig;
@@ -1324,6 +1334,33 @@ SGPBPopup.prototype.setPopupDimensions = function()
 	popupConfig.magicCall('setHeight', popupHeight);
 
 	return popupConfig;
+};
+
+SGPBPopup.prototype.setMaxWidthForResponsiveImage = function()
+{
+	var popupData = this.getPopupData();
+	var popupConfig = this.getPopupConfig();
+	var dimensionMeasure = popupData['sgpb-responsive-dimension-measure'];
+
+	if (dimensionMeasure != 'auto') {
+		var maxWidth = popupData['sgpb-max-width'];
+		if (maxWidth == '') {
+			popupConfig.magicCall('setMaxWidth', dimensionMeasure+'%');
+			return true;
+		}
+		popupConfig.magicCall('setMaxWidth', dimensionMeasure+'%');
+		if (maxWidth.indexOf('%') != '-1') {
+			if (parseInt(maxWidth) < dimensionMeasure) {
+				popupConfig.magicCall('setMaxWidth', maxWidth);
+			}
+		}
+		else {
+			var responsiveMeasureInPx = (dimensionMeasure*window.innerWidth)/100;
+			if (maxWidth < responsiveMeasureInPx) {
+				popupConfig.magicCall('setMaxWidth', maxWidth);
+			}
+		}
+	}
 };
 
 SGPBPopup.b64DecodeUnicode = function(str)
@@ -1736,7 +1773,7 @@ SGPBPopup.setCookie = function(cName, cValue, exDays, cPageLevel)
 	}
 
 	expirationDate.setDate(parseInt(expirationDate.getDate() + parseInt(exDays)));
-	cookieExpirationData = expirationDate.toString();
+	cookieExpirationData = expirationDate.toUTCString();
 	var expires = 'expires='+cookieExpirationData;
 
 	if (exDays == -1) {
@@ -1966,28 +2003,6 @@ SgpbEventListener.prototype.timerIncrement = function(listenerObj , idleInterval
 	SgpbEventListener.inactivityIdicator = 0;
 };
 
-SgpbEventListener.prototype.sgpbOnScroll = function(listenerObj, eventData)
-{
-	var that = this;
-	var percent = parseInt(eventData.value);
-	var scrollStatus = false;
-
-	jQuery(window).on('scroll', function() {
-
-		var scrollTop = jQuery(window).scrollTop();
-		var docHeight = jQuery(document).height();
-		var winHeight = jQuery(window).height();
-		var scrollPercent = (scrollTop) / (docHeight - winHeight);
-		var scrollPercentRounded = Math.round(scrollPercent*100);
-		if (percent < scrollPercentRounded) {
-			if (scrollStatus == false) {
-				listenerObj.getPopupObj().prepareOpen();
-				scrollStatus = true;
-			}
-		}
-	});
-};
-
 SgpbEventListener.prototype.sgpbInsideclick = function(listenerObj, eventData)
 {
 	sgAddEvent(window, 'sgpbDidOpen', function(e) {
@@ -2028,6 +2043,9 @@ SgpbEventListener.prototype.sgpbClick = function(listenerObj, eventData)
 		}
 		var targetClick = jQuery('a[href*="#sg-popup-id-' + popupId + '"], .sg-popup-id-' + popupId + ', .sgpb-popup-id-' + popupId);
 
+		if (typeof eventData.operator != 'undefined' && eventData.operator == 'clickActionCustomClass') {
+			targetClick = jQuery('a[href*="#sg-popup-id-' + popupId + '"], .sg-popup-id-' + popupId + ', .sgpb-popup-id-' + popupId+', .'+eventData.value);
+		}
 		if (!targetClick.length) {
 			continue;
 		}
@@ -2072,6 +2090,10 @@ SgpbEventListener.prototype.sgpbHover = function(listenerObj, eventData)
 		}
 
 		var hoverSelector = jQuery('.sg-popup-hover-' + popupId + ', .sgpb-popup-id-' + popupId + '[data-popup-event="hover"]');
+
+		if (typeof eventData.operator != 'undefined' && eventData.operator == 'hoverActionCustomClass') {
+			hoverSelector = jQuery('.sg-popup-hover-' + popupId + ', .sgpb-popup-id-' + popupId + '[data-popup-event="hover"]'+', .'+eventData.value);
+		}
 
 		if (!hoverSelector) {
 			return false;
@@ -2166,50 +2188,6 @@ SgpbEventListener.prototype.sgpbConfirm = function(listenerObj, eventData)
 			}
 		});
 	}
-};
-
-SgpbEventListener.prototype.sgpbIframe = function(listenerObj, eventData)
-{
-	var that = listenerObj;
-	var popupObj = that.getPopupObj();
-	var popupId = parseInt(popupObj.id);
-	popupId = listenerObj.filterPopupId(popupId);
-	var popupOptions = popupObj.getPopupData();
-	var iframeCount = 1;
-	var delay = parseInt(popupOptions['sgpb-popup-delay']) * 1000;
-
-	jQuery('.sg-iframe-popup-' + popupId).each(function() {
-		jQuery(this).bind('click', function(e) {
-			e.preventDefault();
-
-			var link = jQuery(this).attr('href');
-
-			if (typeof link == 'undefined') {
-				var childLinkTag = jQuery(this).find('a');
-				link = jQuery(this).attr('href');
-
-				if (typeof link == 'undefined') {
-					return false;
-				}
-			}
-
-			if (iframeCount > 1) {
-				return false;
-			}
-			++iframeCount;
-			jQuery(window).trigger('sgpbIframeEvent', popupOptions);
-			setTimeout(function() {
-				popupOptions['sgpb-iframe-' + popupId] = link;
-				popupObj.setPopupData(popupOptions);
-
-				popupObj.prepareOpen();
-				var currentIframe = jQuery('.sgpb-popup-builder-content-' + popupId).find('iframe');
-				currentIframe.data('attr-src', link);
-				iframeCount = 1;
-				return false;
-			}, delay);
-		});
-	});
 };
 
 SgpbEventListener.prototype.sgpbAttronload = function(listenerObj, eventData)

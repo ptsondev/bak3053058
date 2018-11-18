@@ -22,6 +22,8 @@ class SgpbPopupConfig
 		self::addDefine('SG_POPUP_SUPPORT_URL', 'https://wordpress.org/support/plugin/popup-builder');
 		self::addDefine('SG_POPUP_TICKET_URL', 'https://sygnoos.ladesk.com/submit_ticket');
 		self::addDefine('SG_POPUP_RATE_US_URL', 'https://wordpress.org/support/plugin/popup-builder/reviews/?filter=5');
+		self::addDefine('SG_POPUP_IFRAME_URL', 'https://popup-builder.com/downloads/iframe/');
+		self::addDefine('SG_POPUP_SCROLL_URL', 'https://popup-builder.com/downloads/scroll/');
 		self::addDefine('SG_POPUP_AD_BLOCK_URL', 'https://popup-builder.com/downloads/adblock/');
 		self::addDefine('SG_POPUP_ANALYTICS_URL', 'https://popup-builder.com/downloads/analytics/');
 		self::addDefine('SG_POPUP_EXIT_INTENT_URL', 'https://popup-builder.com/downloads/exit-intent/');
@@ -29,6 +31,19 @@ class SgpbPopupConfig
 		self::addDefine('SG_POPUP_AWEBER_URL', 'https://popup-builder.com/downloads/aweber/');
 		self::addDefine('SG_POPUP_WOOCOMMERCE_URL', 'https://popup-builder.com/downloads/woocommerce/');
 		self::addDefine('SG_POPUP_RECENT_SALES_URL', 'https://popup-builder.com/downloads/recent-sales/');
+		self::addDefine('SG_POPUP_VIDEO_URL', 'https://popup-builder.com/downloads/video/');
+		self::addDefine('SG_POPUP_SOCIAL_URL', 'https://popup-builder.com/downloads/social/');
+		self::addDefine('SG_POPUP_COUNTDOWN_URL', 'https://popup-builder.com/downloads/countdown/');
+		self::addDefine('SG_POPUP_RESTRICTION_URL', 'https://popup-builder.com/downloads/restriction/');
+		self::addDefine('SG_POPUP_CONTACT_FORM_URL', 'https://popup-builder.com/downloads/contact-form/');
+		self::addDefine('SG_POPUP_INACTIVITY_URL', 'https://popup-builder.com/downloads/inactivity/');
+		self::addDefine('SG_POPUP_SCHEDULING_URL', 'https://popup-builder.com/downloads/scheduling/');
+		self::addDefine('SG_POPUP_GEO_TARGETING_URL', 'https://popup-builder.com/downloads/geo-targeting/');
+		self::addDefine('SG_POPUP_RANDOM_URL', 'https://popup-builder.com/downloads/random/');
+		self::addDefine('SG_POPUP_ADVANCED_CLOSING_URL', 'https://popup-builder.com/downloads/advanced-closing/');
+		self::addDefine('SG_POPUP_ADVANCED_TARGETING_URL', 'https://popup-builder.com/downloads/advanced-targeting/');
+		self::addDefine('SG_POPUP_ALL_EXTENSIONS_URL', 'https://popup-builder.com/downloads/category/extensions/');
+		self::addDefine('SG_POPUP_LOGIN_URL', 'https://popup-builder.com/downloads/login-popup/');
 		self::addDefine('SG_POPUP_ADMIN_URL', admin_url());
 		self::addDefine('SG_POPUP_BUILDER_URL', plugins_url().'/'.SG_POPUP_FOLDER_NAME.'/');
 		self::addDefine('SG_POPUP_BUILDER_PATH', WP_PLUGIN_DIR.'/'.SG_POPUP_FOLDER_NAME.'/');
@@ -53,7 +68,6 @@ class SgpbPopupConfig
 		self::addDefine('SG_POPUP_SOUND_URL', SG_POPUP_PUBLIC_URL.'sound/');
 		self::addDefine('SG_POPUP_DEFAULT_TIME_ZONE', 'UTC');
 		self::addDefine('SG_POPUP_CATEGORY_TAXONOMY', 'popup-categories');
-		self::addDefine('SG_RANDOM_TAXONOMY_SLUG', 'randompopupslug');
 		self::addDefine('SG_POPUP_MINIMUM_PHP_VERSION', '5.3.3');
 		self::addDefine('SG_POPUP_POST_TYPE', 'popupbuilder');
 		self::addDefine('SG_POPUP_NEWSLETTER_PAGE', 'newsletter');
@@ -69,20 +83,29 @@ class SgpbPopupConfig
 		self::addDefine('SG_CONDITION_FIRST_RULE', 0);
 		self::addDefine('SGPB_AJAX_STATUS_FALSE', 0);
 		self::addDefine('SGPB_AJAX_STATUS_TRUE', 1);
-		self::addDefine('SG_COUNTDOWN_COUNTER_SECONDS_SHOW', 1);
-		self::addDefine('SG_COUNTDOWN_COUNTER_SECONDS_HIDE', 2);
 		self::addDefine('SGPB_SUBSCRIBERS_TABLE_NAME', 'sgpb_subscribers');
 		self::addDefine('SGPB_POSTS_TABLE_NAME', 'posts');
 		self::addDefine('SGPB_APP_POPUP_TABLE_LIMIT', 15);
 		self::addDefine('SGPB_SUBSCRIBERS_ERROR_TABLE_NAME', 'sgpb_subscription_error_log');
 		self::addDefine('SGPB_CRON_REPEAT_INTERVAL', 1);
 		self::addDefine('SGPB_FACEBOOK_APP_ID', 1725074220856984);
-		self::addDefine('SGPB_POPUP_TYPE_AGE_RESTRICTION', 'ageRestriction');
+		self::addDefine('SGPB_POPUP_TYPE_RESTRICTION', 'ageRestriction');
 		self::addDefine('SGPB_POPUP_DEFAULT_SOUND', 'popupOpenSound.wav');
 		self::addDefine('SGPB_POPUP_EXTENSIONS_PATH', SG_POPUP_COM_PATH.'extensions/');
+		self::addDefine('SGPB_POPUP_ADVANCED_CLOSING_PLUGIN_KEY', 'popupbuilder-advanced-closing/PopupBuilderAdvancedClosing.php');
 		self::addDefine('SGPB_DONT_SHOW_POPUP_EXPIRY', 365);
 		self::addDefine('SGPB_CONTACT_FORM_7_BEHAVIOR_KEY', 'contact-form-7');
 		self::addDefine('SGPB_CSS_CLASS_ACTIONS_KEY', 'setByCssClass');
+		self::addDefine('SGPB_CLICK_ACTION_KEY', 'setByClick');
+		self::addDefine('SGPB_HOVER_ACTION_KEY', 'setByHover');
+		self::addDefine('SG_COUNTDOWN_COUNTER_SECONDS_SHOW', 1);
+		self::addDefine('SG_COUNTDOWN_COUNTER_SECONDS_HIDE', 2);
+		self::addDefine('SGPB_POPUP_SCHEDULING_EXTENSION_KEY', 'popupbuilder-scheduling/PopupBuilderScheduling.php');
+		self::addDefine('SGPB_POPUP_GEO_TARGETING_EXTENSION_KEY', 'popupbuilder-geo-targeting/PopupBuilderGeoTargeting.php');
+		self::addDefine('SGPB_POPUP_ADVANCED_TARGETING_EXTENSION_KEY', 'popupbuilder-advanced-targeting/PopupBuilderAdvancedTargeting.php');
+		self::addDefine('SGPB_ASK_REVIEW_POPUP_COUNT', 80);
+		self::addDefine('SGPB_REVIEW_POPUP_PERIOD', 30);
+		self::addDefine('SGPB_POPUP_EXPORT_FILE_NAME', 'PopupBuilderPopups.xml');
 		self::popupTypesInit();
 	}
 
@@ -94,39 +117,21 @@ class SgpbPopupConfig
 			'image' => SGPB_POPUP_PKG_FREE,
 			'html' => SGPB_POPUP_PKG_FREE,
 			'fblike' => SGPB_POPUP_PKG_FREE,
-			'subscription' => SGPB_POPUP_PKG_FREE,
-			'iframe' => SGPB_POPUP_PKG_SILVER,
-			'video' => SGPB_POPUP_PKG_SILVER,
-			SGPB_POPUP_TYPE_AGE_RESTRICTION => SGPB_POPUP_PKG_GOLD,
-			'countdown' => SGPB_POPUP_PKG_GOLD,
-			'social' => SGPB_POPUP_PKG_GOLD,
-			'contactForm' => SGPB_POPUP_PKG_GOLD
+			'subscription' => SGPB_POPUP_PKG_FREE
 		));
 
 		$SGPB_POPUP_TYPES['typePath'] = apply_filters('sgpbAddPopupTypePath', array(
 			'image' => SG_POPUP_CLASSES_POPUPS_PATH,
 			'html' => SG_POPUP_CLASSES_POPUPS_PATH,
 			'fblike' => SG_POPUP_CLASSES_POPUPS_PATH,
-			'iframe' => SG_POPUP_CLASSES_POPUPS_PATH,
-			'video' => SG_POPUP_CLASSES_POPUPS_PATH,
-			'ageRestriction' => SG_POPUP_CLASSES_POPUPS_PATH,
-			'countdown' => SG_POPUP_CLASSES_POPUPS_PATH,
-			'social' => SG_POPUP_CLASSES_POPUPS_PATH,
-			'subscription' => SG_POPUP_CLASSES_POPUPS_PATH,
-			'contactForm' => SG_POPUP_CLASSES_POPUPS_PATH
+			'subscription' => SG_POPUP_CLASSES_POPUPS_PATH
 		));
 
 		$SGPB_POPUP_TYPES['typeLabels'] = apply_filters('sgpbAddPopupTypeLabels', array(
 			'image' => __('Image', SG_POPUP_TEXT_DOMAIN),
 			'html' => __('HTML', SG_POPUP_TEXT_DOMAIN),
 			'fblike' => __('Facebook', SG_POPUP_TEXT_DOMAIN),
-			'iframe' => __('Iframe', SG_POPUP_TEXT_DOMAIN),
-			'video' => __('Video', SG_POPUP_TEXT_DOMAIN),
-			'ageRestriction' => __('Restriction', SG_POPUP_TEXT_DOMAIN),
-			'countdown' => __('Countdown', SG_POPUP_TEXT_DOMAIN),
-			'social' => __('Social', SG_POPUP_TEXT_DOMAIN),
-			'subscription' => __('Subscription', SG_POPUP_TEXT_DOMAIN),
-			'contactForm' => __('Contact form', SG_POPUP_TEXT_DOMAIN)
+			'subscription' => __('Subscription', SG_POPUP_TEXT_DOMAIN)
 		));
 	}
 }

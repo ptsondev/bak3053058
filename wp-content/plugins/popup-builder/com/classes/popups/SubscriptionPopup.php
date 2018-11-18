@@ -271,7 +271,7 @@ class SubscriptionPopup extends SGPopup
 		$formData['gdpr'] = array(
 			'isShow' => $isShow,
 			'attrs' => array(
-				'type' => 'checkbox',
+				'type' => 'customCheckbox',
 				'data-required' => $gdprRequired,
 				'name' => 'sgpb-subs-gdpr',
 				'class' => 'js-subs-gdpr-inputs js-subs-gdpr-label',

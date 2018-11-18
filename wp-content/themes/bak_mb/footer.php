@@ -13,7 +13,7 @@
                 <div itemscope="" itemtype="http://schema.org/Organization">
                             <h4 itemprop="name">Bếp An Khang</h4>
                             <div class="item address" itemprop="address" itemscope="" itemtype="http://schema.org/PostalAddress"><i class="fa fa-home"></i> 151 Tô Hiến Thành, Phường 13, Quận 10, TP HCM</div>
-                            <div class="item phone" itemprop="telephone"><i class="fa fa-phone"></i> <a href="tel:0963391379">0963 39 1379</a></div>
+                            <div class="item phone" itemprop="telephone"><i class="fa fa-phone"></i><a href="tel:02838625420">02838 625 420</a> <a href="tel:0963391379">0963 39 1379</a></div>
                             <div class="item email" itemprop="email"><i class="fas fa-envelope-open"></i> 
                                 <a href="mailto:info.bepankhang@gmail.com">info.bepankhang@gmail.com</a></div>
                 </div>
@@ -83,6 +83,8 @@
     </div>
 </div>
 
+<div class="scroll-to-top"><i class="fa fa-angle-up"></i></div>
+
 <div id="home-slogan">Bếp An Khang - Nâng Tầm Bếp Việt</div>   
 <div id="main-footer">
             <div class="container main-wrapper">
@@ -110,6 +112,8 @@ hs.src = ('//s10.histats.com/js15_as.js');
     
                 <!--<script type="text/javascript" src="https://tracking.autoads.asia/js/tracking.js"></script>
             <script type="text/javascript">novaon_behavior.init(14093);</script>-->
-        
+    
+        <!-- Vchat -->
+       <script lang="javascript">var _vc_data = {id : 6162068, secret : '76aede07d8ea4eee5cd204a7c00ffd73'};(function() {var ga = document.createElement('script');ga.type = 'text/javascript';ga.async=true; ga.defer=true;ga.src = '//live.vnpgroup.net/client/tracking.js?id=6162068';var s = document.getElementsByTagName('script');s[0].parentNode.insertBefore(ga, s[0]);})();</script>         	 
 </body>
 </html>

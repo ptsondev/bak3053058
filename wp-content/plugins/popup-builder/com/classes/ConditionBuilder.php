@@ -7,6 +7,7 @@ class ConditionBuilder
 	private $ruleId;
 	private $conditionName;
 	private $groupTotal;
+	private $popupId;
 	private $takeValueFrom = 'param';
 
 	public function setSavedData($savedData)
@@ -27,6 +28,16 @@ class ConditionBuilder
 	public function getGroupTotal()
 	{
 		return $this->groupTotal;
+	}
+
+	public function setPopupId($popupId)
+	{
+		$this->popupId = $popupId;
+	}
+
+	public function getPopupId()
+	{
+		return $this->popupId;
 	}
 
 	public function setGroupId($groupId)
@@ -111,7 +122,8 @@ class ConditionBuilder
 			if(empty($groupData)) {
 				continue;
 			}
-
+			global $SGPB_DATA_CONFIG_ARRAY;
+			$eventsData = $SGPB_DATA_CONFIG_ARRAY['events']['operatorAllowInConditions'];
 			foreach($groupData as $ruleId => $ruleData) {
 				$builderObj = new ConditionBuilder();
 				$builderObj->setGroupId($groupId);
@@ -119,6 +131,11 @@ class ConditionBuilder
 				/*Assoc array where key option name value saved Data*/
 				$builderObj->setSavedData($ruleData);
 				$builderObj->setConditionName('events');
+
+				// in some cases value data must take from operator
+				if (is_array($eventsData) && in_array($ruleData['param'], $eventsData)) {
+					$builderObj->setTakeValueFrom('operator');
+				}
 
 				$builderObj->setGroupTotal(sizeof($groupData) - 1);
 				$eventsDataObj[] = $builderObj;

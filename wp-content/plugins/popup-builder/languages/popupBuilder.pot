@@ -457,7 +457,7 @@ msgstr ""
 #: popup-builder-mailchimp/com/classes/Filters.php:108
 #: popup-builder-plugin/com/config/dataConfig.php:496
 #: popup-builder-plugin/com/config/dataConfig.php:870
-msgid "MailChimp"
+msgid "Mailchimp"
 msgstr ""
 
 #: popup-builder-mailchimp/com/classes/Ajax.php:91
@@ -488,11 +488,11 @@ msgid "Subscribe"
 msgstr ""
 
 #: popup-builder-mailchimp/com/classes/Mailchimp.php:78
-msgid "Popup Builder MailChimp"
+msgid "Popup Builder Mailchimp"
 msgstr ""
 
 #: popup-builder-mailchimp/com/classes/Mailchimp.php:80
-msgid "Popup Builder MailChimp License"
+msgid "Popup Builder Mailchimp License"
 msgstr ""
 
 #: popup-builder-mailchimp/com/classes/MailchimpPopup.php:43
@@ -500,11 +500,11 @@ msgid "Please wait"
 msgstr ""
 
 #: popup-builder-mailchimp/com/classes/MailchimpPopup.php:64
-msgid "MailChimp Main Options"
+msgid "Mailchimp Main Options"
 msgstr ""
 
 #: popup-builder-mailchimp/com/classes/MailchimpPopup.php:86
-msgid "Popup Builder MailChimp extension requires authentication."
+msgid "Popup Builder Mailchimp extension requires authentication."
 msgstr ""
 
 #: popup-builder-mailchimp/com/classes/api/MailchimpApi.php:546
@@ -543,7 +543,7 @@ msgid "Right"
 msgstr ""
 
 #: popup-builder-mailchimp/public/views/mailchimpSettings.php:9
-msgid "MailChimp Settings"
+msgid "Mailchimp Settings"
 msgstr ""
 
 #: popup-builder-mailchimp/public/views/mailchimpSettings.php:35
@@ -560,7 +560,7 @@ msgid "Show"
 msgstr ""
 
 #: popup-builder-mailchimp/public/views/mailchimpSettings.php:53
-msgid "The API key for connecting with your MailChimp account"
+msgid "The API key for connecting with your Mailchimp account"
 msgstr ""
 
 #: popup-builder-mailchimp/public/views/mailchimpSettings.php:53
@@ -573,7 +573,7 @@ msgid "Save Changes"
 msgstr ""
 
 #: popup-builder-mailchimp/public/views/mainView.php:39
-msgid "Setup your MailChimp Api key"
+msgid "Setup your Mailchimp Api key"
 msgstr ""
 
 #: popup-builder-mailchimp/public/views/mainView.php:42
@@ -825,7 +825,7 @@ msgid "Save"
 msgstr ""
 
 #: popup-builder-plugin/com/classes/Filters.php:187
-msgid "Show count"
+msgid "Views"
 msgstr ""
 
 #: popup-builder-plugin/com/classes/Filters.php:188

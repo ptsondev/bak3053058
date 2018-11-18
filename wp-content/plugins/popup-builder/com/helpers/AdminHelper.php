@@ -6,6 +6,69 @@ use \SgpbDataConfig;
 
 class AdminHelper
 {
+	/**
+	 * Get extension options data which are included inside the free version
+	 *
+	 * @since 3.0.8
+	 *
+	 * @return assoc array $extensionOptions
+	 */
+	public static function getExtensionAvaliabilityOptions()
+	{
+		$extensionOptions = array();
+		// advanced closing option
+		$extensionOptions[SGPB_POPUP_ADVANCED_CLOSING_PLUGIN_KEY] = array(
+			'sgpb-auto-close',
+			'sgpb-enable-popup-overlay',
+			'sgpb-disable-popup-closing'
+		);
+		// schedule extension
+		$extensionOptions[SGPB_POPUP_SCHEDULING_EXTENSION_KEY] = array(
+			'otherConditionsMetaBoxView'
+		);
+		// geo targeting extension
+		$extensionOptions[SGPB_POPUP_GEO_TARGETING_EXTENSION_KEY] = array(
+			'popupConditionsSection'
+		);
+		// advanced targeting extension
+		$extensionOptions[SGPB_POPUP_ADVANCED_TARGETING_EXTENSION_KEY] = array(
+			'popupConditionsSection'
+		);
+
+ 		return $extensionOptions;
+	}
+
+	public static function getPopupTypesPageURL()
+	{
+		return admin_url('edit.php?post_type='.SG_POPUP_POST_TYPE.'&page='.SG_POPUP_POST_TYPE);
+	}
+
+	public static function getSettingsURL($args = array())
+	{
+		$url = admin_url('/edit.php?post_type='.SG_POPUP_POST_TYPE.'&page='.SG_POPUP_SETTINGS_PAGE);
+
+		return self::addArgsToURl($url, $args);
+	}
+
+	public static function getPopupExportURL()
+	{
+		$exportURL = admin_url('export.php');
+		$url = add_query_arg(array(
+			'download' => true,
+			'content' => SG_POPUP_POST_TYPE,
+			'sgpbExportAction' => 1
+		), $exportURL);
+
+		return $url;
+	}
+
+	public static function addArgsToURl($url, $args = array())
+	{
+		$resultURl = add_query_arg($args, $url);
+
+		return $resultURl;
+	}
+
 	public static function buildCreatePopupUrl($popupType)
 	{
 		$isAvailable = $popupType->isAvailable();
@@ -843,7 +906,6 @@ class AdminHelper
 		return $currentPostType;
 	}
 
-
 	/**
 	 * Get image encoded data from URL
 	 *
@@ -959,8 +1021,301 @@ class AdminHelper
 	{
 		global $wpdb;
 
-    $sql = 'ALTER TABLE '.$wpdb->prefix.SGPB_SUBSCRIBERS_TABLE_NAME.' ADD COLUMN unsubscribed INT NOT NULL DEFAULT 0 ';
+		$sql = 'ALTER TABLE '.$wpdb->prefix.SGPB_SUBSCRIBERS_TABLE_NAME.' ADD COLUMN unsubscribed INT NOT NULL DEFAULT 0 ';
 		$wpdb->query($sql);
 	}
 
+	public static function isPluginActive($key)
+	{
+		$allExtensions = SgpbDataConfig::allExtensionsKeys();
+		$isActive = false;
+		foreach ($allExtensions as $extension) {
+			if (isset($extension['key']) && $extension['key'] == $key) {
+				if (is_plugin_active($extension['pluginKey'])) {
+					$isActive = true;
+				}
+			}
+		}
+
+		return $isActive;
+	}
+
+	public static function getMaxCountPopup()
+	{
+		$allPopups = SGPopup::getAllPopups();
+		$dontShowPopup = get_option('sgpbDontShowAskReviewBanner');
+		if ($dontShowPopup) {
+			return false;
+		}
+		$result = array();
+
+		if (empty($allPopups)) {
+			return false;
+		}
+		foreach ($allPopups as $popup) {
+			if (empty($popup)) {
+				continue;
+			}
+			$popupId = $popup->getId();
+			$count = SGPopup::getPopupOpeningCountById($popupId);
+
+			$title = $popup->getTitle();
+			$result['title'] = $title;
+			$result['count'] = $count;
+		}
+
+		return $result;
+	}
+
+	public static function showReviewPopup()
+	{
+		$popupContent = '';
+		$maxOpenPopupStatus = self::shouldOpenForMaxOpenPopupMessage();
+
+		if ($maxOpenPopupStatus) {
+			$popupContent = self::getMaxOpenPopupsMessage();
+			self::addContentToFooter($popupContent);
+			return;
+		}
+
+		$shouldOpenForDays = self::shouldOpenReviewPopupForDays();
+
+		if ($shouldOpenForDays) {
+			$popupContent = self::getMaxOpenDaysMessage();
+			self::addContentToBanner($popupContent);
+			return;
+		}
+	}
+
+	public static function getMaxOpenDaysMessage()
+	{
+		$getUsageDays = self::getPopupUsageDays();
+		$firstHeader = '<h1 class="sgpb-review-h1"><strong class="sgrb-review-strong">Wow!</strong> You’ve been using Popup Builder on your site for '.$getUsageDays.' days</h1>';
+		$popupContent = self::getMaxOpenPopupContent($firstHeader, 'days');
+
+		return $popupContent;
+	}
+
+	public static function getPopupUsageDays()
+	{
+		$installDate = get_option('SGPBInstallDate');
+
+		$timeDate = new \DateTime('now');
+		$timeNow = strtotime($timeDate->format('Y-m-d H:i:s'));
+		$diff = $timeNow-$installDate;
+		$days  = floor($diff/(60*60*24));
+
+		return $days;
+	}
+
+	public static function getMaxOpenPopupContent($firstHeader, $type)
+	{
+		ob_start();
+		?>
+		<style>
+			.sgpb-buttons-wrapper .press{
+				box-sizing:border-box;
+				cursor:pointer;
+				display:inline-block;
+				font-size:1em;
+				margin:0;
+				padding:0.5em 0.75em;
+				text-decoration:none;
+				transition:background 0.15s linear
+			}
+			.sgpb-buttons-wrapper .press-grey {
+				background-color:#9E9E9E;
+				border:2px solid #9E9E9E;
+				color: #FFF;
+			}
+			.sgpb-buttons-wrapper .press-lightblue {
+				background-color:#03A9F4;
+				border:2px solid #03A9F4;
+				color: #FFF;
+			}
+			.sgpb-review-wrapper{
+				text-align: center;
+				padding: 20px;
+			}
+			.sgpb-review-wrapper p {
+				color: black;
+			}
+			.sgpb-review-h1 {
+				font-size: 22px;
+				font-weight: normal;
+				line-height: 1.384;
+			}
+			.sgrb-review-h2{
+				font-size: 20px;
+				font-weight: normal;
+			}
+			:root {
+				--main-bg-color: #1ac6ff;
+			}
+			.sgrb-review-strong{
+				color: var(--main-bg-color);
+			}
+			.sgrb-review-mt20{
+				margin-top: 20px
+			}
+		</style>
+		<div class="sgpb-review-wrapper">
+			<div class="sgpb-review-description">
+				<?php echo $firstHeader; ?>
+				<h2 class="sgrb-review-h2"><?php _e('This is really great for your website score.', SG_POPUP_TEXT_DOMAIN); ?></h2>
+				<p class="sgrb-review-mt20"><?php _e('Have your input in the development of our plugin, and we’ll provide better conversions for your site!<br /> Leave your 5-star positive review and help us go further to the perfection!', SG_POPUP_TEXT_DOMAIN); ?></p>
+			</div>
+			<div class="sgpb-buttons-wrapper">
+				<button class="press press-grey sgpb-button-1 sg-already-did-review"><?php _e('I already did', SG_POPUP_TEXT_DOMAIN); ?></button>
+				<button class="press press-lightblue sgpb-button-3 sg-you-worth-it"><?php _e('You worth it!', SG_POPUP_TEXT_DOMAIN); ?></button>
+				<button class="press press-grey sgpb-button-2 sg-show-popup-period" data-message-type="<?php echo $type; ?>"><?php _e('Maybe later', SG_POPUP_TEXT_DOMAIN); ?></button></div>
+			<div> </div>
+		</div>
+		<?php
+		$popupContent = ob_get_clean();
+
+		return $popupContent;
+	}
+
+	public static function shouldOpenReviewPopupForDays()
+	{
+		$shouldOpen = true;
+		$dontShowAgain = get_option('SGPBCloseReviewPopup');
+		$periodNextTime = get_option('SGPBOpenNextTime');
+
+		if ($dontShowAgain) {
+			return false;
+		}
+
+		// When period next time does not exits it means the user is old
+		if (!$periodNextTime) {
+			$usageDays = self::getPopupMainTableCreationDate();
+			update_option('SGPBUsageDays', $usageDays);
+			// For old users
+			if ($usageDays > SG_REVIEW_POPUP_PERIOD && !$dontShowAgain) {
+				return $shouldOpen;
+			}
+			$remainingDays = SG_REVIEW_POPUP_PERIOD - $usageDays;
+
+			$popupTimeZone = @SgPopupGetData::getPopupTimeZone();
+			$timeDate = new DateTime('now', new DateTimeZone($popupTimeZone));
+			$timeDate->modify('+'.$remainingDays.' day');
+
+			$timeNow = strtotime($timeDate->format('Y-m-d H:i:s'));
+			update_option('SGPBOpenNextTime', $timeNow);
+
+			return false;
+		}
+
+		$currentData = new \DateTime('now');
+		$timeNow = $currentData->format('Y-m-d H:i:s');
+		$timeNow = strtotime($timeNow);
+
+		if ($periodNextTime > $timeNow) {
+			$shouldOpen = false;
+		}
+
+		return $shouldOpen;
+	}
+
+	public static function getPopupMainTableCreationDate()
+	{
+		global $wpdb;
+
+		$query = $wpdb->prepare('SELECT table_name,create_time FROM information_schema.tables WHERE table_schema="%s" AND  table_name="%s"', DB_NAME, $wpdb->prefix.'sgpb_subscribers');
+		$results = $wpdb->get_results($query, ARRAY_A);
+		if(empty($results)) {
+			return 0;
+		}
+
+		$createTime = $results[0]['create_time'];
+		$createTime = strtotime($createTime);
+		update_option('SGPBInstallDate', $createTime);
+		$diff = time() - $createTime;
+		$days = floor($diff/(60*60*24));
+
+		return $days;
+	}
+
+	public static function addContentToBanner($popupContent)
+	{
+		echo '<div class="sgpb-wrapper sgpb-review-popup-banner-wrapper">'.$popupContent.'</div>';
+	}
+
+	public static function addContentToFooter($popupContent)
+	{
+		if (function_exists('get_current_screen')) {
+			$screen = get_current_screen();
+			if ($screen->base == 'post') {
+				self::addContentToBanner($popupContent);
+				return;
+			}
+		}
+		add_action('admin_footer', function() use ($popupContent) {
+				$popupId = 0;
+				$popupOptions = array();
+				$events = array(array('onload'));
+				$events = json_encode($events);
+				$popupContent = '<div style="position:absolute;top: -999999999999999999999px;">
+							<div class="sg-popup-builder-content" id="sg-popup-content-wrapper-'.$popupId.'" data-id="'.esc_attr($popupId).'" data-events="'.esc_attr($events).'" data-options="'.esc_attr($popupOptions).'">
+								<div class="sgpb-popup-builder-content-'.esc_attr($popupId).' sgpb-popup-builder-content-html">'.$popupContent.'</div>
+							</div>
+						  </div>';
+
+				echo $popupContent;
+			});
+	}
+
+	public static function shouldOpenForMaxOpenPopupMessage()
+	{
+		$counterMaxPopup = self::getMaxOpenPopupId();
+
+		if (empty($counterMaxPopup)) {
+			return false;
+		}
+		$dontShowAgain = get_option('SGPBCloseReviewPopup');
+		$maxCountDefine = get_option('SGPBMaxOpenCount');
+
+		if (!$maxCountDefine) {
+			$maxCountDefine = SGPB_ASK_REVIEW_POPUP_COUNT;
+		}
+
+		return $counterMaxPopup['maxCount'] >= $maxCountDefine && !$dontShowAgain;
+	}
+
+	public static function getMaxOpenPopupId()
+	{
+		$popupsCounterData = get_option('SgpbCounter');
+		if (!$popupsCounterData) {
+			return 0;
+		}
+
+		$counters = array_values($popupsCounterData);
+		$maxCount = max($counters);
+		$popupId  = array_search($maxCount, $popupsCounterData);
+
+		$maxPopupData = array(
+			'popupId' => $popupId,
+			'maxCount' => $maxCount
+		);
+
+		return $maxPopupData;
+	}
+
+	public static function getMaxOpenPopupsMessage()
+	{
+		$counterMaxPopup = self::getMaxOpenPopupId();
+		$popupTitle = '';
+		$maxCountDefine = get_option('SGPBMaxOpenCount');
+		$popupTitle = get_the_title($counterMaxPopup['popupId']);
+
+		if (!empty($counterMaxPopup['maxCount'])) {
+			$maxCountDefine = $counterMaxPopup['maxCount'];
+		}
+
+		$firstHeader = __('<h1 class="sgpb-review-h1"><strong class="sgrb-review-strong">Wow!</strong> <b>Popup Builder</b> plugin helped you to share your message via <strong class="sgrb-review-strong">'.$popupTitle.'</strong> popup with your users for <strong class="sgrb-review-strong">'.$maxCountDefine.' times!</strong></h1>', SG_POPUP_TEXT_DOMAIN);
+		$popupContent = self::getMaxOpenPopupContent($firstHeader, 'count');
+
+		return $popupContent;
+	}
 }

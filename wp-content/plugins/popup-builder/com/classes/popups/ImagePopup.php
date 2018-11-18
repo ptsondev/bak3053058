@@ -43,10 +43,12 @@ class ImagePopup extends SGPopup
 			'sgpb-reopen-after-form-submission' => 1,
 			'sgpb-background-image' => 1,
 			'sgpb-background-image-mode' => 1,
-			'sgpb-force-rtl' => 1
+			'sgpb-force-rtl' => 1,
+			'sgpb-content-padding' => 1
 		);
+		$parentOptions = parent::getRemoveOptions();
 
-		return $removeOptions;
+		return $removeOptions + $parentOptions;
 	}
 
 	public function getPopupTypeMainView()

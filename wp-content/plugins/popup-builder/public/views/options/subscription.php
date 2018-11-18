@@ -186,7 +186,7 @@
 					<?php _e('Width', SG_POPUP_TEXT_DOMAIN); ?>:
 				</label>
 				<div class="col-md-6">
-					<input type="text" class="form-control js-subs-dimension sgpb-full-width-events" data-subs-rel="js-subs-text-inputs" data-style-type="width" name="sgpb-subs-text-width" id="subs-text-width" value="<?php echo esc_html($popupTypeObj->getOptionValue('sgpb-subs-text-width')); ?>">
+					<input type="text" class="form-control js-subs-dimension sgpb-full-width-events" data-field-type="input" data-subs-rel="js-subs-text-inputs" data-style-type="width" name="sgpb-subs-text-width" id="subs-text-width" value="<?php echo esc_html($popupTypeObj->getOptionValue('sgpb-subs-text-width')); ?>">
 				</div>
 			</div>
 			<div class="row form-group">

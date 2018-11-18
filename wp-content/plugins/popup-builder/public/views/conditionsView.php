@@ -1,27 +1,18 @@
 <?php
-namespace sgpb;
-use sgpb\PopupBuilderActivePackage;
-$targetData = $popupTypeObj->getOptionValue('sgpb-conditions');
-$popupTargetData = ConditionBuilder::createConditionBuilder($targetData);
-$conditionsCanBeUsed = PopupBuilderActivePackage::canUseSection('popupConditionsSection');
+use sgpb\AdminHelper;
+$defaultData = ConfigDataHelper::defaultData();
+$defaultConditions = $defaultData['freeConditions'];
 ?>
 
-<div class="popup-conditions-wrapper popup-conditions-conditions" data-condition-type="conditions">
-	<?php
-	$creator = new ConditionCreator($popupTargetData);
-	echo $creator->render();
-	?>
-</div>
-
-
-<?php if (!$conditionsCanBeUsed): ?>
-	<div class="sgpb-other-pro-options">
-		<div class="sgpb-wrapper">
-			<div class="row">
-				<div class="col-md-12">
-					<style type="text/css">.popup-conditions-wrapper.popup-conditions-conditions .select2-container {z-index: 0;}</style>
-				</div>
-			</div>
+<div class="sgpb-wrapper">
+	<div class="row">
+		<div class="col-md-4">
+			<label><?php _e('Select conditions', SG_POPUP_TEXT_DOMAIN);?></label>
 		</div>
 	</div>
-<?php endif; ?>
+	<div class="row form-group">
+		<div class="col-md-3">
+			<?php echo AdminHelper::createSelectBox($defaultConditions, '', array('class' => 'js-sg-select2')); ?>
+		</div>
+	</div>
+</div>

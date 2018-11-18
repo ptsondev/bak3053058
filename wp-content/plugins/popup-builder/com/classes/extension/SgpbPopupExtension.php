@@ -1,6 +1,9 @@
 <?php
 require_once(SG_POPUP_EXTENSION_PATH.'SgpbIPopupExtension.php');
 use sgpb\AdminHelper;
+if (class_exists('SgpbPopupExtension')) {
+	return false;
+}
 
 class SgpbPopupExtension implements SgpbIPopupExtension
 {
@@ -22,14 +25,17 @@ class SgpbPopupExtension implements SgpbIPopupExtension
 		$newsletterPage = $this->getNewsletterPageKey();
 		$settingsPage = $this->getSettingsPageKey();
 
-		$jsFiles[] = array('folderUrl'=> SG_POPUP_JS_URL, 'filename' => 'ExtensionsNotification.js');
+		$jsFiles[] = array('folderUrl'=> SG_POPUP_JS_URL, 'filename' => 'ExtensionsNotification.js', 'dep' => array('jquery'));
 		$localizeData[] = array(
 			'handle' => 'ExtensionsNotification.js',
 			'name' => 'SGPB_JS_EXTENSIONS_PARAMS',
 			'data' => array(
 				'nonce' => wp_create_nonce(SG_AJAX_NONCE),
 				'popupPostType' => SG_POPUP_POST_TYPE,
-				'extendPage' => SG_POPUP_EXTEND_PAGE
+				'extendPage' => SG_POPUP_EXTEND_PAGE,
+				'supportUrl' => SG_POPUP_SUPPORT_URL,
+				'allExtensionsUrl' => SG_POPUP_ALL_EXTENSIONS_URL,
+				'reviewUrl' => SG_POPUP_RATE_US_URL
 			)
 		);
 
@@ -49,7 +55,6 @@ class SgpbPopupExtension implements SgpbIPopupExtension
 			$jsFiles[] = array('folderUrl'=> '', 'filename' => 'wp-color-picker');
 			$jsFiles[] = array('folderUrl'=> SG_POPUP_JS_URL, 'filename' => 'select2.min.js', 'dep' => '', 'ver' => '3.86', 'inFooter' => '');
 			$jsFiles[] = array('folderUrl'=> SG_POPUP_JS_URL, 'filename' => 'sgpbSelect2.js');
-			$jsFiles[] = array('folderUrl'=> SG_POPUP_JS_URL, 'filename' => 'jquery.datetimepicker.full.min.js');
 			$jsFiles[] = array('folderUrl'=> SG_POPUP_JS_URL, 'filename' => 'bootstrap.min.js');
 			$jsFiles[] = array('folderUrl'=> SG_POPUP_JS_URL, 'filename' => 'sgPopupRangeSlider.js');
 			$jsFiles[] = array('folderUrl'=> SG_POPUP_JS_URL, 'filename' => 'Backend.js');
@@ -76,7 +81,12 @@ class SgpbPopupExtension implements SgpbIPopupExtension
 						'silver' => SGPB_POPUP_PKG_SILVER,
 						'gold' => SGPB_POPUP_PKG_GOLD,
 						'platinum' => SGPB_POPUP_PKG_PLATINUM
-					)
+					),
+					'extensions' => array(
+						'geo-targeting' => AdminHelper::isPluginActive('geo-targeting'),
+						'advanced-closing' => AdminHelper::isPluginActive('advancedClosing')
+					),
+					'proEvents' => apply_filters('sgpbProEvents', array('inactivity', 'onScroll'))
 				)
 			);
 
@@ -222,7 +232,7 @@ class SgpbPopupExtension implements SgpbIPopupExtension
 			'handle' => 'PopupBuilder.js',
 			'name' => 'SGPB_POPUP_PARAMS',
 			'data' => array(
-				'popupTypeAgeRestriction' => SGPB_POPUP_TYPE_AGE_RESTRICTION,
+				'popupTypeAgeRestriction' => SGPB_POPUP_TYPE_RESTRICTION,
 				'defaultThemeImages' => array(
 					1 => AdminHelper::defaultButtonImage('sgpb-theme-1'),
 					2 => AdminHelper::defaultButtonImage('sgpb-theme-2'),
@@ -247,6 +257,10 @@ class SgpbPopupExtension implements SgpbIPopupExtension
 					'silver' => SGPB_POPUP_PKG_SILVER,
 					'gold' => SGPB_POPUP_PKG_GOLD,
 					'platinum' => SGPB_POPUP_PKG_PLATINUM
+				),
+				'extensions' => array(
+					'geo-targeting' => AdminHelper::isPluginActive('geo-targeting'),
+					'advanced-closing' => AdminHelper::isPluginActive('advancedClosing')
 				)
 			)
 		);

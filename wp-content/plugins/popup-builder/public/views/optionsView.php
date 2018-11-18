@@ -143,45 +143,6 @@ if (!empty($removedOptions['content-copy-to-clipboard'])) {
 			</div>
 			<?php endif; ?>
 			<!-- this often end -->
-			<?php if (empty($removedOptions['sgpb-show-popup-after-x-pages'])): ?>
-				<div class="row form-group">
-					<label for="sgpb-show-popup-after-x-pages" class="col-md-5 control-label sgpb-static-padding-top">
-						<?php _e('After X pages visit', SG_POPUP_TEXT_DOMAIN)?>:
-					</label>
-					<div class="col-md-2<?php echo (!$afterXpagesUseOption) ? ' sgpb-pro-options-row' : '' ;?>">
-						<?php if($afterXpagesUseOption): ?>
-							<input type="checkbox" id="sgpb-show-popup-after-x-pages" name="sgpb-show-popup-after-x-pages" class="js-checkbox-accordion" <?php echo $popupTypeObj->getOptionValue('sgpb-show-popup-after-x-pages'); ?>>
-							<span class="dashicons dashicons-editor-help sgpb-info-icon sgpb-info-icon-align"></span>
-							<span class="infoSelectRepeat samefontStyle sgpb-info-text" style="display: none;">
-								<?php _e('If this option is enabled, you can show a popup after the user has visited your specified number of pages.', SG_POPUP_TEXT_DOMAIN);?>
-							</span>
-						<?php else: ?>
-							<input type="checkbox" id="sgpb-show-popup-after-x-pages" name="sgpb-show-popup-after-x-pages" class="js-checkbox-accordion" disabled>
-						<?php endif; ?>
-					</div>
-					<?php if (!$afterXpagesUseOption): ?>
-						<div class="col-md-2 sgpb-pro-options-label-wrapper">
-							<a href="<?php echo SG_POPUP_PRO_URL;?>" target="_blank" class="btn btn-warning btn-xs sgpb-pro-label-sm"><?php _e('Upgrade to PRO', SG_POPUP_TEXT_DOMAIN) ?></a>
-						</div>
-					<?php endif; ?>
-				</div>
-				<div class="sg-full-width">
-					<div class="row form-group">
-						<label for="sgpb-show-popup-after-x-pages-count" class="col-md-5 control-label sgpb-static-padding-top sgpb-sub-option">
-							<?php _e('is at least', SG_POPUP_TEXT_DOMAIN)?>:
-						</label>
-						<div class="col-md-6">
-							<input type="number" min="1" disabled required id="sgpb-show-popup-after-x-pages-count" class="sgpb-full-width-events form-control" name="sgpb-show-popup-after-x-pages-count" value="<?php echo $popupTypeObj->getOptionValue('sgpb-show-popup-after-x-pages-count'); ?>">
-						</div>
-						<div class="col-md-1 sgpb-info-wrapper">
-							<span class="dashicons dashicons-editor-help sgpb-info-icon sgpb-info-icon-align"></span>
-							<span class="infoSelectRepeat samefontStyle sgpb-info-text" style="display: none;">
-								<?php _e('Select the number of pages after visiting which the popup will open. If the number is set 1, the popup will be shown from the 2nd page visit.', SG_POPUP_TEXT_DOMAIN);?>
-							</span>
-						</div>
-					</div>
-				</div>
-			<?php endif;?>
 			<div class="row form-group">
 				<label class="col-md-5" for="open-sound">
 					<?php _e('Popup opening sound', SG_POPUP_TEXT_DOMAIN); ?>:
@@ -355,7 +316,7 @@ if (!empty($removedOptions['content-copy-to-clipboard'])) {
 					</div>
 					<?php if (!$autoClose): ?>
 					<div class="col-md-2 sgpb-pro-options-label-wrapper">
-						<a href="<?php echo SG_POPUP_PRO_URL;?>" target="_blank" class="btn btn-warning btn-xs sgpb-pro-label-sm"><?php _e('Upgrade to PRO', SG_POPUP_TEXT_DOMAIN) ?></a>
+						<a href="<?php echo SG_POPUP_ADVANCED_CLOSING_URL;?>" target="_blank" class="btn btn-warning btn-xs sgpb-pro-label-sm sgpb-advanced-closing-pro-label"><?php _e('GET OPTION', SG_POPUP_TEXT_DOMAIN) ?></a>
 					</div>
 				<?php endif; ?>
 				</div>

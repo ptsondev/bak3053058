@@ -7,9 +7,11 @@ jQuery(document).ready(function($){
     
         if($('#slider1_container').length){
            var options = {
-                $ArrowNavigatorOptions: {
+                $AutoPlay: 1,
+               $ArrowNavigatorOptions: {
                     $Class: $JssorArrowNavigator$,
-                    $ChanceToShow: 2
+                    $ChanceToShow: 2,
+                    $Duration: 1000
                 }
             };                          
             var jssor_slider1 = new $JssorSlider$('slider1_container', options);
@@ -168,6 +170,14 @@ jQuery(document).ready(function($){
             }
         });
         window.location.href = "http://bepankhang.com";
+        return false;
+    });
+    
+    
+    $('.scroll-to-top').click(function () {
+        $("html, body").animate({
+            scrollTop: 0
+        }, 600);
         return false;
     });
 });
