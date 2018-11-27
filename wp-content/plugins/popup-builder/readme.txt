@@ -7,7 +7,7 @@ Tags: popup, pop up, wordpress popup, popup maker, exit popup, popup builder, wo
 Requires at least: 3.8
 Tested up to: 5.0
 Requires PHP: 5.3.3
-Stable tag: 3.1
+Stable tag: 3.1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -77,6 +77,10 @@ With Popup Builder plugin you can insert any type of content, right into your Po
 *   WooCommerce popup - display targeted popup offers depending on the WooCommerce cart conditions: Price, Product amount, Specific product.
 
 *   Recent sales or Social proof - promote more sales showing all your live sales popups to notify your customers about recently bought items.
+
+*   Login popup - open login form inside the popup.
+
+*   Registration popup - open registration form inside the popup.
 
 *   Iframe popup - you can set the URL you want to load within an iframe and the popup will load that iframe.
 
@@ -173,6 +177,13 @@ Go to the Popup Builder settings and set your desired options.
 13. Facebook popup
 
 == Changelog ==
+
+= Version 3.1.1 =
+* Now the popup limitation cookie is saving only after the popup appears.
+* Popup Builder migration tweak.
+* Added popup import/export functionality.
+* Added new extension.
+* Code improvements and minor bug fixes.
 
 = Version 3.1 =
 * Bug fixed related to cookie saving for Safari and Internet Explorer.

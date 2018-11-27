@@ -325,7 +325,7 @@ SGPBPopup.prototype.checkCurrentPopupType = function()
 		return allowToOpen;
 	}
 
-	var popupHasLimit = this.popupLimitation(this.popupData);
+	var popupHasLimit = this.isSatistfyForShowingLimitation(this.popupData);
 	if (!popupHasLimit) {
 		return false;
 	}
@@ -349,12 +349,6 @@ SGPBPopup.prototype.checkCurrentPopupType = function()
 		}
 	}
 
-	if (typeof  this.allowAfterXPages != 'undefined') {
-		var allowAfterXPages = this.allowAfterXPages();
-		if (!allowAfterXPages) {
-			return false;
-		}
-	}
 	/* make the first letter of a string uppercase, then concat prefix (uppercase all prefix string) */
 	className = popupConfig.prefix.toUpperCase() + className.firstToUpperCase();
 	/* hasOwnProperty returns boolean value */
@@ -400,26 +394,135 @@ SGPBPopup.prototype.isAllowJsConditions = function() {
 	return isAllow;
 };
 
+SGPBPopup.prototype.setPopupLimitationCookie = function(popupData)
+{
+	var cookieData = this.getPopupShowLimitationCookie(popupData);
+	var cookie = cookieData.cookie || {};
+	var openingCount = cookie.openingCount || 0;
+	var currentUrl = window.location.href;
+
+	if (!popupData['sgpb-show-popup-same-user-page-level']) {
+		currentUrl = '';
+	}
+	cookie.openingCount = openingCount + 1;
+	cookie.openingPage = currentUrl;
+	var popupShowingLimitExpiry = popupData['sgpb-show-popup-same-user-expiry'];
+
+	SGPBPopup.setCookie(cookieData.cookieName, JSON.stringify(cookie), popupShowingLimitExpiry, currentUrl);
+}
+
+SGPBPopup.prototype.isSatistfyForShowingLimitation = function(popupData)
+{
+	/*enable||disable*/
+	var popupLimitation = popupData['sgpb-show-popup-same-user'];
+
+	/*if this option unchecked popup must be show*/
+	if (!popupLimitation) {
+		return true;
+	}
+	var cookieData = this.getPopupShowLimitationCookie(popupData);
+
+	/*when there is noot*/
+	if (!cookieData.cookie) {
+		return true;
+	}
+
+	return popupData['sgpb-show-popup-same-user-count'] > cookieData.cookie.openingCount;
+}
+
+SGPBPopup.prototype.getPopupShowLimitationCookie = function(popupData)
+{
+	var savedCookie = this.getPopupShowLimitationCookieDetails(popupData);
+	var savedCookie = this.filterPopupLimitationCookie(savedCookie);
+
+	return savedCookie;
+}
+
+SGPBPopup.prototype.filterPopupLimitationCookie = function(cookie)
+{
+	var result = {};
+
+	if (cookie.isPageLevel) {
+
+		result.cookieName = cookie.pageLevelCookieName;
+		result.cookie = jQuery.parseJSON(cookie.pageLevelCookie);
+
+		SGPBPopup.deleteCookie(cookie.domainLevelCookieName);
+
+		return result;
+	}
+
+	result.cookieName = cookie.domainLevelCookieName;
+	result.cookie = jQuery.parseJSON(cookie.domainLevelCookie);
+	var currentUrl = window.location.href;
+
+	SGPBPopup.deleteCookie(cookie.pageLevelCookieName, currentUrl);
+
+	return result;
+
+}
+
+SGPBPopup.prototype.getPopupShowLimitationCookieDetails = function(popupData)
+{
+	var result = false;
+	var currentUrl = window.location.href;
+	var currentPopupId = popupData['sgpb-post-id'];
+
+	/*Cookie names*/
+	var popupLimitationCookieHomePageLevelName = 'SGPBShowingLimitationHomePage' + currentPopupId;
+	var popupLimitationCookiePageLevelName = 'SGPBShowingLimitationPage' + currentPopupId;
+	var popupLimitationCookieDomainName = 'SGPBShowingLimitationDomain' + currentPopupId;
+
+	var pageLevelCookie = popupData['sgpb-show-popup-same-user-page-level'] || false;
+
+	/*check if current url is home page*/
+	if (currentUrl == SGPB_POPUP_PARAMS.homePageUrl) {
+		popupLimitationCookiePageLevelName = popupLimitationCookieHomePageLevelName;
+	}
+	var popupLimitationPageLevelCookie = SGPopup.getCookie(popupLimitationCookiePageLevelName);
+	var popupLimitationDomainCookie = SGPopup.getCookie(popupLimitationCookieDomainName);
+
+	result = {
+		'pageLevelCookieName': popupLimitationCookiePageLevelName,
+		'domainLevelCookieName': popupLimitationCookieDomainName,
+		'pageLevelCookie': popupLimitationPageLevelCookie,
+		'domainLevelCookie': popupLimitationDomainCookie,
+		'isPageLevel': pageLevelCookie
+	}
+
+	return result;
+}
+
 SGPBPopup.prototype.popupLimitation = function(popupData)
 {
 	var currentUrl = window.location.href;
 	var currentPopupId = popupData['sgpb-post-id'];
+
+	/*Cookie names*/
 	var popupLimitationCookieHomePageLevelName = 'SGPBShowingLimitationHomePage' + currentPopupId;
 	var popupLimitationCookiePageLevelName = 'SGPBShowingLimitationPage' + currentPopupId;
 	var popupLimitationCookieDomainName = 'SGPBShowingLimitationDomain' + currentPopupId;
+
+	/*enable||disable*/
 	var popupLimitation = popupData['sgpb-show-popup-same-user'];
+
 	if (typeof popupLimitation != 'undefined' && popupLimitation) {
 		var popupShowingLimit = popupData['sgpb-show-popup-same-user-count'];
 		var popupShowingLimitExpiry = popupData['sgpb-show-popup-same-user-expiry'];
 		var pageLevelCookie = popupData['sgpb-show-popup-same-user-page-level'];
+
 		if (typeof pageLevelCookie == 'undefined') {
 			pageLevelCookie = '';
 		}
+
+		/*check if current url is home page*/
 		if (currentUrl == SGPB_POPUP_PARAMS.homePageUrl) {
 			popupLimitationCookiePageLevelName = popupLimitationCookieHomePageLevelName;
 		}
+
 		var popupLimitationPageLevelCookie = SGPopup.getCookie(popupLimitationCookiePageLevelName);
 		var popupLimitationDomainCookie = SGPopup.getCookie(popupLimitationCookieDomainName);
+
 		/* page level cookie saving selected */
 		if (pageLevelCookie) {
 			/* if has already another saving level cookie */
@@ -436,6 +539,7 @@ SGPBPopup.prototype.popupLimitation = function(popupData)
 				if (popupShowingLimit <= popupLimitationPageLevelCookie.openingCount) {
 					return false;
 				}
+
 				var updatedCount = parseInt(popupLimitationPageLevelCookie.openingCount + 1);
 				popupLimitationPageLevelCookie.openingCount = updatedCount;
 				SGPBPopup.setCookie(popupLimitationCookiePageLevelName, JSON.stringify(popupLimitationPageLevelCookie), popupShowingLimitExpiry, currentUrl);
@@ -910,6 +1014,10 @@ SGPBPopup.prototype.popupTriggeringListeners = function()
 		var args = e.detail;
 		that.formSubmissionDetection(args);
 		var popupOptions = args.popupData;
+
+		if (popupOptions['sgpb-show-popup-same-user']) {
+			that.setPopupLimitationCookie(popupOptions);
+		}
 		/* if no analytics extension */
 		if (typeof SGPB_ANALYTICS_PARAMS == 'undefined') {
 			if (that.getCountPopupOpen()) {

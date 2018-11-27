@@ -1318,4 +1318,61 @@ class AdminHelper
 
 		return $popupContent;
 	}
+
+	/**
+	 * Get email headers
+	 *
+	 * @since 3.1.0
+	 *
+	 * @param email $fromEmail
+	 * @param array $args
+	 *
+	 * @return string $headers
+	 */
+	public static function getEmailHeader($fromEmail, $args = array())
+	{
+		$contentType = 'text/html';
+		$charset = 'UTF-8';
+
+		if (!empty($args['contentType'])) {
+			$contentType = $args['contentType'];
+		}
+		if (!empty($args['charset'])) {
+			$charset = $args['charset'];
+		}
+		$headers  = 'MIME-Version: 1.0'."\r\n";
+		$headers .= 'From: '.$fromEmail."\r\n";
+		$headers .= 'Content-type: '.$contentType.'; charset='.$charset.''."\r\n"; //set UTF-8
+
+		return $headers;
+	}
+
+	/**
+	 * Get file content from URL
+	 *
+	 * @since 3.1.0
+	 *
+	 * @param $url
+	 *
+	 * @return string
+	 */
+	public static function getFileFromURL($url)
+	{
+		$data = '';
+		$remoteData = wp_remote_get($url);
+
+		if (is_wp_error($remoteData)) {
+			return $data;
+		}
+
+		$data = wp_remote_retrieve_body($remoteData);
+
+		return $data;
+	}
+
+	public static function getBannerText()
+	{
+		$bannerText = get_option('sgpb-banner-remote-get');
+		return $bannerText;
+	}
 }
