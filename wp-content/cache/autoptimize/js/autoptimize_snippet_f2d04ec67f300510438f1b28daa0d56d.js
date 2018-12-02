@@ -1,3 +1,0 @@
-jQuery(document).ready(function($){var bw=$(window).width();if(bw>600){$(window).bind('scroll',function(){parallax();});}else{$('#main-header, #main-body').removeClass('unactive');$('#main-header, #breadcrumb').addClass('active');}});function parallax(){var scrollPos=$(window).scrollTop();if(scrollPos>230){$('#main-header, #main-body').removeClass('unactive');$('#main-header, #main-body').addClass('active');}else{$('#main-header, #main-body').removeClass('active');$('#main-header, #main-body').addClass('unactive');}
-if($('#our-clients').length){console.log(scrollPos);$('#our-clients').css('backgroundPosition',"50% "+Math.round(($('#our-clients').offset().top-scrollPos)*0.2)+"px");}
-if(scrollPos>500){$('.scroll-to-top').fadeIn();}else{$('.scroll-to-top').fadeOut();}};
