@@ -50,17 +50,21 @@ class Actions
 		add_filter('wp_insert_post_data', array($this, 'editPublishSettings'), 100, 1);
 		// for change admin popup list order
 		add_action('pre_get_posts', array($this, 'preGetPosts'));
-		add_action('template_redirect',array($this, 'redirectFromPopupPage'));
+		add_action('template_redirect', array($this, 'redirectFromPopupPage'));
 		add_filter('views_edit-popupbuilder', array($this, 'mainActionButtons'), 10, 1);
 		new Ajax();
 	}
 
 	public function getBannerContent()
 	{
+		// main banner content
 		$bannerContent = AdminHelper::getFileFromURL(SGPB_BANNER_CRON_TEXT_URL);
 		update_option('sgpb-banner-remote-get', $bannerContent);
+		// right metabox banner content
+		$metaboxBannerContent = AdminHelper::getFileFromURL(SGPB_METABOX_BANNER_CRON_TEXT_URL);
+		update_option('sgpb-metabox-banner-remote-get', $metaboxBannerContent);
 
-		return $banner;
+		return true;
 	}
 
 	public function wpInit()
@@ -106,15 +110,18 @@ class Actions
 	public function redirectFromPopupPage()
 	{
 		global $post;
+		$currentPostType = '';
 
-		$currentPostType = @$post->post_type;
+		if (is_object($post)) {
+			$currentPostType = @$post->post_type;
+		}
 		// in some themes global $post returns null
 		if (empty($currentPostType)) {
 			global $post_type;
 			$currentPostType = $post_type;
 		}
 
-		if (is_single() && SG_POPUP_POST_TYPE == $currentPostType && !is_preview()) {
+		if (!is_admin() && SG_POPUP_POST_TYPE == $currentPostType && !is_preview()) {
 			// it's for seo optimization
 			status_header(301);
 			$homeURL = home_url();
@@ -515,7 +522,10 @@ class Actions
 			ConvertToNewVersion::saveCustomInserted();
 		}
 
-		PopupLoader::instance()->loadPopups();
+		$popupLoaderObj = PopupLoader::instance();
+		if (is_object($popupLoaderObj)) {
+			$popupLoaderObj->loadPopups();
+		}
 	}
 
 	public function adminLoadPopups($hook)

@@ -14,88 +14,17 @@
                             
                 <div id="ctkm">
                     
-                    <h3>THÁNG TEKA - MUA HÀNG THẢ GA</h3>                                         
-                        ✅   Sale <b>30%</b> toàn bộ sản phẩm từ 15/11 - 30/11 <br />
-                         ✅ Nhiều phần quà hấp dẫn <br />
-                        ✅ Tặng ngay phiếu voucher <b>1.000.000</b><br />
-                         ✅ Chiết khấu cực cao khi mua combo<br />
-                         ✅ Made in Spain<br />
-                         ✅ Cam kết chính hãng 100% <br />
-                         ✅ Bảo hành 24 tháng             <br />                                               
-                    <div class="km-brand">
-                        <div class="list-products row">
-                            <?php 
-                                $product = get_post(158);
-                                display_product_item($product);
-                                $product = get_post(1792);
-                                display_product_item($product);
-                                $product = get_post(1346);
-                                display_product_item($product);
-                            ?>
-                        </div>
-                    </div>
-                    
-                    
-                    <h3>CÙNG BOSCH - DÙNG HÀNG THƯƠNG HIỆU</h3>                                         
-                        ✅   Sale <b>30%</b> Deal giá ngập tràn <br />
-                         ✅ Nhiều phần quà hấp dẫn <br />
-                         ✅ Made in Germany<br />
-                         ✅ Cam kết chính hãng 100% <br />
-                         ✅ Bảo hành 24 tháng             <br />                                               
-                    <div class="km-brand">
-                        <div class="list-products row">
-                            <?php 
-                                $product = get_post(221);
-                                display_product_item($product);
-                                $product = get_post(1520);
-                                display_product_item($product);
-                                $product = get_post(78);
-                                display_product_item($product);
-                            ?>
-                        </div>
-                    </div>
-                    
-                    
-                    
-                    
-                    <h3>Dmestik - Mua bếp tặng hút mùi</h3>                                         
-                        ✅ Áp dụng cho tất cả các model bếp từ & bếp điện <br />
-                         ✅ Cam kết chính hãng 100% <br />
-                         ✅ Bảo hành 24 tháng <br />                                               
-                    <div class="km-brand">
-                        <div class="list-products row">
-                            <?php 
-                                $product = get_post(1306);
-                                display_product_item($product);
-                                $product = get_post(1699);
-                                display_product_item($product);
-                                $product = get_post(1705);
-                                display_product_item($product);
-                            ?>
-                        </div>
-                    </div>
-                    
-                    
-                    
-                    <h3>CANZY - MADE IN ITALY</h3>                                         
-                        ✅   Tân trang nhà cửa - Giá chỉ 1 nửa <br />
-                        ✅ Tặng ngay phiếu voucher <b>1.000.000</b><br />
-                         ✅ Chiết khấu cực cao khi mua combo<br />
-                         ✅ Cam kết chính hãng 100% <br />
-                         ✅ Bảo hành 24 tháng             <br />                                               
-                    <div class="km-brand">
-                        <div class="list-products row">
-                            <?php 
-                                $product = get_post(1794);
-                                display_product_item($product);
-                                $product = get_post(1509);
-                                display_product_item($product);
-                                $product = get_post(2340);
-                                display_product_item($product);
-                            ?>
-                        </div>
-                    </div>
-                    
+                     <h3>Mừng xuân mới - rinh bếp mới về nhà</h3>                                         
+                        ✅  Nhiều combo bếp & thiết bị nhà bếp cao cấp<br />
+                        ✅  Khuyến mãi cực shock<br />
+                     ✅  Nhiều quà tặng hấp dẫn<br />
+                     ✅  Chương trình kéo dài đến hết 30/1/2019<br />
+                        
+                  <img src="<?php echo PATH_TO_IMAGES; ?>b9-01.png" /><br /><br />
+                    <img src="<?php echo PATH_TO_IMAGES; ?>b9-02.png" /><br /><br />
+                    <img src="<?php echo PATH_TO_IMAGES; ?>b9-03.png" /><br /><br />
+                    <img src="<?php echo PATH_TO_IMAGES; ?>b9-04.png" /><br /><br />
+                    <img src="<?php echo PATH_TO_IMAGES; ?>b9-05.png" /><br /><br />
                     
                     
                   

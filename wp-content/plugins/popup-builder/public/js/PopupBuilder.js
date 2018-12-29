@@ -46,6 +46,7 @@ SGPBPopup.prototype.playMusic = function(e) {
 
 SGPBPopup.prototype.initialsListeners = function()
 {
+	/* one time calling events (sgpbDidOpen, sgpbDidClose ...) */
 	window.SGPB_SOUND = [];
 	var that = this;
 	sgAddEvent(window, 'sgpbDidOpen', function(e) {that.playMusic(e)});
@@ -53,7 +54,7 @@ SGPBPopup.prototype.initialsListeners = function()
 	sgAddEvent(window, 'sgpbDidClose', function(e) {
 		var args = e.detail;
 		var popupId = parseInt(args.popupId);
-
+		that.htmlIframeFilterForOpen(popupId, 'close');
 		if (typeof window.SGPB_SOUND[popupId] && window.SGPB_SOUND[popupId]) {
 			window.SGPB_SOUND[popupId].pause();
 			delete window.SGPB_SOUND[popupId];
@@ -296,6 +297,13 @@ SGPBPopup.prototype.prepareOpen = function()
 	if (SGPBPopup.varToBool(popupData['sgpb-content-click'])) {
 		this.contentCloseBehavior();
 	}
+	sgAddEvent(window, 'sgpbWillOpen', function(e) {
+		if (popupId != e.detail.popupId || e.detail.popupData['sgpb-content-click'] == 'undefined') {
+			return false;
+		}
+		/* triggering any popup content click (analytics) */
+		that.popupContentClick(e);
+	});
 	if (SGPBPopup.varToBool(popupData['sgpb-popup-fixed'])) {
 		this.addFixedPosition();
 	}
@@ -314,6 +322,19 @@ SGPBPopup.prototype.prepareOpen = function()
 		this.open();
 	}
 };
+
+SGPBPopup.prototype.popupContentClick = function(e)
+{
+	var args = e.detail;
+	var popupId = parseInt(args['popupId']);
+	jQuery('.sgpb-content-' + popupId).on('click', function(event) {
+		var settings = {
+			popupId: popupId,
+			eventName: 'sgpbPopupContentclick'
+		};
+		jQuery(window).trigger('sgpbPopupContentclick', settings);
+	});
+}
 
 SGPBPopup.prototype.checkCurrentPopupType = function()
 {
@@ -406,7 +427,7 @@ SGPBPopup.prototype.setPopupLimitationCookie = function(popupData)
 	}
 	cookie.openingCount = openingCount + 1;
 	cookie.openingPage = currentUrl;
-	var popupShowingLimitExpiry = popupData['sgpb-show-popup-same-user-expiry'];
+	var popupShowingLimitExpiry = parseInt(popupData['sgpb-show-popup-same-user-expiry']);
 
 	SGPBPopup.setCookie(cookieData.cookieName, JSON.stringify(cookie), popupShowingLimitExpiry, currentUrl);
 }
@@ -441,25 +462,27 @@ SGPBPopup.prototype.getPopupShowLimitationCookie = function(popupData)
 SGPBPopup.prototype.filterPopupLimitationCookie = function(cookie)
 {
 	var result = {};
-
+	result.cookie = '';
 	if (cookie.isPageLevel) {
 
 		result.cookieName = cookie.pageLevelCookieName;
-		result.cookie = jQuery.parseJSON(cookie.pageLevelCookie);
+		if (cookie.pageLevelCookie) {
+			result.cookie = jQuery.parseJSON(cookie.pageLevelCookie);
+		}
 
 		SGPBPopup.deleteCookie(cookie.domainLevelCookieName);
 
 		return result;
 	}
-
 	result.cookieName = cookie.domainLevelCookieName;
-	result.cookie = jQuery.parseJSON(cookie.domainLevelCookie);
+	if (cookie.domainLevelCookie) {
+		result.cookie = jQuery.parseJSON(cookie.domainLevelCookie);
+	}
 	var currentUrl = window.location.href;
 
 	SGPBPopup.deleteCookie(cookie.pageLevelCookieName, currentUrl);
 
 	return result;
-
 }
 
 SGPBPopup.prototype.getPopupShowLimitationCookieDetails = function(popupData)
@@ -881,20 +904,48 @@ SGPBPopup.prototype.htmlIframeFilterForOpen = function(popupId, popupEventName)
 	}
 
 	popupContent.find('iframe').each(function() {
-
 		if (popupEventName != 'open') {
 			/* for do not affect facebook type buttons iframe only */
 			if (jQuery(this).closest('.fb_iframe_widget').length) {
 				return true;
 			}
 
-			jQuery(this).attr('data-attr-src', src);
-			jQuery(this).attr('src', '');
-			return true;
+			/*close*/
+			if (typeof jQuery(this).attr('data-attr-src') == 'undefined') {
+				var src = jQuery(this).attr('src');
+				if (src != '') {
+					jQuery(this).attr('data-attr-src', src);
+					jQuery(this).attr('src', '');
+				}
+				return true;
+			}
+			else {
+				var src = jQuery(this).attr('src');
+				if (src != '') {
+					jQuery(this).attr('data-attr-src', src);
+					jQuery(this).attr('src', '');
+				}
+				return true;
+			}
+
 		}
 		else {
-			var src = jQuery(this).attr('data-attr-src');
-			jQuery(this).attr('src', src);
+			/*open*/
+			if (typeof jQuery(this).attr('data-attr-src') == 'undefined') {
+				var src = jQuery(this).attr('src');
+				if (src != '') {
+					jQuery(this).attr('data-attr-src', src);
+				}
+				return true;
+			}
+			else {
+				var src = jQuery(this).attr('data-attr-src');
+				if (src != '') {
+					jQuery(this).attr('src', src);
+					jQuery(this).attr('data-attr-src', src);
+				}
+				return true;
+			}
 		}
 	});
 };
@@ -1057,7 +1108,6 @@ SGPBPopup.prototype.popupTriggeringListeners = function()
 
 	sgAddEvent(window, 'sgpbWillClose', function(e) {
 		var args = e.detail;
-		that.htmlIframeFilterForOpen(args.popupId, 'close');
 		SGPBPopup.offPopup(e.detail.currentObj);
 	});
 };
@@ -1172,6 +1222,7 @@ SGPBPopup.prototype.open = function(args)
 	 * I'm leaving it here for now, since sgpbDidOpen() gets called way too much!
 	 */
 	var options = SGPBPopup.getPopupOptionsById(popupId);
+	SgpbEventListener.CF7EventListener(popupId, options);
 	if (typeof options['sgpb-behavior-after-special-events'] != 'undefined') {
 		if (options['sgpb-behavior-after-special-events'].length) {
 			options = options['sgpb-behavior-after-special-events'][0][0];
@@ -1874,22 +1925,34 @@ SGPBPopup.setCookie = function(cName, cValue, exDays, cPageLevel)
 	var cookiePageLevel = 'path=/;';
 	var cookieExpirationData = 1;
 	if (!exDays || isNaN(exDays)) {
-		exDays = 365*50;
+		if (!exDays && exDays === 0) {
+			exDays = 'session';
+		}
+		else {
+			exDays = 365*50;
+		}
 	}
 	if (typeof cPageLevel == 'undefined') {
 		cPageLevel = false;
 	}
 
-	expirationDate.setDate(parseInt(expirationDate.getDate() + parseInt(exDays)));
-	cookieExpirationData = expirationDate.toUTCString();
-	var expires = 'expires='+cookieExpirationData;
-
-	if (exDays == -1) {
-		expires = '';
+	if (exDays == 'session') {
+		cookieExpirationData = 0;
 	}
+	else {
+		expirationDate.setDate(parseInt(expirationDate.getDate() + parseInt(exDays)));
+		cookieExpirationData = expirationDate.toUTCString();
+	}
+	var expires = 'expires='+cookieExpirationData;
+	if (exDays == -1) {
+        expires = '';
+    }
 
 	if (cPageLevel) {
 		cookiePageLevel = 'path=' + cPageLevel + ';';
+	}
+	if (!cookieExpirationData) {
+		expires = '';
 	}
 
 	var value = cValue+((exDays == null) ? ';' : '; '+expires+';'+cookiePageLevel);
@@ -2126,7 +2189,10 @@ SgpbEventListener.prototype.sgpbInsideclick = function(listenerObj, eventData)
 
 		targetClick.each(function() {
 			jQuery(this).unbind('click').bind('click', function() {
-				SGPBPopup.closePopup();
+				var dontCloseCurrentPopup = jQuery(this).attr('dontCloseCurrentPopup');
+				if (typeof dontCloseCurrentPopup == 'undefined' || dontCloseCurrentPopup != 'on') {
+					SGPBPopup.closePopup();
+				}
 				popupObj.prepareOpen();
 			});
 		});
@@ -2330,6 +2396,21 @@ SgpbEventListener.findCF7InPopup = function(popupId)
 	return document.querySelector('#sg-popup-content-wrapper-'+popupId+' .wpcf7');
 };
 
+SgpbEventListener.CF7EventListener = function(popupId, options)
+{
+	var wpcf7Elm = SgpbEventListener.findCF7InPopup(popupId);
+
+	if (wpcf7Elm) {
+		wpcf7Elm.addEventListener('wpcf7mailsent', function(event) {
+			var settings = {
+				popupId: popupId,
+				eventName: 'sgpbCF7Success'
+			};
+			jQuery(window).trigger('sgpbCF7Success', settings);
+		});
+	}
+};
+
 SgpbEventListener.processCF7MailSent = function(popupId, options)
 {
 	var wpcf7Elm = SgpbEventListener.findCF7InPopup(popupId);
@@ -2339,7 +2420,6 @@ SgpbEventListener.processCF7MailSent = function(popupId, options)
 			if (typeof options['operator'] == 'undefined') {
 				return;
 			}
-
 			if (options['operator'] == 'close-popup') {
 				setTimeout(function() {
 					SGPBPopup.closePopupById(popupId);

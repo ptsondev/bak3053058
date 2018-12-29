@@ -202,11 +202,11 @@
                     <div id="slider1_container" style="position: relative; top: 0px; left: 0px; width: 1200px; height: 400px;">
                             <!-- Slides Container -->
     <div u="slides" style="cursor: move; position: absolute; overflow: hidden; left: 0px; top: 0px; width: 1200px; height: 400px;">
-        <!--<div><img u="image" src="<?php echo PATH_TO_IMAGES; ?>slide1.jpg" /></div>-->
-        <div><a href="https://bepankhang.com/sp/bep-tu/bep-tu-dmestik/"><img u="image" src="<?php echo PATH_TO_IMAGES; ?>ts3.png" /></a></div>
-        <div><a href="/tra-gop"><img u="image" src="<?php echo PATH_TO_IMAGES; ?>b-tragop.png" /></a></div>
-        <div><a href="https://bepankhang.com/sp/bep-tu/bep-tu-teka/"><img u="image" src="<?php echo PATH_TO_IMAGES; ?>ts2.png" /></a></div>
-        <div><a href="https://bepankhang.com/sp/bep-tu/bep-tu-bosch/"><img u="image" src="<?php echo PATH_TO_IMAGES; ?>ts5.png" /></a></div>
+         <div><a href="/bep-tu-khuyen-mai/"><img u="image" src="<?php echo PATH_TO_IMAGES; ?>b9-01.png" /></a></div>
+        <div><a href="/bep-tu-khuyen-mai/"><img u="image" src="<?php echo PATH_TO_IMAGES; ?>b9-05.png" /></a></div>
+        <div><a href="/bep-tu-khuyen-mai/"><img u="image" src="<?php echo PATH_TO_IMAGES; ?>b9-02.png" /></a></div>
+        <div><a href="/bep-tu-khuyen-mai/"><img u="image" src="<?php echo PATH_TO_IMAGES; ?>b9-03.png" /></a></div>
+        <div><a href="/bep-tu-khuyen-mai/"><img u="image" src="<?php echo PATH_TO_IMAGES; ?>b9-04.png" /></a></div>
     </div>
     
                         <!--#region Arrow Navigator Skin Begin -->

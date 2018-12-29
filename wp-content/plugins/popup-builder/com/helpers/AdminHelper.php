@@ -766,8 +766,8 @@ class AdminHelper
 			<p class="sgpb-extension-notice-close">x</p>
 			<div class="sgpb-extensions-list-wrapper">
 				<div class="sgpb-notice-header">
-					<h3><?php _e('Popup Builder plugin has been successfully updated', SG_POPUP_TEXT_DOMAIN)?></h3>
-					<h4><?php _e('The following extensions need to be updated manually', SG_POPUP_TEXT_DOMAIN)?></h4>
+					<h3><?php _e('Popup Builder plugin has been successfully updated', SG_POPUP_TEXT_DOMAIN); ?></h3>
+					<h4><?php _e('The following extensions need to be updated manually', SG_POPUP_TEXT_DOMAIN); ?></h4>
 				</div>
 				<ul class="sgpb-extensions-list">
 					<?php foreach ($extensions as $extensionName): ?>
@@ -775,7 +775,7 @@ class AdminHelper
 					<?php endforeach; ?>
 				</ul>
 			</div>
-			<p class="sgpb-extension-notice-dont-show"><?php _e('Don\'t show again')?></p>
+			<p class="sgpb-extension-notice-dont-show"><?php _e('Don\'t show again', SG_POPUP_TEXT_DOMAIN)?></p>
 		<?php
 		$content = ob_get_contents();
 		ob_get_clean();
@@ -827,11 +827,11 @@ class AdminHelper
 			<div class="welcome-panel-content">
 				<p class="sgpb-problem-notice-close">x</p>
 				<div class="sgpb-alert-problem-text-wrapper">
-					<h3>Popup Builder plugin has been updated to the new version 3.</h3>
-					<h5>A lot of changes and improvements have been made.</h5>
-					<h5>In case of any issues, please contact us <a href="<?php echo SG_POPUP_TICKET_URL; ?>" target="_blank">here</a>.</h5>
+					<h3><?php _e('Popup Builder plugin has been updated to the new version 3.', SG_POPUP_TEXT_DOMAIN); ?></h3>
+					<h5><?php _e('A lot of changes and improvements have been made.', SG_POPUP_TEXT_DOMAIN); ?></h5>
+					<h5><?php _e('In case of any issues, please contact us <a href="<?php echo SG_POPUP_TICKET_URL; ?>" target="_blank">here</a>.', SG_POPUP_TEXT_DOMAIN); ?></h5>
 				</div>
-				<p class="sgpb-problem-notice-dont-show"><?php _e('Don\'t show again')?></p>
+				<p class="sgpb-problem-notice-dont-show"><?php _e('Don\'t show again', SG_POPUP_TEXT_DOMAIN); ?></p>
 			</div>
 		</div>
 		<?php
@@ -896,8 +896,12 @@ class AdminHelper
 	{
 		global $post_type;
 		global $post;
+		$currentPostType = '';
 
-		$currentPostType = @$post->post_type;
+		if (is_object($post)) {
+			$currentPostType = @$post->post_type;
+		}
+
 		// in some themes global $post returns null
 		if (empty($currentPostType)) {
 			$currentPostType = $post_type;
@@ -958,7 +962,7 @@ class AdminHelper
 			self::deleteSubscriber($params);
 		}
 		else if (!$noSubscriber) {
-			echo '<span>Oops, something went wrong, please try again or contact the administrator to check more info.</span>';
+			_e('<span>Oops, something went wrong, please try again or contact the administrator to check more info.</span>', SG_POPUP_TEXT_DOMAIN);
 			wp_die();
 		}
 	}
@@ -1090,7 +1094,7 @@ class AdminHelper
 	public static function getMaxOpenDaysMessage()
 	{
 		$getUsageDays = self::getPopupUsageDays();
-		$firstHeader = '<h1 class="sgpb-review-h1"><strong class="sgrb-review-strong">Wow!</strong> You’ve been using Popup Builder on your site for '.$getUsageDays.' days</h1>';
+		$firstHeader = '<h1 class="sgpb-review-h1"><strong class="sgrb-review-strong">'.__('Wow!', SG_POPUP_TEXT_DOMAIN).'</strong>'.__('You have been using Popup Builder on your site for '.$getUsageDays.' days', SG_POPUP_TEXT_DOMAIN).'</h1>';
 		$popupContent = self::getMaxOpenPopupContent($firstHeader, 'days');
 
 		return $popupContent;
@@ -1222,9 +1226,9 @@ class AdminHelper
 	{
 		global $wpdb;
 
-		$query = $wpdb->prepare('SELECT table_name,create_time FROM information_schema.tables WHERE table_schema="%s" AND  table_name="%s"', DB_NAME, $wpdb->prefix.'sgpb_subscribers');
+		$query = $wpdb->prepare('SELECT table_name, create_time FROM information_schema.tables WHERE table_schema="%s" AND table_name="%s"', DB_NAME, $wpdb->prefix.'sgpb_subscribers');
 		$results = $wpdb->get_results($query, ARRAY_A);
-		if(empty($results)) {
+		if (empty($results)) {
 			return 0;
 		}
 
@@ -1374,5 +1378,78 @@ class AdminHelper
 	{
 		$bannerText = get_option('sgpb-banner-remote-get');
 		return $bannerText;
+	}
+
+	public static function getRightMetaboxBannerText()
+	{
+		$bannerText = get_option('sgpb-metabox-banner-remote-get');
+		return $bannerText;
+	}
+
+	public static function findSubscribersByEmail($subscriberEmail = '', $list = 0)
+	{
+		global $wpdb;
+		$subscriber = array();
+
+		$prepareSql = $wpdb->prepare('SELECT * FROM '.$wpdb->prefix.SGPB_SUBSCRIBERS_TABLE_NAME.' WHERE email = %s AND subscriptionType = %d ', $subscriberEmail, $list);
+		$subscriber = $wpdb->get_row($prepareSql, ARRAY_A);
+		if (!$list) {
+			$prepareSql = $wpdb->prepare('SELECT * FROM '.$wpdb->prefix.SGPB_SUBSCRIBERS_TABLE_NAME.' WHERE email = %s ', $subscriberEmail);
+			$subscriber = $wpdb->get_results($prepareSql, ARRAY_A);
+		}
+
+		return $subscriber;
+	}
+
+	public static function getGutenbergPopupsIdAndTitle($excludesPopups = array())
+	{
+		$allPopups = SGPopup::getAllPopups();
+		$popupIdTitles = array();
+
+		if (empty($allPopups)) {
+			return $popupIdTitles;
+		}
+
+		foreach ($allPopups as $popup) {
+			if (empty($popup)) {
+				continue;
+			}
+
+			$id = $popup->getId();
+			$title = $popup->getTitle();
+			$type = $popup->getType();
+
+			if (!empty($excludesPopups)) {
+				foreach ($excludesPopups as $excludesPopupId) {
+					if ($excludesPopupId != $id) {
+						$array = array();
+						$array['id'] = $id;
+						$array['title'] = $title . ' - ' . $type;
+						$popupIdTitles[] = $array;
+					}
+				}
+			}
+			else {
+				$array = array();
+				$array['id'] = $id;
+				$array['title'] = $title . ' - ' . $type;
+				$popupIdTitles[] = $array;
+			}
+		}
+
+		return $popupIdTitles;
+	}
+
+	public static function getGutenbergPopupsEvents()
+	{
+		$data =  array(
+			array('value' => '', 'title' => __('Select Event', SG_POPUP_TEXT_DOMAIN)),
+			array('value' => 'inherit', 'title' => __('Inherit', SG_POPUP_TEXT_DOMAIN)),
+			array('value' => 'onLoad', 'title' => __('On load', SG_POPUP_TEXT_DOMAIN)),
+			array('value' => 'click', 'title' => __('On click', SG_POPUP_TEXT_DOMAIN)),
+			array('value' => 'hover', 'title' => __('On hover', SG_POPUP_TEXT_DOMAIN))
+		);
+
+		return $data;
 	}
 }

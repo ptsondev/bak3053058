@@ -7,7 +7,7 @@ Tags: popup, pop up, wordpress popup, popup maker, exit popup, popup builder, wo
 Requires at least: 3.8
 Tested up to: 5.0
 Requires PHP: 5.3.3
-Stable tag: 3.1.1
+Stable tag: 3.1.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -96,7 +96,7 @@ With Popup Builder plugin you can insert any type of content, right into your Po
 
 *   Contact form popup - this type will allow your clients to write you a message right from the popup.
 
-*   MailChimp popup (separate extension) - create eye-catching, beautiful MailChimp popups to make your users sign up to the mail list right from the popup. You can set up all the design customization according to your needs and preferences!
+*   Mailchimp popup (separate extension) - create eye-catching, beautiful Mailchimp popups to make your users sign up to the mail list right from the popup. You can set up all the design customization according to your needs and preferences!
 
 *   Adblock popup (separate extension) - detect Adblock extensions that block the advertisements of your site and show a message to your visitors via popup!
 
@@ -178,6 +178,29 @@ Go to the Popup Builder settings and set your desired options.
 
 == Changelog ==
 
+= Version 3.1.4 =
+* Added Popup Builder block for Gutenberg.
+* Bug fixed related to popup limitation for IE browser.
+* Improvements related to the Iframes inside the HTML popup.
+* Added filter inside subscriber's table.
+* URL detection.
+
+= Version 3.1.3 =
+* Bug fixed related to banner closing.
+* Popup Builder archive page removed.
+* Bug fixed related to blank page of the popups data table.
+* Added popup showing limitation to remember by session.
+* If the user requests Popup's post type page it will be redreceted to homepage.
+* Added new option to not close the initial popup when the second popup is opened with "popup inside another popup" option.
+* Code improvements and minor bug fixes.
+
+= Version 3.1.2 =
+* Bug fixed related to popup view limitation (getting JS error if Popup Limitation is set up).
+* Improvements on popup preview functionality.
+* Added missing localization texts.
+* Improvements on subscribers section.
+* Minor fixes and improvements.
+
 = Version 3.1.1 =
 * Now the popup limitation cookie is saving only after the popup appears.
 * Popup Builder migration tweak.
@@ -225,7 +248,6 @@ Go to the Popup Builder settings and set your desired options.
 * Added to new option RTL/LTR for popup content direction.
 * Added new option inside age restriction popup to remember previus state of user selection.
 * Added loading spinner inside Iframe and Video popup types.
-
 
 = Version 3.0.5 =
 * Bug fixed for subscription popup for some cases when the submit event was not triggering.

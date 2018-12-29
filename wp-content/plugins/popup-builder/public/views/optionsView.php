@@ -119,12 +119,12 @@ if (!empty($removedOptions['content-copy-to-clipboard'])) {
 						<?php _e('Popup showing expiry', SG_POPUP_TEXT_DOMAIN)?>:
 					</label>
 					<div class="col-md-6">
-						<input type="number" min="1" disabled required id="sgpb-show-popup-same-user-expiry" class="sgpb-full-width-events form-control" name="sgpb-show-popup-same-user-expiry" value="<?php echo $popupTypeObj->getOptionValue('sgpb-show-popup-same-user-expiry'); ?>" placeholder="e.g.: 1">
+						<input type="number" min="0" disabled required id="sgpb-show-popup-same-user-expiry" class="sgpb-full-width-events form-control" name="sgpb-show-popup-same-user-expiry" value="<?php echo $popupTypeObj->getOptionValue('sgpb-show-popup-same-user-expiry'); ?>" placeholder="e.g.: 1">
 					</div>
 					<div class="col-md-1 sgpb-info-wrapper">
 						<span class="dashicons dashicons-editor-help sgpb-info-icon sgpb-info-icon-align"></span>
 						<span class="infoSelectRepeat samefontStyle sgpb-info-text" style="display: none;">
-							<?php _e('Select the count of the days after which the popup will be shown to the same user.', SG_POPUP_TEXT_DOMAIN);?>
+							<?php _e('Select the count of the days after which the popup will be shown to the same user, or set the value "0" if you want to save cookies by session.', SG_POPUP_TEXT_DOMAIN);?>
 						</span>
 					</div>
 				</div>
@@ -316,7 +316,7 @@ if (!empty($removedOptions['content-copy-to-clipboard'])) {
 					</div>
 					<?php if (!$autoClose): ?>
 					<div class="col-md-2 sgpb-pro-options-label-wrapper">
-						<a href="<?php echo SG_POPUP_ADVANCED_CLOSING_URL;?>" target="_blank" class="btn btn-warning btn-xs sgpb-pro-label-sm sgpb-advanced-closing-pro-label"><?php _e('GET OPTION', SG_POPUP_TEXT_DOMAIN) ?></a>
+						<a href="<?php echo SG_POPUP_ADVANCED_CLOSING_URL;?>" target="_blank" class="btn btn-warning btn-xs sgpb-pro-label-sm sgpb-advanced-closing-pro-label"><?php _e('UNLOCK OPTION', SG_POPUP_TEXT_DOMAIN) ?></a>
 					</div>
 				<?php endif; ?>
 				</div>

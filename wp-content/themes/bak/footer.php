@@ -1,7 +1,3 @@
-<?php if(!is_home()){ ?>    
-    <a href="/bep-tu-khuyen-mai"><div id="sub-footer"></div></a>
-<?php } ?>
-
 <div id="about-us-footer">
     <div class="container">
         <div class="row">

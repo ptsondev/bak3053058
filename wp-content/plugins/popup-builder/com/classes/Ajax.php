@@ -50,6 +50,8 @@ class Ajax
 		add_action('wp_ajax_select2_search_data', array($this, 'select2SearchData'));
 		add_action('wp_ajax_sgpb_subscription_submission', array($this, 'subscriptionSubmission'));
 		add_action('wp_ajax_nopriv_sgpb_subscription_submission', array($this, 'subscriptionSubmission'));
+		add_action('wp_ajax_sgpb_process_after_submission', array($this, 'sgpbSubsciptionFormSubmittedAction'));
+		add_action('wp_ajax_nopriv_sgpb_process_after_submission', array($this, 'sgpbSubsciptionFormSubmittedAction'));
 		add_action('wp_ajax_change_popup_status', array($this, 'changePopupStatus'));
 		// proStartGold
 		add_action('wp_ajax_check_same_origin', array($this, 'checkSameOrigin'));
@@ -360,14 +362,7 @@ class Ajax
 			$wpdb->query($sql);
 			$res = 1;
 		}
-
 		if ($res) {
-			$userData = array(
-				'email' => $email,
-				'firstName' => $firstName,
-				'lastName' => $lastName
-			);
-			$sendEmails = $this->sendSuccessEmails($popupPostId, $userData);
 			$status = SGPB_AJAX_STATUS_TRUE;
 		}
 
@@ -375,7 +370,31 @@ class Ajax
 		wp_die();
 	}
 
-	private function sendSuccessEmails($popupPostId, $subscriptionDetails)
+	public function sgpbSubsciptionFormSubmittedAction()
+    {
+        check_ajax_referer(SG_AJAX_NONCE, 'nonce');
+        $this->setPostData($_POST);
+
+        $submissionData = $this->getValueFromPost('formData');
+        $popupPostId = (int)$this->getValueFromPost('popupPostId');
+        parse_str($submissionData, $formData);
+        if (empty($_POST)) {
+            echo SGPB_AJAX_STATUS_FALSE;
+            wp_die();
+        }
+        $email = sanitize_email($_POST['emailValue']);
+        $firstName = sanitize_text_field($_POST['firstNameValue']);
+        $lastName = sanitize_text_field($_POST['lastNameValue']);
+        $userData = array(
+            'email' => $email,
+            'firstName' => $firstName,
+            'lastName' => $lastName
+        );
+        $this->sendSuccessEmails($popupPostId, $userData);
+        do_action('sgpbProcessAfterSuccessfulSubmission', $popupPostId, $userData);
+    }
+
+	public function sendSuccessEmails($popupPostId, $subscriptionDetails)
 	{
 		global $wpdb;
 		$popup = SGPopup::find($popupPostId);
@@ -398,17 +417,16 @@ class Ajax
 			$adminUserName = $userData->display_name;
 		}
 
-		$notificationEmail = $popupOptions['sgpb-subs-notifications-email'];
-		$newSubscriberEmailHeader = AdminHelper::getEmailHeader($notificationEmail);
+		$newSubscriberEmailHeader = AdminHelper::getEmailHeader($adminEmail);
 		$takeReviewAfterFirstSubscription = get_option('sgpb-new-subscriber');
 
-		if ($count['countIds'] == 1 && !empty($popupOptions['sgpb-subs-enable-email-notifications']) && !$takeReviewAfterFirstSubscription) {
+		if ($count['countIds'] == 1 && !$takeReviewAfterFirstSubscription) {
 			// take review
 			update_option('sgpb-new-subscriber', 1);
 			$newSubscriberEmailTitle = __('Congrats! You have already 1 subscriber!', SG_POPUP_TEXT_DOMAIN);
 			$reviewEmailTemplate = AdminHelper::getFileFromURL(SG_POPUP_EMAIL_TEMPLATES_URL.'takeReviewAfterSubscribe.html');
 			$reviewEmailTemplate = preg_replace('/\[adminUserName]/', $adminUserName, $reviewEmailTemplate);
-			$sendStatus = wp_mail($notificationEmail, $newSubscriberEmailTitle, $reviewEmailTemplate, $newSubscriberEmailHeader); //return true or false
+			$sendStatus = wp_mail($adminEmail, $newSubscriberEmailTitle, $reviewEmailTemplate, $newSubscriberEmailHeader); //return true or false
 		}
 	}
 

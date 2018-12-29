@@ -112,6 +112,7 @@ class PopupChecker
 		//If permissive for current page check conditions
 		if ($isPermissive) {
 			$conditions = $this->divideConditionsData();
+			$conditions = apply_filters('sgpbFilterDividedConditions', $conditions);
 			$isSatisfyForConditions = $this->isSatisfyForConditions($conditions);
 
 			if ($isSatisfyForConditions === false) {
@@ -349,7 +350,7 @@ class PopupChecker
 					} else if ( is_front_page() ) {
 						// static homepage
 						$isSatisfy = true;
-					    break;
+						break;
 					}
 				}
 				else if ($postType()) {
@@ -371,7 +372,8 @@ class PopupChecker
 		}
 		else if ($targetData['param'] == 'post_tags_ids') {
 			$tagsObj = wp_get_post_tags($postId);
-			$selectedTags = array_values($targetData['value']);
+			$postTagsValues = (array)@$targetData['value'];
+			$selectedTags = array_values($postTagsValues);
 
 			foreach ($tagsObj as $tagObj) {
 				if (in_array($tagObj->slug, $selectedTags)) {
@@ -380,7 +382,6 @@ class PopupChecker
 				}
 			}
 		}
-
 
 		if (!$isSatisfy && do_action('isAllowedForTarget', $targetData, $post)) {
 			$isSatisfy = true;

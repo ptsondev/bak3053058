@@ -3,7 +3,7 @@ Contributors: zendesk_official
 Tags: chat, chat online, contact plugin, contact us, customer support, free chat, chat software, IM chat, live chat, live chat inc, live chat services, live chat software, live chatting, live help, live support, live web chat, livechat, live help, live support, olark, online chat, online support, php live chat, snapengage, support software, website chat, wordpress chat, wordpress live chat, wordpress live chat plugin, Zopim, zendesk, Zopim live chat, banckle, clickdesk, click desk
 Requires at least: 3.1
 Tested up to: 4.7
-Stable tag: 1.4.13
+Stable tag: 1.4.14
 
 Zendesk Chat (previously Zopim) lets you monitor and chat with visitors surfing your store in real-time. Impress them personally and ease them into their purchase.
 
@@ -48,6 +48,9 @@ What are you waiting for? Download Zendesk Chat plugin now and <a href="https://
 * Arabic | Bulgarian | Chinese | Croatian | Czech | Danish | Dutch; Flemish | Estonian | Faroese | Finnish | French | Georgian | German | Greek | Hebrew | Hungarian | Icelandic | Indonesian | Italian | Japanese | Korean | Kurdish | Latvian | Lithuanian | Macedonian | Malay | Norwegian Bokmal | Persian | Polish | Portuguese | Romanian | Russian | Serbian | Slovak | Slovenian | Spanish; Castilian | Swedish | Thai | Turkish | Ukranian | Urdu | Vietnamese
 
 == Changelog ==
+
+= 1.4.14 =
+* Support chat phase 3 and phase 4 accounts
 
 = 1.4.13 =
 * Updated copy to reflect chat phase 4 limitations
@@ -298,9 +301,9 @@ You can easily do so by upgrading to a better plan. To find out more about the p
 
 Dont worry!! We are happy to assist! Just come on down to our site at https://www.zendesk.com/chat or leave an email for us at chat@zendesk.com and we will help you with installation.
 
-= Wordpress Integration for Chat standalone isn't working! =
+= Wordpress Integration for Chat accounts =
 
-The Wordpress integration for Chat standalone will not work with Chat Phase 4, released on 24 October. However, it will continue to work for Legacy Zendesk Chat and Chat Phase 3 standalone users, and users can continue to embed the widget code into their Wordpress website. The Wordpress integration for Chat standalone will be made available for Chat Phase 4 users in near future.
+The integration supports chat phase 4, 3 and 1 accounts. If you have a zendesk subdomain, please provide your subdomain as you are either chat phase 3 or 4 customer. If you don’t have a subdomain, leave the subdomain field as blank as you are chat phase 1 customer.
 
 == Usage ==
 

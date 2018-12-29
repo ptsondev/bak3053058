@@ -1,8 +1,21 @@
 <?php
 namespace sgpb;
+use \SgpbPopupConfig;
 
 class Filters
 {
+	private $activePopupsQueryString = '';
+
+	public function setQueryString($activePopupsQueryString)
+	{
+		$this->activePopupsQueryString = $activePopupsQueryString;
+	}
+
+	public function getQueryString()
+	{
+		return $this->activePopupsQueryString;
+	}
+
 	public function __construct()
 	{
 		$this->init();
@@ -18,7 +31,8 @@ class Filters
 		add_filter('sgpbAdminCssFiles', array($this, 'sgpbAdminCssFiles'), 1, 1);
 		add_filter('sgpbPopupContentLoadToPage', array($this, 'filterPopupContent'), 10, 1);
 		add_filter('the_content', array($this, 'clearContentPreviewMode'), 10, 1);
-		add_filter('posts_where' , array($this, 'excludePostsToShow'), 10, 1);
+		// The priority of this action should be higher than the extensions' init priority.
+		add_action('init', array($this, 'excludePostToShowPrepare'), 99999999);
 		add_filter('preview_post_link', array($this, 'editPopupPreviewLink'), 10, 2);
 		add_filter('upgrader_pre_download', array($this, 'maybeShortenEddFilename'), 10, 4);
 		add_filter('sgpbSavedPostData', array($this, 'savedPostData'), 10, 1);
@@ -26,6 +40,14 @@ class Filters
 		add_filter('sgpbAdditionalMetaboxes', array($this, 'metaboxes'), 10, 1);
 		add_filter('sgpbOptionAvailable', array($this, 'filterOption'), 10, 1);
 		add_filter('export_wp_filename', array($this, 'exportFileName'), 10, 1);
+	}
+
+	public function excludePostToShowPrepare()
+	{
+		SgpbPopupConfig::popupTypesInit();
+		$queryString = SGPopup::getActivePopupsQueryString();
+		$this->setQueryString($queryString);
+		add_filter('posts_where' , array($this, 'excludePostsToShow'), 10, 1);
 	}
 
 	public function exportFileName($fileName)
@@ -61,18 +83,11 @@ class Filters
 
 	public function metaboxes($metaboxes)
 	{
-		$conditionsProLabel = '';
-		$conditionsCanBeUsed = PopupBuilderActivePackage::canUseSection('popupConditionsSection');
-		if (!$conditionsCanBeUsed) {
-			$conditionsProLabel .= '<a href="'.SG_POPUP_ADVANCED_TARGETING_URL.'" target="_blank" class="sgpb-pro-label-metabox sgpb-advanced-targeting-pro-label">';
-			$conditionsProLabel .= __('GET OPTIONS', SG_POPUP_TEXT_DOMAIN).'</a>';
-		}
-
 		$otherConditionsProLabel = '';
 		$otherConditionsCanBeUsed = PopupBuilderActivePackage::canUseSection('popupOtherConditionsSection');
 		if (!$otherConditionsCanBeUsed) {
-			$otherConditionsProLabel .= '<a href="'.SG_POPUP_SCHEDULING_URL.'" target="_blank" class="sgpb-pro-label-metabox sgpb-scheduling-pro-label">';
-			$otherConditionsProLabel .= __('GET OPTION', SG_POPUP_TEXT_DOMAIN).'</a>';
+			$otherConditionsProLabel .= '<a href="'.SG_POPUP_SCHEDULING_URL.'" target="_blank" class="sgpb-pro-label-metabox">';
+			$otherConditionsProLabel .= __('UNLOCK OPTION', SG_POPUP_TEXT_DOMAIN).'</a>';
 		}
 		$metaboxes['targetMetaboxView'] = array(
 			'key' => 'targetMetaboxView',
@@ -90,7 +105,7 @@ class Filters
 
 		$metaboxes['conditionsMetaboxView'] = array(
 			'key' => 'conditionsMetaboxView',
-			'displayName' => 'Popup Conditions'.$conditionsProLabel,
+			'displayName' => 'Popup Conditions',
 			'filePath' => SG_POPUP_VIEWS_PATH.'conditionsView.php',
 			'priority' => 'high'
 		);
@@ -205,7 +220,7 @@ class Filters
 		return $filename;
 	}
 
-	public function editPopupPreviewLink($previewLink, $post)
+	public function editPopupPreviewLink($previewLink = '', $post = array())
 	{
 		if (get_option('theme_switched') === false) {
 			if (!empty($post) && $post->post_type == SG_POPUP_POST_TYPE) {
@@ -218,7 +233,7 @@ class Filters
 
 	public function excludePostsToShow($where)
 	{
-		if (is_admin()) {
+		if (function_exists('is_admin') && is_admin()) {
 			if (!function_exists('get_current_screen')) {
 				return $where;
 			}
@@ -232,8 +247,12 @@ class Filters
 			if ($postType == SG_POPUP_POST_TYPE &&
 				$screen instanceof \WP_Screen &&
 				$screen->id === 'edit-popupbuilder') {
-				$activePopupsQuery = SGPopup::getActivePopupsQueryString();
-				$where .= $activePopupsQuery;
+				if (class_exists('sgpb\SGPopup')) {
+					$activePopupsQuery = $this->getQueryString();
+					if ($activePopupsQuery && $activePopupsQuery != '') {
+						$where .= $activePopupsQuery;
+					}
+				}
 			}
 		}
 

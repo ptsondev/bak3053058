@@ -235,7 +235,7 @@ abstract class SGPopup
 
 		$saveMode = '';
 		global $post;
-		if ((is_preview() && $post->ID == $popupId) || isset($args['preview'])) {
+		if ((@is_preview() && $post->ID == $popupId) || isset($args['preview'])) {
 			$saveMode = '_preview';
 		}
 		if (isset($args['insidePopup']) && $args['insidePopup'] == 'on') {
@@ -1504,7 +1504,7 @@ abstract class SGPopup
 			}
 			// true = find inside popup
 			$insidePopup = self::find($insidePopupId, $args);
-			if (empty($insidePopup) || $insidePopup == 'trash') {
+			if (empty($insidePopup) || $insidePopup == 'trash' || $insidePopup == 'inherit') {
 				continue;
 			}
 			$events = array('insideclick');
@@ -1554,6 +1554,9 @@ abstract class SGPopup
 			'post_type' => SG_POPUP_POST_TYPE,
 			'post_status' => array('trash', 'publish')
 		);
+		if (!class_exists('ConfigDataHelper')) {
+			return $activePopupsQuery;
+		}
 		$allPostData = ConfigDataHelper::getQueryDataByArgs($args);
 		$args['checkActivePopupType'] = true;
 		$allPopups = $allPostData->posts;
