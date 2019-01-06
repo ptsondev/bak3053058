@@ -113,7 +113,6 @@ hs.src = ('//s10.histats.com/js15_as.js');
                 <!--<script type="text/javascript" src="https://tracking.autoads.asia/js/tracking.js"></script>
             <script type="text/javascript">novaon_behavior.init(14093);</script>-->
     
-        <!-- Vchat -->
-       <script lang="javascript">var _vc_data = {id : 6162068, secret : '76aede07d8ea4eee5cd204a7c00ffd73'};(function() {var ga = document.createElement('script');ga.type = 'text/javascript';ga.async=true; ga.defer=true;ga.src = '//live.vnpgroup.net/client/tracking.js?id=6162068';var s = document.getElementsByTagName('script');s[0].parentNode.insertBefore(ga, s[0]);})();</script>         	 
+       
 </body>
 </html>
