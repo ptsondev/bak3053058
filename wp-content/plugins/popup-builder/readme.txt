@@ -7,7 +7,7 @@ Tags: popup, pop up, wordpress popup, popup maker, exit popup, popup builder, wo
 Requires at least: 3.8
 Tested up to: 5.0
 Requires PHP: 5.3.3
-Stable tag: 3.1.4
+Stable tag: 3.1.4.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -177,6 +177,9 @@ Go to the Popup Builder settings and set your desired options.
 13. Facebook popup
 
 == Changelog ==
+
+= Version 3.1.4.1 =
+* Bug fixed related to JS error for blocks.
 
 = Version 3.1.4 =
 * Added Popup Builder block for Gutenberg.
