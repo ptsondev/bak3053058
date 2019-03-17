@@ -34,7 +34,7 @@
         ?>
     
     <!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-49884691-5"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-49884691-5"></script>    
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
@@ -42,16 +42,24 @@
 
   gtag('config', 'UA-49884691-5');
 </script>
+    
+    <?php 
+        $obj = get_queried_object();
+        if(isset($obj->post_type) && $obj->post_type=='product'){
+        ?>
+        <script>
+          gtag('event', 'page_view', {
+            'send_to': 'UA-49884691-5',
+            'ecomm_pagetype': 'pdetail',
+            'ecomm_prodid': '<?php echo $obj->ID;?>'
+          });
+        </script>
+    <?php
+        }
+        
+    ?>
+    
 
-    <!-- Global site tag (gtag.js) - AdWords: 968191709 -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=AW-968191709"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'AW-968191709');
-</script>
 
     <script type="text/javascript">
     window.addEventListener('load',function(){
@@ -187,11 +195,10 @@
                     <div id="slider1_container" style="position: relative; top: 0px; left: 0px; width: 1200px; height: 400px;">
                             <!-- Slides Container -->
     <div u="slides" style="cursor: move; position: absolute; overflow: hidden; left: 0px; top: 0px; width: 1200px; height: 400px;">
-        <div><a href="/bep-tu-khuyen-mai/"><img u="image" src="<?php echo PATH_TO_IMAGES; ?>b9-01.png" /></a></div>
-        <div><a href="/bep-tu-khuyen-mai/"><img u="image" src="<?php echo PATH_TO_IMAGES; ?>b9-05.png" /></a></div>
-        <div><a href="/bep-tu-khuyen-mai/"><img u="image" src="<?php echo PATH_TO_IMAGES; ?>ts2.png" /></a></div>
         <div><a href="/bep-tu-khuyen-mai/"><img u="image" src="<?php echo PATH_TO_IMAGES; ?>ts5.png" /></a></div>
-        
+        <div><a href="/bep-tu-khuyen-mai/"><img u="image" src="<?php echo PATH_TO_IMAGES; ?>ts3.png" /></a></div>        
+        <div><a href="/bep-tu-khuyen-mai/"><img u="image" src="<?php echo PATH_TO_IMAGES; ?>b9-01.png" /></a></div>
+        <div><a href="/bep-tu-khuyen-mai/"><img u="image" src="<?php echo PATH_TO_IMAGES; ?>ts2.png" /></a></div>        
         <div><a href="/bep-tu-khuyen-mai/"><img u="image" src="<?php echo PATH_TO_IMAGES; ?>b9-02.png" /></a></div>
         <div><a href="/bep-tu-khuyen-mai/"><img u="image" src="<?php echo PATH_TO_IMAGES; ?>b9-03.png" /></a></div>
         <div><a href="/bep-tu-khuyen-mai/"><img u="image" src="<?php echo PATH_TO_IMAGES; ?>b9-04.png" /></a></div>

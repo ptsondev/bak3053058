@@ -18,7 +18,11 @@ class SubscriptionPopup extends SGPopup
 
 	private function frontendFilters()
 	{
-		add_filter('sgpbFrontendJsFiles', array($this, 'frontJsFilter'), 1, 1);
+		$isSubscriptionPlusActive = is_plugin_active(SGPB_POPUP_SUBSCRIPTION_PLUS_EXTENSION_KEY);
+
+		if (!$isSubscriptionPlusActive) {
+			add_filter('sgpbFrontendJsFiles', array($this, 'frontJsFilter'), 1, 1);
+		}
 		add_filter('sgpbFrontendCssFiles', array($this, 'frontCssFilter'), 1, 1);
 	}
 
@@ -45,6 +49,7 @@ class SubscriptionPopup extends SGPopup
 	public static function getTablesSql()
 	{
 		$tablesSql = array();
+		$dbEngine = Functions::getDatabaseEngine();
 
 		$tablesSql[] = SGPB_SUBSCRIBERS_TABLE_NAME.' (
 					`id` int(12) NOT NULL AUTO_INCREMENT,
@@ -56,7 +61,7 @@ class SubscriptionPopup extends SGPopup
 					`status` varchar(255),
 					`unsubscribed` int(11) default 0,
 					PRIMARY KEY (id)
-			) ENGINE=InnoDB DEFAULT CHARSET=utf8;';
+			) ENGINE='.$dbEngine.' DEFAULT CHARSET=utf8;';
 
 		$tablesSql[] = SGPB_SUBSCRIBERS_ERROR_TABLE_NAME.' (
 					`id` int(12) NOT NULL AUTO_INCREMENT,
@@ -65,7 +70,7 @@ class SubscriptionPopup extends SGPopup
 					`email` varchar(255),
 					`date` varchar(255),
 					PRIMARY KEY (id)
-			) ENGINE=InnoDB DEFAULT CHARSET=utf8;';
+			) ENGINE='.$dbEngine.' DEFAULT CHARSET=utf8;';
 
 		return $tablesSql;
 	}
@@ -160,7 +165,7 @@ class SubscriptionPopup extends SGPopup
 	private function getFieldValue($optionName)
 	{
 		$optionValue = '';
-		$postData = $this->getData();
+		$postData = $this->getPostData();
 
 		if (!empty($postData[$optionName])) {
 			return $postData[$optionName];
@@ -188,7 +193,6 @@ class SubscriptionPopup extends SGPopup
 		$formData = array();
 		$inputStyles = array();
 		$submitStyles = array();
-		$postData = $this->getData();
 		$emailPlaceholder = $this->getFieldValue('sgpb-subs-email-placeholder');
 		if ($this->getFieldValue('sgpb-subs-text-width'))  {
 			$inputWidth = $this->getFieldValue('sgpb-subs-text-width');
@@ -350,13 +354,18 @@ class SubscriptionPopup extends SGPopup
 	private function createValidateObj($subsFields, $validationMessages)
 	{
 		$validateObj = '';
+		$id = $this->getId();
+		$requiredMessage = $this->getOptionValue('sgpb-subs-validation-message');
+		$emailMessage = $this->getOptionValue('sgpb-subs-invalid-message');
 
 		if (empty($subsFields)) {
 			return $validateObj;
 		}
 
 		$rules = 'rules: { ';
-		$validateObj = 'var sgpbSubsValidateObj = { ';
+		$messages = 'messages: { ';
+
+		$validateObj = 'var sgpbSubsValidateObj'.$id.' = { ';
 		foreach ($subsFields as $subsField) {
 
 			if (empty($subsField['attrs'])) {
@@ -380,6 +389,10 @@ class SubscriptionPopup extends SGPopup
 
 			if ($type == 'email') {
 				$rules .= '"'.$name.'": {required: true, email: true},';
+				$messages .= '"'.$name.'": {
+					"required": "'.$requiredMessage.'",
+					"email": "'.$emailMessage.'"
+				},';
 				continue;
 			}
 
@@ -387,17 +400,20 @@ class SubscriptionPopup extends SGPopup
 				continue;
 			}
 
+			$messages .= '"'.$name.'": "'.$requiredMessage.'",';
 			$rules .= '"'.$name.'" : "required",';
 
 		}
 		$rules = rtrim($rules, ',');
+		$messages = rtrim($messages, ',');
 
 		$rules .= '},';
+		$messages .= '}';
+
 		$validateObj .= $rules;
+		$validateObj .= $messages;
+
 		$validateObj .= '};';
-		$validateObj .= 'jQuery.extend(jQuery.validator.messages, { ';
-		$validateObj .= 'required: "'.$validationMessages['requiredMessage'].'"';
-		$validateObj .= ' });';
 
 		return $validateObj;
 	}

@@ -97,6 +97,12 @@ class Installer
 				}
 			}
 		}
+
+		// install extensions
+		if (SGPB_POPUP_PKG != SGPB_POPUP_PKG_FREE) {
+			$obj = new PopupExtensionActivator();
+			$obj->install();
+		}
 	}
 
 	public static function setupInstallationsDateConfig()
@@ -132,6 +138,8 @@ class Installer
 		delete_option('sgpb-dont-delete-data');
 		delete_option('sgpb-new-subscriber');
 		delete_option('sgpbUnsubscribeColumnFixed');
+		delete_option('sgpbActivateExtensions');
+		delete_option('sgpbExtensionsInfo');
 
 		// Trigger popup data delete action
 		do_action('sgpbDeletePopupData');
@@ -183,6 +191,8 @@ class Installer
 
 		$terms = $wpdb->get_results($customTermsQuery);
 
+		$terms = apply_filters('sgpbDeleteTerms', $terms);
+
 		foreach ($terms as $term) {
 			if (empty($term)) {
 				continue;
@@ -216,6 +226,7 @@ class Installer
 				)
 			)
 		);
+		$popups = apply_filters('sgpbDeletePopups', $popups);
 
 		foreach ($popups as $popup) {
 			if (empty($popup)) {
@@ -310,6 +321,7 @@ class Installer
 					'boxLabel' => __('Popup Builder License', SG_POPUP_TEXT_DOMAIN)
 				)
 			);
+			$options = apply_filters('sgpbRegisterOptions', $options);
 		}
 
 		@SgpbPopupExtensionRegister::register($pluginName, $classPath, $className, $options);

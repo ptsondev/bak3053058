@@ -454,7 +454,6 @@
 				} else if (col.r != undefined && col.g != undefined && col.b != undefined) {
 					col = RGBToHSB(col);
 				} else if (col.h != undefined && col.s != undefined && col.b != undefined) {
-
 					col = fixHSB(col);
 				} else {
 					return this;

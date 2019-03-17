@@ -124,6 +124,7 @@ h2{
         padding-left: 22px;
         position: relative;
     margin-left: 30px;
+    font-size: 12px;
 }
 #main-header.active #header-search,
 #main-header.active #cart,
@@ -989,7 +990,7 @@ table.spec i{
     padding-left: 25px;
     float: right;
     color: #3f94a8;
-    font-size: 14px;
+    font-size: 12px;
     position: absolute;
     right: 20px;
     top: 13px;
@@ -1039,6 +1040,7 @@ table.spec i{
     cursor: pointer;
 }
 #order-form input,
+#order-form select,
 #order-form textarea{
     width: 100%;
     margin: 5px 0;
@@ -1443,7 +1445,7 @@ box-shadow: 0px 3px 16px 0px rgba(0,0,0,0.75);
         padding-left: 22px;
         top: -110px;
         right: 10px;
-        font-size: 13px;
+        font-size: 12px;
     }
     .btnRemoveItem{
         top:-40px;

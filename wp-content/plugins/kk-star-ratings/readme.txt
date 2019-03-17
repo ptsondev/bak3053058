@@ -1,11 +1,11 @@
 === kk Star Ratings ===
 Contributors: bhittani
-Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=CM659D9SHGKE6
+Donate link: https://github.com/kamalkhan/kk-star-ratings
 Tags: star ratings, votings, rate posts, ajax ratings, infinite stars, unlimited stars, google rich snippets
 Requires at least: 3.0
 Requires PHP: 5.2.4
-Tested up to: 4.9.5
-Stable tag: 2.6.1
+Tested up to: 5.1
+Stable tag: 2.6.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -124,6 +124,15 @@ Visit the help tab in the settings to find out what you can do.
 
 
 == Changelog ==
+
+= 2.6.3 =
+* Fix previous commit 2.6.2
+
+= 2.6.2 =
+* Update: Bump wp version compatibility to 5.1.
+* Fix: See [PR #65](https://github.com/kamalkhan/kk-star-ratings/pull/65)
+* Fix: See [PR #65](https://github.com/kamalkhan/kk-star-ratings/pull/66)
+* Fix: See [PR #65](https://github.com/kamalkhan/kk-star-ratings/pull/67)
 
 = 2.6.1 =
 * Fix: Possible division by zero.
