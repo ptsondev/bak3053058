@@ -102,7 +102,7 @@ SGPBPopup.prototype.getCountPopupOpen = function()
 	return this.countPopupOpen;
 }
 
-SGPBPopup.prototype.playMusic = function(e) {
+SGPBPopup.playMusic = function(e) {
 	var args = e.detail;
 	var popupId = parseInt(args.popupId);
 	var options = SGPBPopup.getPopupOptionsById(popupId);
@@ -114,15 +114,13 @@ SGPBPopup.prototype.playMusic = function(e) {
 		audio.play();
 		window.SGPB_SOUND[popupId] = audio;
 	}
-}
+};
 
 SGPBPopup.prototype.initialsListeners = function()
 {
 	/* one time calling events (sgpbDidOpen, sgpbDidClose ...) */
-	window.SGPB_SOUND = [];
 	var that = this;
 	sgAddEvent(window, 'sgpbDidOpen', function(e) {
-		that.playMusic(e);
 		jQuery('.sg-popup-close').unbind('click').bind('click',function(){
 			var currentPopupId = jQuery(this).parents('.sg-popup-builder-content').attr('data-id');
 			SGPBPopup.closePopupById(currentPopupId);
@@ -133,10 +131,6 @@ SGPBPopup.prototype.initialsListeners = function()
 		var args = e.detail;
 		var popupId = parseInt(args.popupId);
 		that.htmlIframeFilterForOpen(popupId, 'close');
-		if (typeof window.SGPB_SOUND[popupId] && window.SGPB_SOUND[popupId]) {
-			window.SGPB_SOUND[popupId].pause();
-			delete window.SGPB_SOUND[popupId];
-		}
 	});
 };
 
@@ -404,7 +398,27 @@ SGPBPopup.prototype.popupContentClick = function(e)
 		};
 		jQuery(window).trigger('sgpbPopupContentclick', settings);
 	});
-}
+};
+
+SGPBPopup.prototype.forceCheckCurrentPopupType = function(popupObj)
+{
+	var allowToOpen = true;
+	var popupConfig = new PopupConfig();
+	var className = popupObj.popupData['sgpb-type'];
+	if (typeof className == 'undefined' || className == 'undefined') {
+		return false;
+	}
+
+	if (typeof SGPB_POPUP_PARAMS.conditionalJsClasses != 'undefined' && SGPB_POPUP_PARAMS.conditionalJsClasses.length) {
+		var isAllowConditions = this.forceIsAllowJsConditions(popupObj);
+
+		if (!isAllowConditions) {
+			return false;
+		}
+	}
+
+	return allowToOpen;
+};
 
 SGPBPopup.prototype.checkCurrentPopupType = function()
 {
@@ -454,6 +468,37 @@ SGPBPopup.prototype.checkCurrentPopupType = function()
 	}
 
 	return allowToOpen;
+};
+
+SGPBPopup.prototype.forceIsAllowJsConditions = function(popupObj) {
+	var conditions = SGPB_POPUP_PARAMS.conditionalJsClasses;
+	var isAllow = true;
+
+	for (var i in conditions) {
+		if (!conditions.hasOwnProperty(i)) {
+			break;
+		}
+
+		try {
+			var className = eval(conditions[i]);
+		}
+		catch (e) {
+			continue;
+		}
+		var obj = new className;
+		/* call allowToOpen function if exists */
+		if (typeof obj.forceAllowToOpen === 'function') {
+			var popupData = this.getPopupData();
+			var allowToOpen = obj.forceAllowToOpen(popupObj.id, popupObj);
+
+			if (!allowToOpen) {
+				isAllow = allowToOpen;
+				break;
+			}
+		}
+	}
+
+	return isAllow;
 };
 
 SGPBPopup.prototype.isAllowJsConditions = function() {
@@ -1108,25 +1153,25 @@ SGPBPopup.prototype.replaceWithCustomShortcode = function(popupId)
 		var searchAttributes = currentSearchData['searchData'];
 
 		if (typeof searchAttributes['selector'] == 'undefined' || typeof searchAttributes['attribute'] == 'undefined') {
-			that.replaceShortCode(currentSearchData['replaceString'], '');
+			that.replaceShortCode(currentSearchData['replaceString'], '', popupId);
 			continue;
 		}
 
 		try {
 			if (!jQuery(searchAttributes['selector']).length) {
-				that.replaceShortCode(currentSearchData['replaceString'], '');
+				that.replaceShortCode(currentSearchData['replaceString'], '', popupId);
 				continue;
 			}
 		}
 		catch (e) {
-			that.replaceShortCode(currentSearchData['replaceString'], '');
+			that.replaceShortCode(currentSearchData['replaceString'], '', popupId);
 			continue;
 		}
 
 		var replaceName = jQuery(searchAttributes['selector']).attr(searchAttributes['attribute']);
 
 		if (typeof replaceName == 'undefined') {
-			that.replaceShortCode(currentSearchData['replaceString'], '');
+			that.replaceShortCode(currentSearchData['replaceString'], '', popupId);
 			continue;
 		}
 
@@ -1155,19 +1200,11 @@ SGPBPopup.prototype.replaceShortCode = function(shortCode, replaceText, popupId)
 			return false;
 		}
 
-		for (var index in currentHtmlContent) {
-			var currentChild = currentHtmlContent[index];
-			var currentChildNodeValue = currentChild.nodeValue;
-			var currentChildNodeType = currentChild.nodeType;
-
-			if (currentChildNodeType != Node.TEXT_NODE) {
-				continue;
+    	currentHtmlContent.html(function(i, v) {
+			if (typeof v != 'undefined') {
+		  		return v.replace(shortCode, replaceText);
 			}
-
-			if (currentChildNodeValue.indexOf(shortCode) != -1) {
-				currentChild.nodeValue =  currentChildNodeValue.replace(shortCode, replaceText);
-			}
-		}
+		});
 	});
 
 	return true;
@@ -2151,8 +2188,26 @@ SgpbEventListener.prototype.getPopupObj = function()
 	return this.popupObj;
 };
 
+SgpbEventListener.eventsListenerAfterDocumentReady = function()
+{
+	window.SGPB_SOUND = [];
+	sgAddEvent(window, 'sgpbDidOpen', function(e) {
+		SGPBPopup.playMusic(e);
+	});
+
+	sgAddEvent(window, 'sgpbDidClose', function(e) {
+		var args = e.detail;
+		var popupId = parseInt(args.popupId);
+		if (typeof window.SGPB_SOUND[popupId] && window.SGPB_SOUND[popupId]) {
+			window.SGPB_SOUND[popupId].pause();
+			delete window.SGPB_SOUND[popupId];
+		}
+	});
+};
+
 SgpbEventListener.init = function()
 {
+	SgpbEventListener.eventsListenerAfterDocumentReady();
 	var popupsData = jQuery('.sg-popup-builder-content');
 
 	if (!popupsData) {
@@ -2256,6 +2311,12 @@ SgpbEventListener.prototype.sgpbLoad = function(listenerObj, eventData)
 	timeout = timeout*1000;
 	var timerId,
 		repetitiveTimeout = null;
+
+
+	/* same as checkCurrentPopupType(), but it fires ignoring any delay (etc. onload delay) */
+	popupObj.forceCheckCurrentPopupType(popupObj);
+
+
 	var openOnLoadPopup = function() {
 		setTimeout(function() {
 			popupObj.prepareOpen();

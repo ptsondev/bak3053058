@@ -231,7 +231,17 @@ class SubscriptionPopup extends SGPopup
 		if ($this->getFieldValue('sgpb-subs-btn-text-color')) {
 			$submitStyles['color'] = $this->getFieldValue('sgpb-subs-btn-text-color');
 		}
+		if ($this->getFieldValue('sgpb-subs-btn-border-radius')) {
+			$submitStyles['border-radius'] = $this->getFieldValue('sgpb-subs-btn-border-radius');
+		}
+		if ($this->getFieldValue('sgpb-subs-btn-border-width')) {
+			$submitStyles['border-width'] = $this->getFieldValue('sgpb-subs-btn-border-width');
+		}
+		if ($this->getFieldValue('sgpb-subs-btn-border-color')) {
+			$submitStyles['border-color'] = $this->getFieldValue('sgpb-subs-btn-border-color');
+		}
 		$submitStyles['text-transform'] = 'none !important';
+		$submitStyles['border-style'] = 'solid';
 
 		$formData['email'] = array(
 			'isShow' => true,

@@ -60,6 +60,10 @@ class ScriptsLoader
 	{
 		$alreadyLoadedPopups = array();
 		$popups = $this->getLoadablePopups();
+		$currentPostType = AdminHelper::getCurrentPostType();
+		if ($currentPostType == SG_POPUP_POST_TYPE) {
+			return false;
+		}
 
 		if (empty($popups)) {
 			return false;
@@ -153,7 +157,7 @@ class ScriptsLoader
 	{
 		global $post;
 		$popups = $this->getLoadablePopups();
-		$registeredPlugins = get_option('SG_POPUP_BUILDER_REGISTERED_PLUGINS');
+		$registeredPlugins = AdminHelper::getOption('SG_POPUP_BUILDER_REGISTERED_PLUGINS');
 
 		if (!$registeredPlugins) {
 			return;
@@ -173,12 +177,16 @@ class ScriptsLoader
 			if (empty($pluginData['classPath']) || empty($pluginData['className'])) {
 				continue;
 			}
+			$classPath = $pluginData['classPath'];
+			if (!strpos($classPath, 'wp-content/plugins/')) {
+				$classPath = SG_POPUP_PLUGIN_PATH.$classPath;
+			}
 
-			if (!file_exists($pluginData['classPath'])) {
+			if (!file_exists($classPath)) {
 				continue;
 			}
 
-			require_once($pluginData['classPath']);
+			require_once($classPath);
 
 			$classObj = new $pluginData['className']();
 			$extensionInterface = 'SgpbIPopupExtension';
@@ -251,7 +259,7 @@ class ScriptsLoader
 		global $post;
 		$styles = array();
 		$popups = $this->getLoadablePopups();
-		$registeredPlugins = get_option('SG_POPUP_BUILDER_REGISTERED_PLUGINS');
+		$registeredPlugins = AdminHelper::getOption('SG_POPUP_BUILDER_REGISTERED_PLUGINS');
 
 		if (!$registeredPlugins) {
 			return;
@@ -272,11 +280,16 @@ class ScriptsLoader
 				continue;
 			}
 
-			if (!file_exists($pluginData['classPath']))  {
+			$classPath = $pluginData['classPath'];
+			if (!strpos($classPath, 'wp-content/plugins/')) {
+				$classPath = SG_POPUP_PLUGIN_PATH.$classPath;
+			}
+			
+			if (!file_exists($classPath))  {
 				continue;
 			}
 
-			require_once($pluginData['classPath']);
+			require_once($classPath);
 
 			$classObj = new $pluginData['className']();
 			$extensionInterface = 'SgpbIPopupExtension';

@@ -27,7 +27,7 @@ class Updates
 
 	public function setRegisterdExtensionsLicenses()
 	{
-		$registered = get_option('SG_POPUP_BUILDER_REGISTERED_PLUGINS');
+		$registered = AdminHelper::getOption('SG_POPUP_BUILDER_REGISTERED_PLUGINS');
 		$registered = json_decode($registered, true);
 
 		if (empty($registered)) {
@@ -66,6 +66,10 @@ class Updates
 			$key = $license['key'];
 			$storeURL = $license['storeURL'];
 			$pluginMainFilePath = $license['file'];
+
+			if (!strpos($pluginMainFilePath, 'wp-content/plugins/')) {
+				$pluginMainFilePath = SG_POPUP_PLUGIN_PATH.$pluginMainFilePath;
+			}
 			$licenseKey = trim(get_option('sgpb-license-key-'.$key));
 			$status = get_option('sgpb-license-status-'.$key);
 
@@ -192,6 +196,12 @@ class Updates
 				}
 				// $licenseData->license will be either "valid" or "invalid"
 				update_option('sgpb-license-status-'.$key, $licenseData->license);
+				$hasInactiveExtensions = AdminHelper::hasInactiveExtensions();
+				// all available extensions have active license status
+				if (empty($hasInactiveExtensions)) {
+					// and if we don't have inactive extensions, remove option, until new one activation
+					delete_option('SGPB_INACTIVE_EXTENSIONS', 'inactive');
+				}
 				wp_redirect(admin_url('edit.php?post_type='.SG_POPUP_POST_TYPE.'&page='.SGPB_POPUP_LICENSE));
 				exit();
 			}
@@ -223,6 +233,7 @@ class Updates
 						$status = $licenseData->success;
 					}
 					update_option('sgpb-license-status-'.$key, $status);
+					update_option('SGPB_INACTIVE_EXTENSIONS', 'inactive');
 					wp_redirect(admin_url('edit.php?post_type='.SG_POPUP_POST_TYPE.'&page='.SGPB_POPUP_LICENSE));
 					exit();
 				}

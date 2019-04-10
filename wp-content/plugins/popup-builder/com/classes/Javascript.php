@@ -30,7 +30,7 @@ class Javascript
 			$pageName = SG_POPUP_SUBSCRIBERS_PAGE;
 		}
 
-		$registeredPlugins = get_option('SG_POPUP_BUILDER_REGISTERED_PLUGINS');
+		$registeredPlugins = AdminHelper::getOption('SG_POPUP_BUILDER_REGISTERED_PLUGINS');
 
 		if(!$registeredPlugins) {
 			return;
@@ -52,12 +52,16 @@ class Javascript
 			if (empty($pluginData['classPath']) || empty($pluginData['className'])) {
 				continue;
 			}
+			$classPath = $pluginData['classPath'];
+			if (!strpos($classPath, 'wp-content/plugins/')) {
+				$classPath = SG_POPUP_PLUGIN_PATH.$classPath;
+			}
 
-			if (!file_exists($pluginData['classPath']))  {
+			if (!file_exists($classPath))  {
 				continue;
 			}
 
-			require_once($pluginData['classPath']);
+			require_once($classPath);
 
 			if (!class_exists($pluginData['className'])) {
 				continue;

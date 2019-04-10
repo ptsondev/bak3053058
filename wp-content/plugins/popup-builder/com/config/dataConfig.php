@@ -485,6 +485,18 @@ class SgpbDataConfig
 		$keys = array();
 
 		$keys[] = array(
+			'label' => __('Push Notification', SG_POPUP_TEXT_DOMAIN),
+			'pluginKey' =>  'popupbuilder-push-notification/PopupBuilderPushNotification.php',
+			'key' => 'pushNotification',
+			'url' => SG_POPUP_PUSH_NOTIFICATION_URL
+		);
+		$keys[] = array(
+			'label' => __('EDD', SG_POPUP_TEXT_DOMAIN),
+			'pluginKey' =>  'popupbuilder-edd/PopupBuilderEdd.php',
+			'key' => 'edd',
+			'url' => SGPB_EDD_PLUGIN_URL
+		);
+		$keys[] = array(
 			'label' => __('Scheduling', SG_POPUP_TEXT_DOMAIN),
 			'pluginKey' => 'popupbuilder-scheduling/PopupBuilderScheduling.php',
 			'key' => 'scheduling',
@@ -621,12 +633,6 @@ class SgpbDataConfig
 			'pluginKey' =>  'popupbuilder-subscription-plus/PopupBuilderSubscriptionPlus.php',
 			'key' => 'subscriptionPlus',
 			'url' => SG_POPUP_SUBSCRIPTION_PLUS_URL
-		);
-		$keys[] = array(
-			'label' => __('Push Notification', SG_POPUP_TEXT_DOMAIN),
-			'pluginKey' =>  'popupbuilder-push-notification/PopupBuilderPushNotification.php',
-			'key' => 'pushNotification',
-			'url' => SG_POPUP_PUSH_NOTIFICATION_URL
 		);
 
 		return apply_filters('sgpbExtensionsKeys', $keys);
@@ -803,6 +809,7 @@ class SgpbDataConfig
 		$options[] = array('name' => 'sgpb-content-padding', 'type' => 'text', 'defaultValue' => 7);
 		$options[] = array('name' => 'sgpb-popup-z-index', 'type' => 'text', 'defaultValue' => 9999);
 		$options[] = array('name' => 'sgpb-content-custom-class', 'type' => 'text', 'defaultValue' => 'sg-popup-content');
+		$options[] = array('name' => 'sgpb-close-after-page-scroll', 'type' => 'checkbox', 'defaultValue' => '', 'min-version' => SGPB_POPUP_PRO_MIN_VERSION, 'min-pkg' => SGPB_POPUP_PKG_SILVER);
 		$options[] = array('name' => 'sgpb-auto-close', 'type' => 'checkbox', 'defaultValue' => '', 'min-version' => SGPB_POPUP_PRO_MIN_VERSION, 'min-pkg' => SGPB_POPUP_PKG_SILVER);
 		$options[] = array('name' => 'sgpb-auto-close-time', 'type' => 'number', 'defaultValue' => 0);
 		$options[] = array('name' => 'sgpb-reopen-after-form-submission', 'type' => 'checkbox', 'defaultValue' => '');
@@ -852,6 +859,9 @@ class SgpbDataConfig
 		$options[] = array('name' => 'sgpb-subs-text-placeholder-color', 'type' => 'text', 'defaultValue' => '#CCCCCC');
 		$options[] = array('name' => 'sgpb-subs-btn-width', 'type' => 'text', 'defaultValue' => '300px');
 		$options[] = array('name' => 'sgpb-subs-btn-height', 'type' => 'text', 'defaultValue' => '40px');
+		$options[] = array('name' => 'sgpb-subs-btn-border-radius', 'type' => 'text', 'defaultValue' => '4px');
+		$options[] = array('name' => 'sgpb-subs-btn-border-width', 'type' => 'text', 'defaultValue' => '0px');
+		$options[] = array('name' => 'sgpb-subs-btn-border-color', 'type' => 'text', 'defaultValue' => '#4CAF50');
 		$options[] = array('name' => 'sgpb-subs-btn-title', 'type' => 'text', 'defaultValue' => __('Subscribe', SG_POPUP_TEXT_DOMAIN));
 		$options[] = array('name' => 'sgpb-subs-btn-progress-title', 'type' => 'text', 'defaultValue' => __('Please wait...', SG_POPUP_TEXT_DOMAIN));
 		$options[] = array('name' => 'sgpb-subs-btn-bg-color', 'type' => 'text', 'defaultValue' => '#4CAF50');

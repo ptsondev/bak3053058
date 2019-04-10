@@ -19,6 +19,7 @@ class AdminHelper
 		$extensionOptions = array();
 		// advanced closing option
 		$extensionOptions[SGPB_POPUP_ADVANCED_CLOSING_PLUGIN_KEY] = array(
+			'sgpb-close-after-page-scroll',
 			'sgpb-auto-close',
 			'sgpb-enable-popup-overlay',
 			'sgpb-disable-popup-closing'
@@ -1467,5 +1468,129 @@ class AdminHelper
 		}
 
 		return $subscriber;
+	}
+
+	/**
+	 * Update options
+	 *
+	 * @since 3.1.9
+	 *
+	 * @return void
+	 */
+	public static function updateOption($optionKey, $optionValue)
+	{
+		if (is_multisite()) {
+			update_site_option($optionKey, $optionValue);
+		}
+		else {
+			update_option($optionKey, $optionValue);
+		}
+	}
+
+	public static function getOption($optionKey)
+	{
+		if (is_multisite()) {
+			return get_site_option($optionKey);
+		}
+		return get_option($optionKey);
+	}
+
+	public static function deleteOption($optionKey)
+	{
+		if (is_multisite()) {
+			delete_site_option($optionKey);
+		}
+		else {
+			delete_option($optionKey);
+		}
+	}
+
+	/**
+	 * It's change popup registered plugins static paths to dynamic
+	 *
+	 * @since 3.1.9
+	 *
+	 * @return bool where true mean modified false mean there is not need modification
+     */
+	public static function makeRegisteredPluginsStaticPathsToDynamic()
+	{
+		$hasModifiedPaths = get_option('sgpbModifiedRegisteredPluginsPaths');
+
+		if ($hasModifiedPaths) {
+			return false;
+		}
+		update_option('sgpbModifiedRegisteredPluginsPaths', 1);
+
+		$registeredPlugins = AdminHelper::getOption('SG_POPUP_BUILDER_REGISTERED_PLUGINS');
+
+		if (empty($registeredPlugins)) {
+			return false;
+		}
+
+		$registeredPlugins = json_decode($registeredPlugins, true);
+
+		if (empty($registeredPlugins)) {
+			return false;
+		}
+
+		foreach ($registeredPlugins as $key => $registeredPlugin) {
+			if (empty($registeredPlugin['classPath'])) {
+				continue;
+			}
+
+			$excludeClassPath =  explode('wp-content/plugins/', $registeredPlugin['classPath']);
+
+			// where 1 means dynamic path
+			if (!empty($excludeClassPath[1])) {
+				$registeredPlugins[$key]['classPath'] = $excludeClassPath[1];
+			}
+
+			if (!empty($registeredPlugin['options']['licence']['file'])) {
+				$excludeLicencePath =  explode('wp-content/plugins/', $registeredPlugin['options']['licence']['file']);
+				// where 1 means dynamic path
+				if (!empty($excludeLicencePath[1])) {
+					$registeredPlugins[$key]['options']['licence']['file'] = $excludeLicencePath[1];
+				}
+			}
+		}
+		$registeredPlugins = json_encode($registeredPlugins);
+
+		update_option('SG_POPUP_BUILDER_REGISTERED_PLUGINS', $registeredPlugins);
+		return true;
+	}
+
+	public static function hasInactiveExtensions()
+	{
+		$hasInactiveExtensions = false;
+		$allRegiseredPBPlugins = AdminHelper::getOption('SG_POPUP_BUILDER_REGISTERED_PLUGINS');
+		$allRegiseredPBPlugins = @json_decode($allRegiseredPBPlugins, true);
+		if (empty($allRegiseredPBPlugins)) {
+			return $hasInactiveExtensions;
+		}
+
+		foreach ($allRegiseredPBPlugins as $pluginPath => $registeredPlugin) {
+			if (!isset($registeredPlugin['options']['licence']['key'])) {
+				continue;
+			}
+			if (!isset($registeredPlugin['options']['licence']['file'])) {
+				continue;
+			}
+			$extensionKey = $registeredPlugin['options']['licence']['file'];
+			if (strpos($extensionKey, 'wp-content/plugins/')) {
+				$explodedPaths = explode('wp-content/plugins/', $extensionKey);
+				$extensionKey = $explodedPaths[1];
+			}
+			$isPluginActive = is_plugin_active($extensionKey);
+			$pluginKey = $registeredPlugin['options']['licence']['key'];
+			$isValidLicense = get_option('sgpb-license-status-'.$pluginKey);
+
+			// if we even have at least one inactive extension, we don't need to check remaining extensions
+			if ($isValidLicense != 'valid' && $isPluginActive) {
+				$hasInactiveExtensions = true;
+				break;
+			}
+		}
+
+		return $hasInactiveExtensions;
 	}
 }

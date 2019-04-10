@@ -147,7 +147,7 @@ class Filters
 
 		$metaboxes['otherConditionsMetaBoxView'] = array(
 			'key' => 'otherConditionsMetaBoxView',
-			'displayName' => 'Popup other Conditions'.$otherConditionsProLabel,
+			'displayName' => 'Popup Additional Conditions'.$otherConditionsProLabel,
 			'filePath' => SG_POPUP_VIEWS_PATH.'otherConditionsView.php',
 			'priority' => 'high'
 		);

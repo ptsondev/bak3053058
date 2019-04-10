@@ -196,6 +196,9 @@ class ConfigDataHelper
 		$postTypes['is_home'] = __('Posts Page', SG_POPUP_TEXT_DOMAIN);
 		$postTypes['is_search'] = __('Search Pages', SG_POPUP_TEXT_DOMAIN);
 		$postTypes['is_404'] = __('404 Pages', SG_POPUP_TEXT_DOMAIN);
+		if (function_exists('is_shop')) {
+			$postTypes['is_shop'] = __('Shop Page', SG_POPUP_TEXT_DOMAIN);
+		}
 
 		return $postTypes;
 	}

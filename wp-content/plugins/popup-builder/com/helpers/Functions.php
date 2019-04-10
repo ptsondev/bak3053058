@@ -148,6 +148,7 @@ class Functions
 		if ($text == '') {
 			return $inputElement;
 		}
+		$text = html_entity_decode($text);
 		$inputElement .= '<div class="sgpb-alert-info sgpb-alert sgpb-gdpr-info js-subs-text-checkbox sgpb-gdpr-text-js" '.$styles.'>'.$text.'</div>';
 
 		return $inputElement;

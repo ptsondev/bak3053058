@@ -181,10 +181,7 @@ class PopupChecker
 		if (!$defaultStatus && do_action('isAllowedForConditions', $option, $post)) {
 			$defaultStatus = true;
 		}
-		// proEndSilver
-		if (!isset($isAllowedConditionFilters['status']) || $isAllowedConditionFilters['status'] == false) {
-			$isAllowedConditionFilters = apply_filters('isAllowedConditionFilters', array($option));
-		}
+		$isAllowedConditionFilters = apply_filters('isAllowedConditionFilters', array($option));
 		if (isset($isAllowedConditionFilters['status']) && $isAllowedConditionFilters['status'] === true) {
 			$defaultStatus = true;
 		}
@@ -385,7 +382,7 @@ class PopupChecker
 						break;
 					}
 				}
-				else if ($postType()) {
+				else if (function_exists($postType) && $postType()) {
 					$isSatisfy = true;
 					break;
 				}

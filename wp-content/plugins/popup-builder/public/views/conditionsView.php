@@ -118,7 +118,7 @@ $defaultConditions = $defaultData['freeConditions'];
 			<label><?php _e('Condition', SG_POPUP_TEXT_DOMAIN);?></label>
 		</div>
 		<div class="col-md-3">
-			<label><?php _e('is at least', SG_POPUP_TEXT_DOMAIN);?></label>
+			<label><?php _e('Is at least', SG_POPUP_TEXT_DOMAIN);?></label>
 		</div>
 	</div>
 	<div class="row form-group">
@@ -143,13 +143,13 @@ $defaultConditions = $defaultData['freeConditions'];
 </div>
 <style type="text/css">
 	.sgpb-conditions-description-wrapper + .sgpb-other-pro-options {
-		z-index: 9999;
+		z-index: 999;
 	}
 
 	.sgpb-advanced-targeting-pro-label,
 	.sgpb-conditions-description-wrapper label {
 		position: relative;
-		z-index: 99990 !important;
+		z-index: 1000 !important;
 	}
 	.sgpb-advanced-targeting-pro-label {
 		line-height: 21px;

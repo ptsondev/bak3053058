@@ -32,11 +32,12 @@ class Style
 			$pageName = SG_POPUP_SUBSCRIBERS_PAGE;
 		}
 
-		$registeredPlugins = get_option('SG_POPUP_BUILDER_REGISTERED_PLUGINS');
+		$registeredPlugins = AdminHelper::getOption('SG_POPUP_BUILDER_REGISTERED_PLUGINS');
 
 		if (!$registeredPlugins) {
 			return;
 		}
+	
 		$registeredPlugins = json_decode($registeredPlugins, true);
 
 		if (empty($registeredPlugins)) {
@@ -53,11 +54,15 @@ class Style
 				continue;
 			}
 
-			if (!file_exists($pluginData['classPath']))  {
-				continue;
+			$classPath = $pluginData['classPath'];
+			if (!strpos($classPath, 'wp-content/plugins/')) {
+				$classPath = SG_POPUP_PLUGIN_PATH.$classPath;
 			}
 
-			require_once($pluginData['classPath']);
+			if (!file_exists($classPath)) {
+				continue;
+			}
+			require_once($classPath);
 
 			if (!class_exists($pluginData['className'])) {
 				continue;

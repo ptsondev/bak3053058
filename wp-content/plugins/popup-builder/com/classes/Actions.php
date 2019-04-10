@@ -23,7 +23,7 @@ class Actions
 		add_filter('get_sample_permalink_html', array($this, 'removePostPermalink'), 1, 1);
 		add_action('manage_'.SG_POPUP_POST_TYPE.'_posts_custom_column' , array($this, 'popupsTableColumnsValues'), 10, 2);
 		add_action('media_buttons', array($this, 'popupMediaButton'));
-		add_action('mce_external_plugins', array($this, 'editorButton'));
+		add_filter('mce_external_plugins', array($this, 'editorButton'), 1, 1);
 		add_action('admin_enqueue_scripts', array('sgpb\Style', 'enqueueStyles'));
 		add_action('admin_enqueue_scripts', array('sgpb\Javascript', 'enqueueScripts'));
 		add_action('add_meta_boxes', array($this, 'popupMetaboxes'), 100);
@@ -40,7 +40,6 @@ class Actions
 		add_shortcode('sg_popup', array($this, 'popupShortcode'));
 		add_filter('cron_schedules', array($this, 'cronAddMinutes'), 10, 1);
 		add_action('sgpb_send_newsletter', array($this, 'newsletterSendEmail'), 10, 1);
-		add_action('sgpbGetBannerContent', array($this, 'getBannerContent'), 10, 1);
 		add_action('sgpbGetBannerContentOnce', array($this, 'getBannerContent'), 10, 1);
 		add_action('admin_post_sgpbSaveSettings', array($this, 'saveSettings'), 10, 1);
 		add_action('admin_init', array($this, 'disableAutosave'));
@@ -57,7 +56,76 @@ class Actions
 		add_filter('views_edit-popupbuilder', array($this, 'mainActionButtons'), 10, 1);
 		// activate extensions
 		add_action('wp_before_admin_bar_render', array($this, 'pluginActivated'), 10, 2);
+		add_action('admin_head', array($this, 'hidePageBuilderEditButtons'));
+		add_action('admin_notices', array($this, 'inactiveExtensionNotice'));
 		new Ajax();
+	}
+
+	public function inactiveExtensionNotice()
+	{
+		$screen = '';
+		$inactive = AdminHelper::getOption('SGPB_INACTIVE_EXTENSIONS');
+		$hasInactiveExtensions = AdminHelper::hasInactiveExtensions();
+		if (!$inactive) {
+			AdminHelper::updateOption('SGPB_INACTIVE_EXTENSIONS', 1);
+			if ($hasInactiveExtensions) {
+				AdminHelper::updateOption('SGPB_INACTIVE_EXTENSIONS', 'inactive');
+				$inactive = 'inactive';
+			}
+
+		}
+		$licenseSectionUrl = menu_page_url(SGPB_POPUP_LICENSE, false);
+		$partOfContent = '<br><br>'.__('<a href="'.$licenseSectionUrl.'">Follow the link</a> to finalize the activation.', SG_POPUP_TEXT_DOMAIN);
+		if (function_exists('get_current_screen')) {
+			$screen = get_current_screen();
+			$screenId = $screen->id;
+			if ($screenId == SGPB_POPUP_LICENSE_SCREEN) {
+				$partOfContent = '';
+			}
+		}
+
+		if ($hasInactiveExtensions && $inactive == 'inactive') {
+			$content = '';
+			ob_start();
+			?>
+			<div id="welcome-panel" class="update-nag sgpb-extensions-notices sgpb-license-notice">
+				<div class="welcome-panel-content">
+					<b><?php _e('Thank you for choosing our plugin!', SG_POPUP_TEXT_DOMAIN) ?></b>
+					<br>
+					<br>
+					<b><?php _e('You have activated Popup Builder extension(s). Please, don\'t forget to activate the license key(s) as well.', SG_POPUP_TEXT_DOMAIN) ?></b>
+					<b><?php echo $partOfContent; ?></b>
+				</div>
+				<button type="button" class="notice-dismiss" onclick="jQuery('.sgpb-license-notice').remove();"><span class="screen-reader-text"><?php _e('Dismiss this notice.', SG_POPUP_TEXT_DOMAIN) ?></span></button>
+			</div>
+			<?php
+			$content = ob_get_clean();
+
+			echo $content;
+			return true;
+		}
+	}
+
+	public function hidePageBuilderEditButtons($postId = 0, $post = array())
+	{
+		$currentPostType = AdminHelper::getCurrentPostType();
+		if (empty($currentPostType) || $currentPostType != SG_POPUP_POST_TYPE) {
+			return false;
+		}
+		$excludedPopupTypesFromPageBuildersFunctionality = array(
+			'image'
+		);
+
+		$excludedPopupTypesFromPageBuildersFunctionality = apply_filters('sgpbHidePageBuilderEditButtons', $excludedPopupTypesFromPageBuildersFunctionality);
+
+		$popupType = AdminHelper::getCurrentPopupType();
+		if (in_array($popupType, $excludedPopupTypesFromPageBuildersFunctionality)) {
+			echo '<style>
+				#elementor-switch-mode, #elementor-editor {
+					display:none !important;
+				}
+			</style>';
+		}
 	}
 
 	public function getBannerContent()
@@ -67,6 +135,7 @@ class Actions
 		update_option('sgpb-banner-remote-get', $bannerContent);
 		// right metabox banner content
 		$metaboxBannerContent = AdminHelper::getFileFromURL(SGPB_METABOX_BANNER_CRON_TEXT_URL);
+
 		update_option('sgpb-metabox-banner-remote-get', $metaboxBannerContent);
 
 		return true;
@@ -200,6 +269,7 @@ class Actions
 		if (empty($extensions) || $updated) {
 			return $content;
 		}
+
 		ob_start();
 		?>
 		<div id="welcome-panel" class="update-nag sgpb-extensions-notices">
@@ -227,6 +297,7 @@ class Actions
 		$versionPopup = get_option('SG_POPUP_VERSION');
 		$convert = get_option('sgpbConvertToNewVersion');
 		$unsubscribeColumnFixed = get_option('sgpbUnsubscribeColumnFixed');
+		AdminHelper::makeRegisteredPluginsStaticPathsToDynamic();
 
 		if (!$unsubscribeColumnFixed) {
 			AdminHelper::addUnsubscribeColumn();
@@ -260,12 +331,16 @@ class Actions
 		}
 	}
 
-	public function editorButton()
+	public function editorButton($plugins)
 	{
-		if (!$this->mediaButton) {
+		if (empty($this->mediaButton)) {
 			$this->mediaButton = true;
-			echo new MediaButton(false);
+			add_action('admin_footer', function() {
+				echo new MediaButton(false);
+			});
 		}
+
+		return $plugins;
 	}
 
 	public function userRolesCaps()

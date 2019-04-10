@@ -327,12 +327,17 @@
 	background-image: url("../img/pushNotificationTypeIcon.png");
 }
 
+.sgpb-extensions-wrapper .sgpb-pushNotification-div,
+.sgpb-extensions-wrapper .sgpb-pushNotification-div:hover {
+	background-color: rgba(212, 166, 224, 0.4) !important;
+}
+
 .sgpb-pushNotification-div {
-	background-color: #dedede !important;
+	background-color: #b084bc !important;
 }
 
 .sgpb-pushNotification-div:hover {
-	background-color: #dedede !important;
+	background-color: #d4a6e0 !important;
 }
 
 .sgpb-extensions-wrapper .sgpb-iframe-div {
@@ -458,6 +463,14 @@
 
 .scheduling-popup-pro {
 	background-image: url("../img/schedulingTypeIcon.png") !important;
+}
+
+.edd-popup-pro {
+	background-image: url("../img/eddTypeIcon.png") !important;
+}
+
+.sgpb-edd-div {
+	background-color: #7dbfe9 !important;
 }
 
 .geo-targeting-popup-pro {

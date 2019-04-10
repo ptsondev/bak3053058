@@ -273,6 +273,32 @@
 				</div>
 			</div>
 			<div class="row form-group">
+				<label for="sgpb-subs-btn-border-width" class="col-md-6 control-label sgpb-static-padding-top sgpb-sub-option">
+					<?php _e('Border width', SG_POPUP_TEXT_DOMAIN); ?>:
+				</label>
+				<div class="col-md-6">
+					<input class="form-control js-subs-dimension sgpb-full-width-events" data-field-type="submit" data-subs-rel="js-subs-submit-btn" data-style-type="border-width" type="text" name="sgpb-subs-btn-border-width" id="sgpb-subs-btn-border-width" value="<?php echo esc_html($popupTypeObj->getOptionValue('sgpb-subs-btn-border-width')); ?>">
+				</div>
+			</div>
+			<div class="row form-group">
+				<label for="sgpb-subs-btn-border-radius" class="col-md-6 control-label sgpb-sub-option">
+					<?php _e('Border radius', SG_POPUP_TEXT_DOMAIN); ?>:
+				</label>
+				<div class="col-md-6">
+					<input class="form-control js-subs-dimension sgpb-full-width-events" data-subs-rel="js-subs-submit-btn" data-field-type="submit" data-style-type="border-radius" type="text" name="sgpb-subs-btn-border-radius" id="sgpb-subs-btn-border-radius" value="<?php echo esc_html($popupTypeObj->getOptionValue('sgpb-subs-btn-border-radius')); ?>">
+				</div>
+			</div>
+			<div class="row form-group">
+				<label for="sgpb-subs-btn-border-color" class="col-md-6 control-label sgpb-sub-option">
+					<?php _e('Border color', SG_POPUP_TEXT_DOMAIN); ?>:
+				</label>
+				<div class="col-md-6">
+					<div class="sgpb-color-picker-wrapper">
+						<input id="sgpb-subs-btn-border-color" class="sgpb-color-picker js-subs-color-picker" data-field-type="submit" data-subs-rel="js-subs-submit-btn" data-style-type="border-color" type="text" name="sgpb-subs-btn-border-color" value="<?php echo esc_html($popupTypeObj->getOptionValue('sgpb-subs-btn-border-color')); ?>" >
+					</div>
+				</div>
+			</div>
+			<div class="row form-group">
 				<label for="subs-btn-title" class="col-md-6 control-label sgpb-static-padding-top sgpb-sub-option">
 					<?php _e('Title', SG_POPUP_TEXT_DOMAIN); ?>:
 				</label>

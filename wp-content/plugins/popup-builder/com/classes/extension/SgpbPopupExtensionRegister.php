@@ -1,13 +1,15 @@
 <?php
+use sgpb\AdminHelper;
+
 class SgpbPopupExtensionRegister
 {
 	public static function register($pluginName, $classPath, $className, $options = array())
 	{
 		$registeredData = array();
-		$registeredPlugins = get_option('SG_POPUP_BUILDER_REGISTERED_PLUGINS');
+		$registeredPlugins = AdminHelper::getOption('SG_POPUP_BUILDER_REGISTERED_PLUGINS');
 
 		if(!empty($registeredPlugins)) {
-			$registeredData = get_option('SG_POPUP_BUILDER_REGISTERED_PLUGINS');
+			$registeredData = AdminHelper::getOption('SG_POPUP_BUILDER_REGISTERED_PLUGINS');
 		}
 
 		if (!empty($registeredData)) {
@@ -22,7 +24,7 @@ class SgpbPopupExtensionRegister
 			if(!empty($registeredData[$pluginName])) {
 				/*Delete the plugin from the registered plugins' list if the class name or the class path is empty.*/
 				unset($registeredData[$pluginName]);
-				update_site_option('SG_POPUP_BUILDER_REGISTERED_PLUGINS', $registeredData);
+				AdminHelper::updateOption('SG_POPUP_BUILDER_REGISTERED_PLUGINS', $registeredData);
 			}
 
 			return;
@@ -34,12 +36,16 @@ class SgpbPopupExtensionRegister
 		$registeredData[$pluginName] = $pluginData;
 		$registeredData = json_encode($registeredData);
 
-		update_site_option('SG_POPUP_BUILDER_REGISTERED_PLUGINS', $registeredData);
+		AdminHelper::updateOption('SG_POPUP_BUILDER_REGISTERED_PLUGINS', $registeredData);
+		// it seems we have an inactive extension now
+		AdminHelper::updateOption('SGPB_INACTIVE_EXTENSIONS', 'inactive');
+
+		do_action('sgpb_extension_activation_hook', $pluginData);
 	}
 
 	public static function remove($pluginName)
 	{
-		$registeredPlugins = get_option('SG_POPUP_BUILDER_REGISTERED_PLUGINS');
+		$registeredPlugins = AdminHelper::getOption('SG_POPUP_BUILDER_REGISTERED_PLUGINS');
 
 		if (!$registeredPlugins) {
 			return false;
@@ -57,7 +63,7 @@ class SgpbPopupExtensionRegister
 		unset($registeredData[$pluginName]);
 		$registeredData = json_encode($registeredData);
 
-		update_site_option('SG_POPUP_BUILDER_REGISTERED_PLUGINS', $registeredData);
+		AdminHelper::updateOption('SG_POPUP_BUILDER_REGISTERED_PLUGINS', $registeredData);
 
 		return true;
 	}

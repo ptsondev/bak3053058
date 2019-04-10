@@ -13,6 +13,7 @@ if (!empty($_GET['sgpb_type'])) {
 	}
 }
 $autoClose = PopupBuilderActivePackage::canUseOption('sgpb-auto-close');
+$closeAfterPageScroll = PopupBuilderActivePackage::canUseOption('sgpb-close-after-page-scroll');
 $afterXpagesUseOption = PopupBuilderActivePackage::canUseOption('sgpb-show-popup-after-x-pages');
 if (!empty($removedOptions['content-copy-to-clipboard'])) {
 	if (isset($defaultData['contentClickOptions']['fields'])) {
@@ -336,6 +337,25 @@ if (!empty($removedOptions['content-copy-to-clipboard'])) {
 							</span>
 						</div>
 					</div>
+				</div>
+			<?php endif; ?>
+			<?php if (empty($removedOptions['sgpb-close-after-page-scroll'])): ?>
+				<div class="row form-group">
+					<label class="col-md-5 sgpb-static-padding-top" for="sgpb-close-after-page-scroll">
+						<?php _e('Close popup after the page scroll', SG_POPUP_TEXT_DOMAIN); ?>:
+					</label>
+					<div class="col-md-2<?php echo (!$closeAfterPageScroll) ? ' sgpb-pro-options-row' : '' ;?>">
+						<?php if ($closeAfterPageScroll): ?>
+							<input type="checkbox" id="sgpb-close-after-page-scroll" class="" name="sgpb-close-after-page-scroll" <?php echo $popupTypeObj->getOptionValue('sgpb-close-after-page-scroll'); ?>>
+						<?php else: ?>
+							<input type="checkbox" id="sgpb-close-after-page-scroll" name="sgpb-close-after-page-scroll" disabled>
+						<?php endif; ?>
+					</div>
+					<?php if (!$closeAfterPageScroll): ?>
+						<div class="col-md-2 sgpb-pro-options-label-wrapper">
+							<a href="<?php echo SG_POPUP_ADVANCED_CLOSING_URL;?>" target="_blank" class="btn btn-warning btn-xs sgpb-pro-label-sm sgpb-advanced-closing-pro-label"><?php _e('UNLOCK OPTION', SG_POPUP_TEXT_DOMAIN) ?></a>
+						</div>
+					<?php endif; ?>
 				</div>
 			<?php endif; ?>
 			<?php if (empty($removedOptions['sgpb-reopen-after-form-submission'])): ?>

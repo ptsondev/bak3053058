@@ -9,7 +9,7 @@ Tags: popup, pop up, wordpress popup, popup maker, exit popup, popup builder, wo
 Requires at least: 3.8
 Tested up to: 5.1
 Requires PHP: 5.3.3
-Stable tag: 3.1.7.1
+Stable tag: 3.1.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -182,6 +182,24 @@ Go to the Popup Builder settings and set your desired options.
 
 == Changelog ==
 
+= Version 3.1.9 = 
+* Bug fixed related to paths of the Popup Builder resources.
+* Select2 ui bugs.
+* Typos fixes.
+* Added message to notify user about inactive extension(s).
+* Speed improvement: popup opening sound affects on the popup opening speed and in some cases on page load.
+* Improvements related to JS variables.
+* Styles and scripts including issue on multisite websites.
+* Subscription popup: ability to write html into the GDPR field confirmation message.
+
+= Version 3.1.8 =
+* Added new feature border-width for subscription popup.
+* Added new feature border-radius for subscription popup.
+* Added new feature border-color for subscription popup.
+* Bug fixed related to dynamic JS variagbles.
+* Bug fixed related to popup appearance on admin panel for page builders.
+* Code cleanup and improvements.
+
 = Version 3.1.7.1 =
 * Bug fixes related to banner.
 
@@ -349,7 +367,7 @@ Go to the Popup Builder settings and set your desired options.
 
 = Version 2.6.7.6 =
 * Added new class to don't show popup for a certain period of time if the user clicks on the containg button.
-Example `<button class="sg-dont-show-popup-30">Close Popup and Dont Show for 30 days</button>`.
+Example `<button class="sg-popup-dont-show-30">Close Popup and Dont Show for 30 days</button>`.
 * Bug fixed connected to user roles who can use the plugin.
 
 = Version 2.6.7.5 =

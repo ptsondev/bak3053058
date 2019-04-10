@@ -314,7 +314,7 @@ class Installer
 				'licence' => array(
 					'key' => SG_POPUP_KEY,
 					'storeURL' => SG_POPUP_STORE_URL,
-					'file' => WP_PLUGIN_DIR.'/'.SG_POPUP_FILE_NAME,
+					'file' => SG_POPUP_FILE_NAME,
 					'itemId' => SGPB_ITEM_ID,
 					'itemName' => __('Popup Builder', SG_POPUP_TEXT_DOMAIN),
 					'autor' => SG_POPUP_AUTHOR,

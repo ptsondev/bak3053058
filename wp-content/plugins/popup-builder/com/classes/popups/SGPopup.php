@@ -725,6 +725,8 @@ abstract class SGPopup
 				$popupSavedData['sgpb-target'] = $targetData['sgpb-target'];
 			}
 			if (!empty($targetData['sgpb-conditions'])) {
+				// for the after x pages option backward compatibility
+				$targetData['sgpb-conditions'] = apply_filters('sgpbAdvancedTargetingSavedData', $targetData['sgpb-conditions'], $popupId);
 				$popupSavedData['sgpb-conditions'] = $targetData['sgpb-conditions'];
 			}
 		}
