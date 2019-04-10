@@ -1,6 +1,6 @@
 <?php
 define( 'WPCACHEHOME', '/var/www/bepankhang.com/public_html/wp-content/plugins/wp-super-cache/' );
-define("WP_CACHE", true);
+define('WP_CACHE', true);
 /**
  * The base configuration for WordPress
  *

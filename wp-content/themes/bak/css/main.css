@@ -7,10 +7,13 @@ img{
 }
 body{
     font-family: 'Roboto Condensed', sans-serif;
-    font-size: 16px;
+    font-size: 14px;
 }
 h2{
     
+}
+h3{
+    font-size: 20px;
 }
 .postid-1599 #main-content{
     text-align: justify;
@@ -192,7 +195,7 @@ h2{
 #main-menu a{
     color:#f7930f;
     text-transform: uppercase;
-    font-size: 16px;
+    font-size: 15px;
     padding:7px 10px;
     text-decoration: none;
 }
@@ -441,6 +444,105 @@ h2{
     font-size: 11px;
     padding: 10px;
 }
+.jcarousel {
+    position: relative;
+    overflow: hidden;
+    
+}
+.jcarousel ul {
+    width: 10000em;
+    position: relative;
+
+    /* Optional, required in this case since it's a <ul> element */
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.jcarousel li {
+    /* Required only for block elements like <li>'s */
+    float: left;
+}
+#home-products .home-group{
+    margin: 15px 0;
+}
+#home-products .home-group h3{
+    margin: 10px 0;
+}
+#home-products .jcarousel .thumb{
+    height: 200px;
+    position: relative;
+}
+#home-products .jcarousel img{
+    width: 170px;
+    position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+#home-products{
+    margin-top: 10px;
+}
+#home-products .jcarousel-wrapper{
+    border-top: 1px solid #eee;
+    position: relative;
+}
+#home-products .pr{
+    border-right: 1px solid #eee;
+    padding: 5px 10px;
+}
+#home-products .pr .title{
+    text-align: center;
+}
+#home-products .pr .v_d_price,
+#home-products .pr .v_s_price{
+    display: inline-block;
+    float: left;
+}
+#home-products .pr .v_s_price{
+    float: right;
+}
+#home-products .jcarousel-control-prev{
+    position: absolute;
+    left: -10px;
+    margin: 0;
+    border-radius: 0 5px 5px 0;
+    background: #fff;
+    width: 24px;
+    height: 70px;
+    text-align: center;
+    font-size: 46px;
+    color: #999;
+    font-family: -webkit-body;
+    box-shadow: 0 0 4px 2px rgba(0,0,0,.15);
+    top: 80px;
+    cursor: pointer;
+}
+#home-products .jcarousel-control-next{
+    position: absolute;
+    right: 0;
+    margin: 0;
+    border-radius: 5px 0 0 5px;
+    background: #fff;
+    width: 24px;
+    height: 70px;
+    text-align: center;
+    font-size: 46px;
+    color: #999;
+    font-family: -webkit-body;
+    box-shadow: 0 0 4px 2px rgba(0,0,0,.15);
+    top: 80px;
+    cursor: pointer;
+}
+
+
+
+.home #main-body{
+    background: #f0f0f0;
+}
+.home-group{
+    background: #fff;
+    padding: 5px 10px;
+}
 .sub-menu{
      position: absolute;
     background: #FFF;
@@ -631,7 +733,7 @@ h2{
 .v_s_price{    
     color:#f7930f;    
     padding: 0;    
-    font-size: 18px;    
+    font-size: 16px;    
 }
 .prod .v_d_price{
     width: 48%;

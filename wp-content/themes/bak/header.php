@@ -195,13 +195,8 @@
                     <div id="slider1_container" style="position: relative; top: 0px; left: 0px; width: 1200px; height: 400px;">
                             <!-- Slides Container -->
     <div u="slides" style="cursor: move; position: absolute; overflow: hidden; left: 0px; top: 0px; width: 1200px; height: 400px;">
-        <div><a href="/bep-tu-khuyen-mai/"><img u="image" src="<?php echo PATH_TO_IMAGES; ?>ts5.png" /></a></div>
         <div><a href="/bep-tu-khuyen-mai/"><img u="image" src="<?php echo PATH_TO_IMAGES; ?>ts3.png" /></a></div>        
-        <div><a href="/bep-tu-khuyen-mai/"><img u="image" src="<?php echo PATH_TO_IMAGES; ?>b9-01.png" /></a></div>
-        <div><a href="/bep-tu-khuyen-mai/"><img u="image" src="<?php echo PATH_TO_IMAGES; ?>ts2.png" /></a></div>        
-        <div><a href="/bep-tu-khuyen-mai/"><img u="image" src="<?php echo PATH_TO_IMAGES; ?>b9-02.png" /></a></div>
-        <div><a href="/bep-tu-khuyen-mai/"><img u="image" src="<?php echo PATH_TO_IMAGES; ?>b9-03.png" /></a></div>
-        <div><a href="/bep-tu-khuyen-mai/"><img u="image" src="<?php echo PATH_TO_IMAGES; ?>b9-04.png" /></a></div>
+        <div><a href="/bep-tu-khuyen-mai/"><img u="image" src="<?php echo PATH_TO_IMAGES; ?>1-doi-1.jpg" /></a></div>        
         
     </div>
     

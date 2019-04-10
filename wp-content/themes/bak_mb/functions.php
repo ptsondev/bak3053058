@@ -381,6 +381,7 @@ function my_style_script(){
     wp_enqueue_script('jquery', get_template_directory_uri().'/js/jquery.min.js');
     wp_enqueue_script('responsiveslides', get_template_directory_uri().'/js/responsiveslides.min.js',array(),null,true);
     wp_enqueue_script('jssor', get_template_directory_uri().'/js/jssor.slider.min.js',array(),null,true);
+    wp_enqueue_script('jcarousel', get_template_directory_uri().'/js/jquery.jcarousel.min.js',array(),null,true);
     wp_enqueue_script('bootstrap', get_template_directory_uri().'/js/bootstrap.min.js',array(),null,true);
     wp_enqueue_script('bighover', get_template_directory_uri().'/js/jquery.bighover.js',array(),null,true);
     wp_enqueue_script('mousewheel', get_template_directory_uri().'/js/jquery.mousewheel.js',array(),null,true);

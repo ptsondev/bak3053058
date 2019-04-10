@@ -104,7 +104,7 @@ $wp_cache_mobile_prefixes = 'w3c , w3c-, acs-, alav, alca, amoi, audi, avan, ben
 $cached_direct_pages = array(  );
 $wpsc_served_header = false;
 $cache_gc_email_me = 0;
-$wpsc_save_headers = 1;
+$wpsc_save_headers = 0;
 $cache_schedule_interval = 'hourly';
 $wp_super_cache_comments = 1;
 ?>
