@@ -48,6 +48,8 @@ class SgpbPopupConfig
 		self::addDefine('SG_POPUP_SUBSCRIPTION_PLUS_URL', 'https://popup-builder.com/downloads/subscription-plus-popup/');
 		self::addDefine('SG_POPUP_PUSH_NOTIFICATION_URL', 'https://popup-builder.com/downloads/web-push-notification-popup/');
 		self::addDefine('SGPB_EDD_PLUGIN_URL', 'https://popup-builder.com/downloads/easy-digital-downloads-edd-popup/');
+		self::addDefine('SGPB_PDF_PLUGIN_URL', 'https://popup-builder.com/downloads/pdf-popup/');
+		self::addDefine('SGPB_GAMIFICATION_PLUGIN_URL', 'https://popup-builder.com/downloads/pick-a-gift-popup/');
 		self::addDefine('SG_POPUP_ADMIN_URL', admin_url());
 		self::addDefine('SG_POPUP_BUILDER_URL', plugins_url().'/'.SG_POPUP_FOLDER_NAME.'/');
 		self::addDefine('SG_POPUP_PLUGIN_PATH', WP_PLUGIN_DIR.'/');
@@ -121,6 +123,10 @@ class SgpbPopupConfig
 		self::addDefine('SG_POPUP_AUTORESPONDER_POST_TYPE', 'sgpbautoresponder');
 		self::addDefine('SGPB_INACTIVE_EXTENSIONS', 'inactivePBExtensions');
 		self::addDefine('SGPB_POPUP_LICENSE_SCREEN', SG_POPUP_POST_TYPE.'_page_'.SGPB_POPUP_LICENSE);
+
+		self::addDefine('SGPB_SUBSCRIPTION_ERROR_MESSAGE', __('There was an error while trying to send your request. Please try again', SG_POPUP_TEXT_DOMAIN).'.');
+		self::addDefine('SGPB_SUBSCRIPTION_VALIDATION_MESSAGE', __('This field is required', SG_POPUP_TEXT_DOMAIN).'.');
+		self::addDefine('SGPB_SUBSCRIPTION_EMAIL_MESSAGE', __('Please enter a valid email address', SG_POPUP_TEXT_DOMAIN).'.');
 		self::popupTypesInit();
 	}
 

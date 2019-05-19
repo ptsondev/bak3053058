@@ -3,6 +3,10 @@ namespace sgpb;
 use \ConfigDataHelper;
 use \WP_Post;
 
+if (class_exists("sgpb\SGPopup")) {
+	return;
+}
+
 abstract class SGPopup
 {
 	protected $type;
@@ -213,6 +217,9 @@ abstract class SGPopup
 	 */
 	public static function find($popup, $args = array())
 	{
+		if (isset($_GET['sg_popup_preview_id'])) {
+			$args['is-preview'] = true;
+		}
 		// If the popup is object get data from object otherwise we find needed data from WordPress functions
 		if ($popup instanceof WP_Post) {
 			$status = $popup->post_status;
@@ -230,7 +237,7 @@ abstract class SGPopup
 			$status = get_post_status($popupId);
 			$popupContent = $popupPost->post_content;
 		}
-		$allowedStatus = array('publish');
+		$allowedStatus = array('publish', 'draft');
 
 		if (!empty($args['status'])) {
 			$allowedStatus = $args['status'];
@@ -239,14 +246,21 @@ abstract class SGPopup
 		if (!isset($args['checkActivePopupType']) && !in_array($status, $allowedStatus)) {
 			return $status;
 		}
-
 		$saveMode = '';
 		global $post;
 		if ((@is_preview() && $post->ID == $popupId) || isset($args['preview'])) {
 			$saveMode = '_preview';
 		}
+		if (isset($args['is-preview'])) {
+			$saveMode = '_preview';
+		}
 		if (isset($args['insidePopup']) && $args['insidePopup'] == 'on') {
 			$saveMode = '';
+		}
+		$currentPost = get_post($popupId);
+		$currentPostStatus = $currentPost->post_status;
+		if ($currentPostStatus == 'draft') {
+			$saveMode = '_preview';
 		}
 
 		require_once(dirname(__FILE__).'/PopupData.php');
@@ -414,6 +428,12 @@ abstract class SGPopup
 			if (strpos($key, 'sgpb') === 0) {
 				$popupData[$key] = $value;
 			}
+			if (isset($value['name']) && strpos($value['name'], 'sgpb') === 0) {
+				$popupData[$value['name']] = $value['value'];
+			}
+			else if (isset($value['name']) && strpos($value['name'], 'post_ID') === 0) {
+				$popupData['sgpb-post-id'] = $value['value'];
+			}
 		}
 
 		return $popupData;
@@ -425,7 +445,7 @@ abstract class SGPopup
 		$obj->setSaveMode($saveMode);
 		$additionalData = $obj->addAdditionalSettings($data, $obj);
 		$data = array_merge($data, $additionalData);
-
+		$data = apply_filters('sgpbAdvancedOptionsDefaultValues', $data);
 		foreach ($data as $name => $value) {
 			if (strpos($name, 'sgpb') === 0) {
 				$defaultData = $obj->getDefaultDataByName($name);
@@ -436,7 +456,6 @@ abstract class SGPopup
 				$obj->insertIntoSanitizedData(array('name' => $name,'value' => $sanitizedValue));
 			}
 		}
-
 		$obj->setSavedPopupById($data['sgpb-post-id']);
 		$result = $obj->save();
 
@@ -527,7 +546,9 @@ abstract class SGPopup
 		$paramsData = $targetConfig['paramsData'];
 		$attrs = $targetConfig['attrs'];
 		$popupTarget = array();
-
+		if (empty($targetData)) {
+			return array();
+		}
 		foreach ($targetData as $groupId => $groupData) {
 			foreach ($groupData as $ruleId => $ruleData) {
 
@@ -611,14 +632,13 @@ abstract class SGPopup
 		}
 
 		$popupEvents['formPopup'] = $eventsFromPopup;
-
 		$alreadySavedEvents = get_post_meta($popupId, 'sg_popup_events'.$saveMode, true);
 		if ($alreadySavedEvents === $eventsFromPopup) {
 			return true;
 		}
 
 		if ($saveMode) {
-			$eventsFromPopup[] = $SGPB_DATA_CONFIG_ARRAY['events']['initialData'];
+			$eventsFromPopup[] = array();
 		}
 
 		$eventsFromPopup = apply_filters('sgpbPopupEventsMetadata', $eventsFromPopup);
@@ -759,6 +779,10 @@ abstract class SGPopup
 
 	public static function getPopupOptionsById($popupId, $saveMode = '')
 	{
+		$currentPost = get_post($popupId);
+		if ($currentPost->post_status == 'draft') {
+			$saveMode = '_preview';
+		}
 		$optionsData = array();
 		if (get_post_meta($popupId, 'sg_popup_options'.$saveMode, true)) {
 			$optionsData = get_post_meta($popupId, 'sg_popup_options'.$saveMode, true);
@@ -1444,7 +1468,12 @@ abstract class SGPopup
 				continue;
 			}
 			if (isset($filters['type'])) {
-				if ($popup->getType() != $filters['type']) {
+				if (is_array($filters['type'])) {
+					if (!in_array($popup->getType(), $filters['type'])) {
+						continue;
+					}
+				}
+				else if ($popup->getType() != $filters['type']) {
 					continue;
 				}
 			}

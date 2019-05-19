@@ -49,15 +49,20 @@ class PopupLoader
 
 	public function addPopupFromUrl($popupsToLoad)
 	{
-		if (isset($_GET['sg_popup_id'])) {
-			$getterId = (int)$_GET['sg_popup_id'];
-
+		if (isset($_GET['sg_popup_id']) || isset($_GET['sg_popup_preview_id'])) {
+			$args = array();
+			$getterId = isset($_GET['sg_popup_id']) ? (int)$_GET['sg_popup_id'] : 0;
+			$previewedPopupId = isset($_GET['sg_popup_preview_id']) ? (int)$_GET['sg_popup_preview_id'] : 0;
+			if (isset($_GET['sg_popup_preview_id'])) {
+				$getterId = $previewedPopupId;
+				$args['is-preview'] = true;
+			}
 			if (function_exists('sgpb\sgpGetCorrectPopupId')) {
 				$getterId = sgpGetCorrectPopupId($getterId);
 			}
 
-			$popupFromUrl = SGPopup::find($getterId);
-			if (!empty($popupFromUrl) && get_post_status($getterId) == 'publish') {
+			$popupFromUrl = SGPopup::find($getterId, $args);
+			if (!empty($popupFromUrl)) {
 				global $SGPB_DATA_CONFIG_ARRAY;
 				$defaultEvent = array();
 				$customDelay = $popupFromUrl->getOptionValue('sgpb-popup-delay');
@@ -77,15 +82,9 @@ class PopupLoader
 	public function loadPopups()
 	{
 		$foundPopup = array();
-		$popupPreviewArgs = array();
 		if (is_preview()) {
 			global $post;
 			$foundPopup = $post;
-		}
-		// for the first time, when new wordpress with not changed theme
-		if (isset($_GET['popup_preview_id'])) {
-			$foundPopup = get_post($_GET['popup_preview_id']);
-			$popupPreviewArgs = array('preview' => true);
 		}
 		if (!empty($foundPopup)) {
 			global $SGPB_DATA_CONFIG_ARRAY;
@@ -103,7 +102,7 @@ class PopupLoader
 				}
 			}
 			if (@$foundPopup->post_type == SG_POPUP_POST_TYPE) {
-				$popup = SGPopup::find($foundPopup, $popupPreviewArgs);
+				$popup = SGPopup::find($foundPopup);
 
 				$popup->setEvents($SGPB_DATA_CONFIG_ARRAY['events']['initialData'][0]);
 				$this->addLoadablePopup($popup);

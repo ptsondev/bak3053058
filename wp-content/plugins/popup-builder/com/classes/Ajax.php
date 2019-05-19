@@ -58,6 +58,8 @@ class Ajax
 		// proEndGold
 		add_action('wp_ajax_sgpb_subscribers_delete', array($this, 'deleteSubscribers'));
 		add_action('wp_ajax_sgpb_add_subscribers', array($this, 'addSubscribers'));
+		add_action('wp_ajax_sgpb_import_subscribers', array($this, 'importSubscribers'));
+		add_action('wp_ajax_sgpb_save_imported_subscribers', array($this, 'saveImportedSubscribers'));
 		add_action('wp_ajax_sgpb_send_newsletter', array($this, 'sendNewsletter'));
 		add_action('wp_ajax_sgpb_send_to_open_counter', array($this, 'addToCounter'));
 		add_action('wp_ajax_sgpb_change_review_popup_show_period', array($this, 'changeReviewPopupPeriod'));
@@ -71,6 +73,23 @@ class Ajax
 		/*Extension notification panel*/
 		add_action('wp_ajax_sgpb_dont_show_extension_panel', array($this, 'extensionNotificationPanel'));
 		add_action('wp_ajax_sgpb_dont_show_problem_alert', array($this, 'dontShowProblemAlert'));
+		// autosave
+		add_action('wp_ajax_sgpb_autosave', array($this, 'sgpbAutosave'));
+		add_action('wp_ajax_nopriv_sgpb_autosave', array($this, 'sgpbAutosave'));
+	}
+
+	public function sgpbAutosave()
+	{
+		$popupData = SGPopup::parsePopupDataFromData($_POST['allPopupData']);
+		do_action('save_post_popupbuilder');
+		$popupType = $popupData['sgpb-type'];
+		$popupClassName = SGPopup::getPopupClassNameFormType($popupType);
+		$popupClassPath = SGPopup::getPopupTypeClassPath($popupType);
+		require_once($popupClassPath.$popupClassName.'.php');
+		$popupClassName = __NAMESPACE__.'\\'.$popupClassName;
+		$popupClassName::create($popupData, '_preview', 1);
+
+		wp_die();
 	}
 
 	public function dontShowReviewPopup()
@@ -173,6 +192,9 @@ class Ajax
 		check_ajax_referer(SG_AJAX_NONCE, 'nonce');
 
 		$popupParams = $_POST['params'];
+		if (isset($_GET['sg_popup_preview_id'])) {
+			wp_die();
+		}
 		$popupsIdCollection = $popupParams['popupsIdCollection'];
 
 		$popupsCounterData = get_option('SgpbCounter');
@@ -244,6 +266,50 @@ class Ajax
 		wp_die();
 	}
 
+	public function importSubscribers()
+	{
+		check_ajax_referer(SG_AJAX_NONCE, 'nonce');
+		$formId = (int)sanitize_text_field($_POST['popupSubscriptionList']);
+		$fileURL = sanitize_text_field($_POST['importListURL']);
+
+		ob_start();
+		require_once SG_POPUP_VIEWS_PATH.'importConfigView.php';
+		$content = ob_get_contents();
+		ob_end_clean();
+
+		echo $content;
+		wp_die();
+	}
+
+	public function saveImportedSubscribers()
+	{
+		check_ajax_referer(SG_AJAX_NONCE, 'nonce');
+		$formId = (int)sanitize_text_field($_POST['popupSubscriptionList']);
+		$fileURL = sanitize_text_field($_POST['importListURL']);
+		$mapping = $_POST['namesMapping'];
+
+		$fileContent = AdminHelper::getFileFromURL($fileURL);
+		$csvFileArray = array_map('str_getcsv', file($fileURL));
+
+		$header = $csvFileArray[0];
+		unset($csvFileArray[0]);
+		$subscriptionPlusContent = apply_filters('sgpbImportToSubscriptionList', $csvFileArray, $mapping, $formId);
+
+		// -1 it's mean saved from Subscription Plus
+		if ($subscriptionPlusContent != -1) {
+			foreach ($csvFileArray as $csvData) {
+				global $wpdb;
+				$subscribersTableName = $wpdb->prefix.SGPB_SUBSCRIBERS_TABLE_NAME;
+
+				$sql = $wpdb->prepare('INSERT INTO '.$subscribersTableName.' (firstName, lastName, email, cDate, subscriptionType, status, unsubscribed, submittedData) VALUES (%s, %s, %s, %s, %d, %d, %d, %s) ', $csvData[$mapping['firstName']], $csvData[$mapping['lastName']], $csvData[$mapping['email']], $csvData[$mapping['date']], $formId, 0, 0, '');
+				$wpdb->query($sql);
+			}
+		}
+
+		echo SGPB_AJAX_STATUS_TRUE;
+		wp_die();
+	}
+
 	public function sendNewsletter()
 	{
 		check_ajax_referer(SG_AJAX_NONCE, 'nonce');
@@ -311,6 +377,12 @@ class Ajax
 	{
 		$popupId = (int)$_POST['popupId'];
 		$obj = SGPopup::find($popupId);
+		$isDraft = '';
+		$postStatus = get_post_status($popupId);
+		if ($postStatus == 'draft') {
+			$isDraft = '_preview';
+		}
+
 		if (!$obj) {
 			wp_die(SGPB_AJAX_STATUS_FALSE);
 		}
@@ -318,7 +390,7 @@ class Ajax
 		$options['sgpb-is-active'] = sanitize_text_field($_POST['popupStatus']);
 
 		unset($options['sgpb-conditions']);
-		update_post_meta($popupId, 'sg_popup_options', $options);
+		update_post_meta($popupId, 'sg_popup_options'.$isDraft, $options);
 
 		wp_die($popupId);
 	}

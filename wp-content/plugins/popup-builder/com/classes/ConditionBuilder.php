@@ -235,7 +235,6 @@ class ConditionBuilder
 					$builderObj->setSavedData($ruleData);
 					$builderObj->setConditionName($conditionName);
 					$builderObj->setGroupTotal(count($groupData) - 1);
-					$builderObj->setTakeValueFrom('operator');
 					$allCondition[] = $builderObj;
 				}
 			}

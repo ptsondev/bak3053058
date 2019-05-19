@@ -7,9 +7,9 @@ Plugin URI: https://popup-builder.com
 Donate link: https://popup-builder.com
 Tags: popup, pop up, wordpress popup, popup maker, exit popup, popup builder, wordpress popup plugin
 Requires at least: 3.8
-Tested up to: 5.1
+Tested up to: 5.2
 Requires PHP: 5.3.3
-Stable tag: 3.1.9
+Stable tag: 3.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -56,6 +56,7 @@ https://www.youtube.com/watch?v=-wFDJDjczeY
 *   Shortcode popup
 *   Subscription popup - this type provides the easiest way to create an efficient connection between users and your website through subscription popup. With this simple popup solution, you can quickly collect subscribers in a very pleasant and elegant way. With our newsletter module you can easily send mass mailings.
 *   Newsletter - send marketing campaings right from popup builder
+*   PDF popup
 
 **Popup Builder - 3rd party supported plugins:**
 
@@ -83,6 +84,8 @@ With Popup Builder plugin you can insert any type of content, right into your Po
 *   Login popup - open login form inside the popup.
 
 *   Registration popup - open registration form inside the popup.
+
+*   Web Push Notification popup - run effective marketing campaings through web push notifications.
 
 *   Iframe popup - you can set the URL you want to load within an iframe and the popup will load that iframe.
 
@@ -181,6 +184,27 @@ Go to the Popup Builder settings and set your desired options.
 13. Facebook popup
 
 == Changelog ==
+
+= Version 3.3 =
+* Popup preview fixes.
+* Improvement: If the popup is setup on the Link and the popup opening condition doesn’t meet the current state, the default Link functionality will be triggered.
+* Added a Button element inside the WP editor. 
+* Fix: Mobile landscape issue, in all cases the popup sizes will be changed, if the window orientation is changed (mobile/desktop).
+* Completely works with almost all page builders.
+* Subscribers Import/export fixes.
+* Popup showing limitation improvement.
+
+= Version 3.2 =
+* New Feature: PDF popup type.
+* New Feature: Popup content can be set at the top and bottom of Subscription form.
+* Admin panel and frontend speed improvements.
+* Speed improvements for Multisite.
+* Bug fixed related to popup overlay turning on/off functionality.
+* Improvements for Apple devices (page scrolling, popup dimensions, etc).
+* Big fixed for Internet Explorer related to popup showing limitations.
+* Unstoppable scroll bug fixed when there is a LastPass browser extension.
+* Add improvements for Page builders.
+* Add UTF-8 support for Newsletters.
 
 = Version 3.1.9 = 
 * Bug fixed related to paths of the Popup Builder resources.
@@ -976,7 +1000,7 @@ Leave us a good review :)
 
 == Upgrade Notice ==
 
-Current Version of Popup Builder is 3.1.7
+Current Version of Popup Builder is 3.2
 
 == Other Notes ==
 

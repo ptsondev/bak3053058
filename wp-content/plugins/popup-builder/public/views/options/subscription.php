@@ -350,6 +350,14 @@
 					<input type="text" class="form-control sgpb-full-width-events" name="sgpb-subs-invalid-message" value="<?php echo esc_attr($popupTypeObj->getOptionValue('sgpb-subs-invalid-message')); ?>">
 				</div>
 			</div>
+			<div class="row form-group">
+				<label class="col-md-6 control-label sgpb-static-padding-top" for="sgpb-subs-show-form-to-top">
+					<?php _e('Show form on the Top', SG_POPUP_TEXT_DOMAIN); ?>:
+				</label>
+				<div class="col-md-6">
+					<input type="checkbox" id="sgpb-subs-show-form-to-top" name="sgpb-subs-show-form-to-top" <?php echo esc_attr($popupTypeObj->getOptionValue('sgpb-subs-show-form-to-top')); ?>>
+				</div>
+			</div>
 			<!-- submit styles end -->
 			<div class="row form-group">
 				<label class="col-md-12 control-label sgpb-static-padding-top">

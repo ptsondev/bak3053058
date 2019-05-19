@@ -167,3 +167,7 @@
 .sgpb-subscription-plus-form {
     display: inline-block;
 }
+
+.sgpb-subscription-admin-wrapper input[type="text"] {
+	min-height: 20px !important;
+}

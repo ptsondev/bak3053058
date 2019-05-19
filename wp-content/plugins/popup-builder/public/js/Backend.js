@@ -76,6 +76,174 @@ SGPBBackend.prototype.sgInit = function()
 	this.closeAnimationPreview();
 	this.resetToDefaultValue();
 	this.editPopupSettingsForFullscreenMode();
+	this.autosave();
+	this.popupBuilderButton();
+};
+
+SGPBBackend.prototype.popupBuilderButton = function()
+{
+	var that = this;
+	jQuery(document).on('tinymce-editor-setup', function( event, editor ) {
+		if (editor.settings.toolbar1.indexOf('popupBuilderHtmlButton') != -1) {
+			return;
+		}
+		editor.settings.toolbar1 += ', popupBuilderHtmlButton';
+		editor.addButton('popupBuilderHtmlButton', {
+			text: 'Popup Builder Custom Button',
+			onclick: function () {
+				that.mediaButtonPopup('sgpb-custom-button-wrapper');
+			}
+		});
+	});
+};
+
+SGPBBackend.popups = [];
+
+SGPBBackend.prototype.mediaButtonPopup = function(hiddenDivId)
+{
+	var select2Init = 1;
+	var that = this;
+	var popupConfigObj = new PopupConfig();
+	popupConfigObj.magicCall('setContentPadding', 14);
+	popupConfigObj.magicCall('setContentBorderRadius', 4);
+	popupConfigObj.magicCall('setContentBorderRadiusType', 'px');
+	popupConfigObj.magicCall('setScrollingEnabled', true);
+	popupConfigObj.magicCall('setContentBorderWidth', 5);
+	popupConfigObj.magicCall('setContentBorderColor', '#506274');
+	popupConfigObj.magicCall('setShadowSpread', 1);
+	popupConfigObj.magicCall('setContentShadowBlur', 4);
+	popupConfigObj.magicCall('setContentShadowColor', '#cccccc');
+	popupConfigObj.magicCall('setMinWidth', 400);
+	popupConfigObj.magicCall('contents', document.getElementById(hiddenDivId));
+	popupConfigObj.magicCall('setOverlayColor', 'black');
+	popupConfigObj.magicCall('setOverlayOpacity', 40);
+	var config = popupConfigObj.combineConfigObj();
+	var popup = new SGPopup(config);
+	if (!SGPBBackend.popups.length) {
+		SGPBBackend.popups.push(popup);
+	}
+	SGPBBackend.popups[0].open();
+	jQuery(window).bind('sgpbDidOpen', function() {
+		jQuery('.sgpb-insert-popup').addClass('js-sg-select2');
+		/* one select box for inside popup shortcode */
+		if (select2Init == 1) {
+				that.popupSelect2();
+		}
+		select2Init++;
+		jQuery('.select2-container--below').remove();
+		that.popupSelect2();
+		that.customButtonColorPicker();
+
+		if (mediaButtonParams.currentPostType != mediaButtonParams.popupBuilderPostType) {
+			that.customButtonColorPicker();
+			jQuery('.sgpb-custom-button-popup').addClass('js-sg-select2');
+			if (select2Init == 1) {
+				that.popupSelect2();
+			}
+			select2Init++;
+			jQuery('.select2-container--below').remove();
+			that.popupSelect2();
+		}
+		else {
+			that.multipleChoiceButton();
+			that.customButtonColorPicker();
+		}
+
+		that.insertHTMLButtonToEditor();
+		that.closeMediaButtonPopup(popup);
+	});
+
+	that.accordion();
+	jQuery(window).on('sgpbMultichoiceChanged', function() {
+		that.accordion();
+	});
+};
+
+SGPBBackend.prototype.customButtonColorPicker = function()
+{
+	var that = this;
+	var colorPicker = jQuery('.sgpb-custom-button-color-picker');
+	if (!colorPicker.length) {
+		return false;
+	}
+	colorPicker.wpColorPicker({
+		change: function() {
+			var colorPickerElement = jQuery(this);
+			that.changeColor(colorPickerElement);
+		}
+	});
+	jQuery('.wp-picker-holder').bind('click', function() {
+		var selectedInput = jQuery(this).prev().find('.sgpb-color-picker');
+		that.changeColor(selectedInput);
+	});
+};
+
+
+SGPBBackend.prototype.insertHTMLButtonToEditor = function()
+{
+	jQuery('.sgpb-insert-custom-button-to-editor').unbind('click').bind('click', function () {
+		var buttonTitle = jQuery('#sgpb-custom-btn-title').val();
+		var style = '';
+		jQuery('.sgpb-custom-button-settings').each(function() {
+			var styleType = jQuery(this).data('style-type');
+			var val = jQuery(this).val();
+			style += styleType+': '+val+';';
+		});
+		var defaultStyles = {
+			padding: 0,
+			'font-size': '22px',
+			'font-weight': 900
+		};
+
+		for (var styleType in defaultStyles) {
+			style += styleType+': '+defaultStyles[styleType]+';';
+		}
+
+
+		var serizlizedOption = jQuery('#sgpb-custom-button-wrapper').find('select,textarea, input');
+		var allOptionsObj = {};
+
+		serizlizedOption.each(function() {
+			var name = jQuery(this).attr('name');
+			if (jQuery(this).attr('type') == 'checkbox') {
+				if (jQuery(this).is(':checked')) {
+					var value = jQuery(this).val();
+					allOptionsObj[name] = value;
+				}
+				return true;
+			}
+			if (jQuery(this).attr('type') == 'radio') {
+				if (jQuery(this).is(':checked')) {
+					var value = jQuery(this).val();
+					allOptionsObj[name] = value;
+				}
+			}
+			else {
+				var value = jQuery(this).val();
+				allOptionsObj[name] = value;
+			}
+		});
+		var bgColor = allOptionsObj['sgpb-custom-btn-bg-color'];
+		var hoverBgColor = allOptionsObj['sgpb-custom-btn-bg-color'];
+
+		var allOptionsJson = encodeURI(JSON.stringify(allOptionsObj));
+		var id = Math.floor(Math.random() * Math.floor(100000));
+
+		var button = '<button style="'+style+'" class="sgpb-html-custom-button sgpb-html-custom-button-'+id+'" data-options='+allOptionsJson+' onMouseOver="this.style.backgroundColor="'+hoverBgColor+'"  onMouseOut="this.style.backgroundColor="'+bgColor+'" ">'+buttonTitle+'</button>';
+		button += '<style>.sgpb-html-custom-button-'+id+':hover {background-color: '+hoverBgColor+' !important;}</style>';
+		if (allOptionsObj['sgpb-custom-button'] == 'openPopup') {
+			var currentPopupId = allOptionsObj['sgpb-custom-button-popup'];
+			button = '[sg_popup id="'+currentPopupId+'" insidePopup="on"] <br>'+button+'<br>[/sg_popup]';
+		}
+		window.send_to_editor(button);
+	});
+};
+
+SGPBBackend.prototype.closeMediaButtonPopup = function(popup)
+{
+	jQuery('.sgpb-close-media-popup-js').on('click', function() {
+		popup.close();
+	});
 };
 
 SGPBBackend.prototype.resetToDefaultValue = function()
@@ -301,6 +469,7 @@ SGPBBackend.prototype.multipleChoiceButton = function()
 		jQuery(this).on("click", function() {
 			that.hideAllChoiceWrapper(jQuery('.sgpb-choice-option-wrapper'));
 			that.buildChoiceShowOption(jQuery(this));
+			jQuery(window).trigger('sgpbMultichoiceChanged');
 		});
 	})
 };
@@ -1380,9 +1549,13 @@ SGPBBackend.prototype.changeColor = function(element)
 SGPBBackend.prototype.previewInit = function()
 {
 	jQuery('#post-preview').click(function() {
+		SGPBBackend.prototype.autosave();
 		/* when preview button clicked, set input value to 1 */
 		jQuery('#sgpb-is-preview').val('1');
 		var popupId = jQuery('#post_ID').val();
+	});
+	jQuery('#title').on('change', function() {
+		SGPBBackend.prototype.autosave();
 	});
 	jQuery('#publish').click(function() {
 		/* when bublish/update clicked, set input value to 0 */
@@ -1418,13 +1591,6 @@ SGPBBackend.makeContactAndSubscriptionFieldsRequired = function()
 
 SGPBBackend.prototype.makePopupTitleRequired = function()
 {
-	var editModeBtn = jQuery('#elementor-switch-mode-button');
-	if (editModeBtn.length) {
-		if (!SGPBBackend.getParamFromUrl('post')) {
-			editModeBtn.attr('disabled', 'disabled');
-			editModeBtn.after('<p class="sgpb-text-warning">'+SGPB_JS_LOCALIZATION.publishPopupBeforeElemntor+'</p>');
-		}
-	}
 	if (jQuery('#title').length) {
 		var postType = jQuery('#post_type');
 		if (postType.length && postType.val() == 'popupbuilder') {
@@ -1595,6 +1761,20 @@ SGPBBackend.resetCount = function(popupId)
 			location.reload();
 		});
 	}
+};
+
+SGPBBackend.prototype.autosave = function()
+{
+	var allPopupData = jQuery('form#post').serializeArray();
+	var data = {
+		nonce: SGPB_JS_PARAMS.nonce,
+		action: 'sgpb_autosave',
+		allPopupData: allPopupData
+	};
+
+	jQuery.post(ajaxurl, data, function(response) {
+		/*success*/
+	});
 };
 
 jQuery(document).ready(function() {

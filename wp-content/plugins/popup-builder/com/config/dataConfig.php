@@ -457,7 +457,7 @@ class SgpbDataConfig
 					'data-select-type' => 'basic'
 				),
 				'infoAttrs' => array(
-					'label' => 'Page operator',
+					'label' => 'Rule',
 					'info' => __('Allow or Disallow popup showing for the selected conditions.', SG_POPUP_TEXT_DOMAIN)
 				)
 			)
@@ -480,11 +480,32 @@ class SgpbDataConfig
 		/*Target condition config*/
 	}
 
+	public static function allFreeExtensionsKeys()
+	{
+		$keys = array();
+
+		$keys[] = array(
+			'label' => __('PDF', SG_POPUP_TEXT_DOMAIN),
+			'pluginKey' =>  'popupbuilder-pdf/PopupBuilderPdf.php',
+			'key' => 'pdf',
+			'url' => SGPB_PDF_PLUGIN_URL,
+			'availability' => 'free'
+		);
+
+		return $keys;
+	}
+
 	public static function allExtensionsKeys()
 	{
 		$keys = array();
 
 		$keys[] = array(
+			'label' => __('Gamification', SG_POPUP_TEXT_DOMAIN),
+			'pluginKey' =>  'popupbuilder-gamification/PopupBuilderGamification.php',
+			'key' => 'gamification',
+			'url' => SGPB_GAMIFICATION_PLUGIN_URL
+		);
+        $keys[] = array(
 			'label' => __('Push Notification', SG_POPUP_TEXT_DOMAIN),
 			'pluginKey' =>  'popupbuilder-push-notification/PopupBuilderPushNotification.php',
 			'key' => 'pushNotification',
@@ -667,7 +688,7 @@ class SgpbDataConfig
 			'operator' => array(
 				'select_behavior' => __('Select behavior', SG_POPUP_TEXT_DOMAIN),
 				__('Behaviors', SG_POPUP_TEXT_DOMAIN) => array(
-					'redirect-url' => __('Redirect to url', SG_POPUP_TEXT_DOMAIN),
+					'redirect-url' => __('Redirect to URL', SG_POPUP_TEXT_DOMAIN),
 					'open-popup' => __('Open another popup', SG_POPUP_TEXT_DOMAIN),
 					'close-popup' => __('Close current popup', SG_POPUP_TEXT_DOMAIN)
 				)
@@ -866,13 +887,14 @@ class SgpbDataConfig
 		$options[] = array('name' => 'sgpb-subs-btn-progress-title', 'type' => 'text', 'defaultValue' => __('Please wait...', SG_POPUP_TEXT_DOMAIN));
 		$options[] = array('name' => 'sgpb-subs-btn-bg-color', 'type' => 'text', 'defaultValue' => '#4CAF50');
 		$options[] = array('name' => 'sgpb-subs-btn-text-color', 'type' => 'text', 'defaultValue' => '#FFFFFF');
-		$options[] = array('name' => 'sgpb-subs-error-message', 'type' => 'text', 'defaultValue' => __('There was an error while trying to send your request. Please try again', SG_POPUP_TEXT_DOMAIN).'.');
+		$options[] = array('name' => 'sgpb-subs-error-message', 'type' => 'text', 'defaultValue' => SGPB_SUBSCRIPTION_ERROR_MESSAGE);
 		$options[] = array('name' => 'sgpb-subs-invalid-message', 'type' => 'text', 'defaultValue' => __('Please enter a valid email address', SG_POPUP_TEXT_DOMAIN).'.');
 		$options[] = array('name' => 'sgpb-subs-success-behavior', 'type' => 'text', 'defaultValue' => 'showMessage');
 		$options[] = array('name' => 'sgpb-subs-success-message', 'type' => 'text', 'defaultValue' =>  __('You have successfully subscribed to the newsletter', SG_POPUP_TEXT_DOMAIN));
 		$options[] = array('name' => 'sgpb-subs-success-redirect-URL', 'type' => 'text', 'defaultValue' =>  '');
 		$options[] = array('name' => 'sgpb-subs-success-redirect-new-tab', 'type' => 'checkbox', 'defaultValue' =>  '');
 		$options[] = array('name' => 'sgpb-subs-gdpr-status', 'type' => 'checkbox', 'defaultValue' =>  '');
+		$options[] = array('name' => 'sgpb-subs-show-form-to-top', 'type' => 'checkbox', 'defaultValue' =>  '');
 		$options[] = array('name' => 'sgpb-subs-gdpr-label', 'type' => 'text', 'defaultValue' =>  __('Accept Terms', SG_POPUP_TEXT_DOMAIN));
 		$options[] = array('name' => 'sgpb-subs-gdpr-text', 'type' => 'text', 'defaultValue' =>  __(get_bloginfo().' will use the information you provide on this form to be in touch with you and to provide updates and marketing.', SG_POPUP_TEXT_DOMAIN));
 		$options[] = array('name' => 'sgpb-subs-fields', 'type' => 'sgpb', 'defaultValue' => '');

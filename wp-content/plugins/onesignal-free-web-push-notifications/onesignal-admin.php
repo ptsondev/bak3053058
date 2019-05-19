@@ -794,11 +794,12 @@ public static function uuid($title) {
 
 
 	$request = array(
-		"headers" => array(
+    "headers" => array(
           		"content-type" => "application/json;charset=utf-8",
           		"Authorization" => "Basic " . $onesignal_auth_key
 		),
-		"body" => json_encode($fields)
+    "body" => json_encode($fields),
+    "timeout" => 60
 	);
 
 	$response = wp_remote_post($onesignal_post_url, $request);
@@ -823,12 +824,17 @@ public static function uuid($title) {
 		$status = $response['response']['code'];
 	}
 
+    if ($response_body['recipients'] == "0") {
+        update_post_meta($post->ID, "error_message", json_encode($response_body));
+    }
 
 	update_post_meta($post->ID, "status", $status);
 	
 	if ($status != 200) {
+    error_log("There was a ".$status." error sending your notification.");
+    error_log("Response from OneSignal:", json_encode($response));
           if ($status != 0) {	  
-		set_transient( 'onesignal_transient_error', '<div class="error notice onesignal-error-notice">
+		        set_transient( 'onesignal_transient_error', '<div class="error notice onesignal-error-notice">
                     <p><strong>OneSignal Push:</strong><em> There was a ' . $status . ' error sending your notification.</em></p>
                 </div>', 86400 );
           } else {
@@ -861,10 +867,10 @@ public static function uuid($title) {
 
             if ($config_show_notification_send_status_message) {
               if ($recipient_count != 0) {
-		      set_transient('onesignal_transient_success', '<div class="components-notice is-success is-dismissible">
-			      <div class="components-notice__content">
-			      <p><strong>OneSignal Push:</strong><em> Successfully ' . $sent_or_scheduled . ' a notification to ' . $recipient_count . ' recipients.</em></p>
-			      </div>
+                set_transient('onesignal_transient_success', '<div class="components-notice is-success is-dismissible">
+                  <div class="components-notice__content">
+                  <p><strong>OneSignal Push:</strong><em> Successfully ' . $sent_or_scheduled . ' a notification to ' . $recipient_count . ' recipients.</em></p>
+                  </div>
                     </div>', 86400);
               } else {
                 set_transient('onesignal_transient_success', '<div class="updated notice notice-success is-dismissible">

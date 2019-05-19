@@ -159,23 +159,23 @@ class AdminHelper
 
 			if (is_array($label)) {
 				$selectBox .= '<optgroup label="'.$value.'">';
-					foreach ($label as $key => $optionLabel) {
-						$selected = '';
-						if (is_array($selectedValue)) {
-							$isSelected = in_array($key, $selectedValue);
-							if ($isSelected) {
-								$selected = 'selected';
-							}
-						}
-						else if ($selectedValue == $key) {
+				foreach ($label as $key => $optionLabel) {
+					$selected = '';
+					if (is_array($selectedValue)) {
+						$isSelected = in_array($key, $selectedValue);
+						if ($isSelected) {
 							$selected = 'selected';
 						}
-						else if (is_array($key) && in_array($selectedValue, $key)) {
-							$selected = 'selected';
-						}
-
-						$selectBox .= '<option value="'.$key.'" '.$selected.'>'.$optionLabel.'</option>';
 					}
+					else if ($selectedValue == $key) {
+						$selected = 'selected';
+					}
+					else if (is_array($key) && in_array($selectedValue, $key)) {
+						$selected = 'selected';
+					}
+
+					$selectBox .= '<option value="'.$key.'" '.$selected.'>'.$optionLabel.'</option>';
+				}
 				$selectBox .= '</optgroup>';
 			}
 			else {
@@ -258,8 +258,8 @@ class AdminHelper
 			}
 			else {
 				$str .= '<div class="row form-group">';
-					$str .= '<label class="col-md-5 control-label">'.__($element['title'], SG_POPUP_TEXT_DOMAIN).'</label>';
-					$str .= '<div class="col-sm-7"><input type="radio" name="'.esc_attr($name).'" value="'.esc_attr($value).'" '.$checked.' autocomplete="off"></div>';
+				$str .= '<label class="col-md-5 control-label">'.__($element['title'], SG_POPUP_TEXT_DOMAIN).'</label>';
+				$str .= '<div class="col-sm-7"><input type="radio" name="'.esc_attr($name).'" value="'.esc_attr($value).'" '.$checked.' autocomplete="off"></div>';
 				$str .= '</div>';
 			}
 		}
@@ -323,14 +323,14 @@ class AdminHelper
 		$wpdb->query($prepareSql);
 	}
 
-	public static function subscribersRelatedQuery($query = '')
+	public static function subscribersRelatedQuery($query = '', $additionalColumn = '')
 	{
 		global $wpdb;
 		$subscribersTablename = $wpdb->prefix.SGPB_SUBSCRIBERS_TABLE_NAME;
 		$postsTablename = $wpdb->prefix.SGPB_POSTS_TABLE_NAME;
 
 		if ($query == '') {
-			$query = 'SELECT firstName, lastName, email, cDate, '.$postsTablename.'.post_title AS subscriptionType FROM '.$subscribersTablename.' ';
+			$query = 'SELECT firstName, lastName, email, cDate, '.$additionalColumn.' '.$postsTablename.'.post_title AS subscriptionTitle FROM '.$subscribersTablename.' ';
 		}
 		$searchQuery = ' unsubscribed <> 1';
 		$filterCriteria = '';
@@ -484,6 +484,10 @@ class AdminHelper
 
 	public static function showMenuForCurrentUser()
 	{
+		if (!is_admin()) {
+			return true;
+		}
+		
 		$savedUserRoles = self::getPopupPostAllowedUserRoles();
 		$currentUserRole = self::getCurrentUserRole();
 		if (!is_array($savedUserRoles) || !is_array($currentUserRole)) {
@@ -578,17 +582,16 @@ class AdminHelper
 
 			$getUsersObj = get_users(
 				array(
-					'blog_id' => get_current_blog_id()
+					'blog_id' => get_current_blog_id(),
+					'search' => get_current_user_id()
 				)
 			);
-			if (is_array($getUsersObj)) {
-				foreach ($getUsersObj as $key => $userData) {
-					if ($userData->ID == get_current_user_id()) {
-						$roles = $userData->roles;
-						if (is_array($roles) && !empty($roles)) {
-							$role[] = $roles[0];
-						}
-					}
+
+			if (!empty($getUsersObj[0])) {
+				$roles = $getUsersObj[0]->roles;
+
+				if (is_array($roles) && !empty($roles)) {
+					$role = array_merge($role, $getUsersObj[0]->roles);
 				}
 			}
 
@@ -667,19 +670,19 @@ class AdminHelper
 		$extensions = self::getAllActiveExtensions();
 		ob_start();
 		?>
-			<p class="sgpb-extension-notice-close">x</p>
-			<div class="sgpb-extensions-list-wrapper">
-				<div class="sgpb-notice-header">
-					<h3><?php _e('Popup Builder plugin has been successfully updated', SG_POPUP_TEXT_DOMAIN); ?></h3>
-					<h4><?php _e('The following extensions need to be updated manually', SG_POPUP_TEXT_DOMAIN); ?></h4>
-				</div>
-				<ul class="sgpb-extensions-list">
-					<?php foreach ($extensions as $extensionName): ?>
-						<a target="_blank" href="https://popup-builder.com/forms/control-panel/"><li><?php echo $extensionName; ?></li></a>
-					<?php endforeach; ?>
-				</ul>
+		<p class="sgpb-extension-notice-close">x</p>
+		<div class="sgpb-extensions-list-wrapper">
+			<div class="sgpb-notice-header">
+				<h3><?php _e('Popup Builder plugin has been successfully updated', SG_POPUP_TEXT_DOMAIN); ?></h3>
+				<h4><?php _e('The following extensions need to be updated manually', SG_POPUP_TEXT_DOMAIN); ?></h4>
 			</div>
-			<p class="sgpb-extension-notice-dont-show"><?php _e('Don\'t show again', SG_POPUP_TEXT_DOMAIN)?></p>
+			<ul class="sgpb-extensions-list">
+				<?php foreach ($extensions as $extensionName): ?>
+					<a target="_blank" href="https://popup-builder.com/forms/control-panel/"><li><?php echo $extensionName; ?></li></a>
+				<?php endforeach; ?>
+			</ul>
+		</div>
+		<p class="sgpb-extension-notice-dont-show"><?php _e('Don\'t show again', SG_POPUP_TEXT_DOMAIN)?></p>
 		<?php
 		$content = ob_get_contents();
 		ob_get_clean();
@@ -697,6 +700,30 @@ class AdminHelper
 		}
 
 		return array_flip($ids);
+	}
+
+	public static function getAllFreeExtensions()
+	{
+		$allExtensions = SgpbDataConfig::allFreeExtensionsKeys();
+
+		$notActiveExtensions = array();
+		$activeExtensions = array();
+
+		foreach ($allExtensions as $extension) {
+			if (!is_plugin_active($extension['pluginKey'])) {
+				$notActiveExtensions[] = $extension;
+			}
+			else {
+				$activeExtensions[] = $extension;
+			}
+		}
+
+		$divideExtension = array(
+			'noActive' => $notActiveExtensions,
+			'active' => $activeExtensions
+		);
+
+		return $divideExtension;
 	}
 
 	public static function getAllExtensions()
@@ -1150,17 +1177,16 @@ class AdminHelper
 		}
 		add_action('admin_footer', function() use ($popupContent) {
 				$popupId = 0;
-				$popupOptions = array();
 				$events = array(array('onload'));
 				$events = json_encode($events);
 				$popupContent = '<div style="position:absolute;top: -999999999999999999999px;">
-							<div class="sg-popup-builder-content" id="sg-popup-content-wrapper-'.$popupId.'" data-id="'.esc_attr($popupId).'" data-events="'.esc_attr($events).'" data-options="'.esc_attr($popupOptions).'">
+							<div class="sg-popup-builder-content" id="sg-popup-content-wrapper-'.$popupId.'" data-id="'.esc_attr($popupId).'" data-events="'.esc_attr($events).'" data-options="">
 								<div class="sgpb-popup-builder-content-'.esc_attr($popupId).' sgpb-popup-builder-content-html">'.$popupContent.'</div>
 							</div>
 						  </div>';
 
-				echo $popupContent;
-			});
+			echo $popupContent;
+		});
 	}
 
 	public static function shouldOpenForMaxOpenPopupMessage()
@@ -1434,6 +1460,7 @@ class AdminHelper
 
 		$useragent = @$_SERVER['HTTP_USER_AGENT'];
 		preg_match('/iPhone|Android|iPad|iPod|webOS/', $useragent, $matches);
+
 		$os = current($matches);
 		if ($os == 'iPad' || $os == 'iPhone' || $os == 'iPod') {
 			$isIOS = true;
@@ -1511,7 +1538,7 @@ class AdminHelper
 	 * @since 3.1.9
 	 *
 	 * @return bool where true mean modified false mean there is not need modification
-     */
+	 */
 	public static function makeRegisteredPluginsStaticPathsToDynamic()
 	{
 		$hasModifiedPaths = get_option('sgpbModifiedRegisteredPluginsPaths');
@@ -1592,5 +1619,34 @@ class AdminHelper
 		}
 
 		return $hasInactiveExtensions;
+	}
+
+	public static function getSubscriberDataById($id)
+	{
+		global $wpdb;
+		$result = $wpdb->get_row('SELECT * FROM '.$wpdb->prefix.SGPB_SUBSCRIBERS_TABLE_NAME.' WHERE id='.$id, ARRAY_A);
+
+		return $result;
+	}
+
+	public static function getSubscriptionColumnsById($id)
+	{
+		$popup = SGPopup::find($id);
+		if (empty($popup) || !is_object($popup)) {
+			return array();
+		}
+		$freeSavedOptions = $popup->getOptionValue('sgpb-subs-fields');
+
+		if (!empty($freeSavedOptions)) {
+			return array('firstName' => 'First name','lastName' => 'Last name', 'email' => 'Email', 'date' => 'Date');
+		}
+		$formFieldsJson = $popup->getOptionValue('sgpb-subscription-fields-json');
+		if (!empty($formFieldsJson)) {
+			$data = apply_filters('sgpbGetSubscriptionLabels', array(), $popup);
+			$data['date'] = 'Date';
+			return $data;
+		}
+
+		return array();
 	}
 }

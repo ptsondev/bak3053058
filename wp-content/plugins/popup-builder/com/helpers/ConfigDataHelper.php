@@ -289,6 +289,71 @@ class ConfigDataHelper
 			)
 		);
 
+		$data['htmlCustomButtonArgs'] = array(
+			'template' => array(
+				'fieldWrapperAttr' => array(
+					'class' => 'col-md-6 sgpb-choice-option-wrapper'
+				),
+				'labelAttr' => array(
+					'class' => 'col-md-6 sgpb-choice-option-wrapper sgpb-sub-option-label'
+				),
+				'groupWrapperAttr' => array(
+					'class' => 'row form-group sgpb-choice-wrapper'
+				)
+			),
+			'buttonPosition' => 'right',
+			'nextNewLine' => true,
+			'fields' => array(
+				array(
+					'attr' => array(
+						'type' => 'radio',
+						'name' => 'sgpb-custom-button',
+						'class' => 'custom-button-copy-to-clipboard',
+						'data-attr-href' => 'sgpb-custom-button-copy',
+						'value' => 'copyToClipBoard'
+					),
+					'label' => array(
+						'name' => __('Copy to clipboard', SG_POPUP_TEXT_DOMAIN).':'
+					)
+				),
+				array(
+					'attr' => array(
+						'type' => 'radio',
+						'name' => 'sgpb-custom-button',
+						'class' => 'custom-button-copy-to-clipboard',
+						'data-attr-href' => 'sgpb-custom-button-redirect-to-URL',
+						'value' => 'redirectToURL'
+					),
+					'label' => array(
+						'name' => __('Redirect to URL', SG_POPUP_TEXT_DOMAIN).':'
+					)
+				),
+				array(
+					'attr' => array(
+						'type' => 'radio',
+						'name' => 'sgpb-custom-button',
+						'class' => 'subs-success-open-popup',
+						'data-attr-href' => 'sgpb-custom-button-open-popup',
+						'value' => 'openPopup'
+					),
+					'label' => array(
+						'name' => __('Open popup', SG_POPUP_TEXT_DOMAIN).':'
+					)
+				),
+				array(
+					'attr' => array(
+						'type' => 'radio',
+						'name' => 'sgpb-custom-button',
+						'class' => 'sgpb-custom-button-hide-popup',
+						'value' => 'hidePopup'
+					),
+					'label' => array(
+						'name' => __('Hide popup', SG_POPUP_TEXT_DOMAIN).':'
+					)
+				)
+			)
+		);
+
 		$data['popupDimensions'] = array(
 			'template' => array(
 				'fieldWrapperAttr' => array(
@@ -398,7 +463,9 @@ class ConfigDataHelper
 			'user-status' => __('User Status', SG_POPUP_TEXT_DOMAIN),
 			'after-x' => __('After x pages visit', SG_POPUP_TEXT_DOMAIN),
 			'user-role' => __('User Role', SG_POPUP_TEXT_DOMAIN),
-			'countries' => __('Countries', SG_POPUP_TEXT_DOMAIN)
+			'countries' => __('Countries', SG_POPUP_TEXT_DOMAIN),
+			'detect-by-url' => __('Detect by URL', SG_POPUP_TEXT_DOMAIN),
+			'cookie-detection' => __('Cookie Detection', SG_POPUP_TEXT_DOMAIN)
 		);
 
 		$data['closeButtonPositions'] = array(
@@ -578,7 +645,7 @@ class ConfigDataHelper
 						'value' => 'redirectToURL'
 					),
 					'label' => array(
-						'name' => __('Redirect to url', SG_POPUP_TEXT_DOMAIN).':'
+						'name' => __('Redirect to URL', SG_POPUP_TEXT_DOMAIN).':'
 					)
 				),
 				array(
@@ -674,7 +741,7 @@ class ConfigDataHelper
 						'value' => 'redirectToURL'
 					),
 					'label' => array(
-						'name' => __('Redirect to url', SG_POPUP_TEXT_DOMAIN).':'
+						'name' => __('Redirect to URL', SG_POPUP_TEXT_DOMAIN).':'
 					)
 				),
 				array(
@@ -1090,7 +1157,8 @@ class ConfigDataHelper
 			'areYouSure' => __('Are you sure?', SG_POPUP_TEXT_DOMAIN),
 			'addButtonSpinner' => __('Add', SG_POPUP_TEXT_DOMAIN),
 			'audioSupportAlertMessage' => __('Only audio files supported (e.g.: mp3, wav, m4a, ogg)', SG_POPUP_TEXT_DOMAIN),
-			'publishPopupBeforeElemntor' => __('Please, publish the popup before starting to use Elementor with it!', SG_POPUP_TEXT_DOMAIN)
+			'publishPopupBeforeElementor' => __('Please, publish the popup before starting to use Elementor with it!', SG_POPUP_TEXT_DOMAIN),
+			'publishPopupBeforeDivi' => __('Please, publish the popup before starting to use Divi Builder with it!', SG_POPUP_TEXT_DOMAIN)
 		);
 
 		return $translatedData;

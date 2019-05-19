@@ -674,7 +674,7 @@ msgstr ""
 
 #: com/config/dataConfig.php:659 com/helpers/ConfigDataHelper.php:525
 #: com/helpers/ConfigDataHelper.php:632
-msgid "Redirect to url"
+msgid "Redirect to URL"
 msgstr ""
 
 #: com/config/dataConfig.php:660

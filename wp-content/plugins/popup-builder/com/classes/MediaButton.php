@@ -73,7 +73,7 @@ class MediaButton
 		if (!$this->hideMediaButton) {
 			$output = '';
 		}
-		
+
 		return $output.$jsVariableContent;
 	}
 
@@ -83,6 +83,12 @@ class MediaButton
 		if (!$allowToShow) {
 			$output = '';
 			return $output;
+		}
+		$currentPostType = AdminHelper::getCurrentPostType();
+		if (!empty($currentPostType) && $currentPostType == SG_POPUP_POST_TYPE) {
+			add_action('admin_footer', function() {
+				require_once(SG_POPUP_VIEWS_PATH.'htmlCustomButtonElement.php');
+			});
 		}
 
 		ob_start();

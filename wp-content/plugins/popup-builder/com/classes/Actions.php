@@ -20,6 +20,7 @@ class Actions
 		add_action('init', array($this, 'postTypeInit'), 9999);
 		add_action('admin_menu', array($this, 'addSubMenu'));
 		add_action('admin_menu', array($this, 'supportLinks'), 999);
+		add_action('admin_head', array($this, 'showPreviewButtonAfterPopupPublish'));
 		add_filter('get_sample_permalink_html', array($this, 'removePostPermalink'), 1, 1);
 		add_action('manage_'.SG_POPUP_POST_TYPE.'_posts_custom_column' , array($this, 'popupsTableColumnsValues'), 10, 2);
 		add_action('media_buttons', array($this, 'popupMediaButton'));
@@ -42,14 +43,11 @@ class Actions
 		add_action('sgpb_send_newsletter', array($this, 'newsletterSendEmail'), 10, 1);
 		add_action('sgpbGetBannerContentOnce', array($this, 'getBannerContent'), 10, 1);
 		add_action('admin_post_sgpbSaveSettings', array($this, 'saveSettings'), 10, 1);
-		add_action('admin_init', array($this, 'disableAutosave'));
 		add_action('admin_init', array($this, 'userRolesCaps'));
-		add_action('admin_head', array($this, 'showPreviewButtonAfterPopupPublish'));
 		add_action('admin_notices', array($this, 'pluginNotices'));
 		add_action('admin_notices', array($this, 'promotionalBanner'), 10);
 		add_action('admin_init', array($this, 'pluginLoaded'));
 		add_action('plugins_loaded', array($this, 'loadTextDomain'));
-		add_filter('wp_insert_post_data', array($this, 'editPublishSettings'), 100, 1);
 		// for change admin popup list order
 		add_action('pre_get_posts', array($this, 'preGetPosts'));
 		add_action('template_redirect', array($this, 'redirectFromPopupPage'));
@@ -57,8 +55,21 @@ class Actions
 		// activate extensions
 		add_action('wp_before_admin_bar_render', array($this, 'pluginActivated'), 10, 2);
 		add_action('admin_head', array($this, 'hidePageBuilderEditButtons'));
+		add_action('admin_head', array($this, 'hidePublishingActions'));
 		add_action('admin_notices', array($this, 'inactiveExtensionNotice'));
 		new Ajax();
+	}
+
+	public function showPreviewButtonAfterPopupPublish()
+	{
+		$currentPostType = AdminHelper::getCurrentPostType();
+		if (!empty($currentPostType) && $currentPostType == SG_POPUP_POST_TYPE) {
+			echo '<style>
+				#save-post {
+					display:none !important;
+				}
+			</style>';
+		}
 	}
 
 	public function inactiveExtensionNotice()
@@ -106,6 +117,21 @@ class Actions
 		}
 	}
 
+	public function hidePublishingActions() {
+		$currentPostType = AdminHelper::getCurrentPostType();
+		if (empty($currentPostType) || $currentPostType != SG_POPUP_POST_TYPE) {
+			return false;
+		}
+
+		echo '<style>
+				#misc-publishing-actions .edit-post-status,
+				#misc-publishing-actions .edit-timestamp,
+				#misc-publishing-actions .edit-visibility {
+					display:none !important;
+				}
+			</style>';
+	}
+
 	public function hidePageBuilderEditButtons($postId = 0, $post = array())
 	{
 		$currentPostType = AdminHelper::getCurrentPostType();
@@ -143,6 +169,7 @@ class Actions
 
 	public function wpInit()
 	{
+		require_once(ABSPATH.'wp-admin/includes/screen.php');
 		if (!get_option('sgpb-banner-cron-only-once')) {
 			update_option('sgpb-banner-cron-only-once', 1);
 			wp_schedule_event(time(), 'daily', 'sgpbGetBannerContentOnce');
@@ -204,18 +231,6 @@ class Actions
 				exit();
 			}
 		}
-	}
-
-	public function editPublishSettings($post)
-	{
-		if (isset($post['post_type']) && $post['post_type'] == SG_POPUP_POST_TYPE) {
-			// force set status to publish
-			if (isset($post['post_status']) && ($post['post_status'] == 'draft' || $post['post_status'] == 'pending')) {
-				$post['post_status'] = 'publish';
-			}
-		}
-
-		return $post;
 	}
 
 	public function preGetPosts($query)
@@ -312,22 +327,17 @@ class Actions
 		}
 	}
 
-	public function showPreviewButtonAfterPopupPublish()
-	{
-		if (!empty($_GET['post_type']) && $_GET['post_type'] == SG_POPUP_POST_TYPE && !isset($_GET['post'])) {
-			echo '<style>
-				#post-preview,#save-post {
-					display:none !important;
-				}
-			</style>';
-		}
-	}
-
 	public function popupMediaButton()
 	{
 		if (!$this->mediaButton) {
 			$this->mediaButton = true;
-			echo new MediaButton();
+			self::enqueueScriptsForPageBuilders();
+			if (function_exists('get_current_screen')) {
+				$screen = get_current_screen();
+				if (!empty($screen)) {
+					echo new MediaButton();
+				}
+			}
 		}
 	}
 
@@ -336,11 +346,29 @@ class Actions
 		if (empty($this->mediaButton)) {
 			$this->mediaButton = true;
 			add_action('admin_footer', function() {
+				self::enqueueScriptsForPageBuilders();
 				echo new MediaButton(false);
 			});
 		}
 
 		return $plugins;
+	}
+
+	public static function enqueueScriptsForPageBuilders()
+	{
+		require_once(ABSPATH.'wp-admin/includes/screen.php');
+		global $post;
+		if (function_exists('get_current_screen')) {
+			$screen = get_current_screen();
+			if ((!empty($screen->id) && $screen->id == SG_POPUP_POST_TYPE) || !empty($post)) {
+				Javascript::enqueueScripts('post-new.php');
+				Style::enqueueStyles('post-new.php');
+			}
+		}
+		else if (isset($_GET['fl_builder'])) {
+ 			Javascript::enqueueScripts('post-new.php');
+			Style::enqueueStyles('post-new.php');
+		}
 	}
 
 	public function userRolesCaps()
@@ -388,13 +416,6 @@ class Actions
 			$obj = new PopupExtensionActivator();
 			$obj->activate();
 			update_option('sgpbActivateExtensions', 1);
-		}
-	}
-
-	public function disableAutosave()
-	{
-		if (!empty($_GET['post_type']) && $_GET['post_type'] == SG_POPUP_POST_TYPE) {
-			wp_deregister_script('autosave');
 		}
 	}
 
@@ -577,7 +598,7 @@ class Actions
 		$headers = array(
 			'From: "'.$blogInfo.'" <'.$fromEmail.'>' ,
 			'MIME-Version: 1.0' ,
-			'Content-type: text/html; charset=iso-8859-1'
+			'Content-type: text/html; charset=UTF-8'
 		);
 
 		foreach ($subscribers as $subscriber) {
@@ -761,9 +782,6 @@ class Actions
 			}
 		}
 
-		if (!$update && !$saveMode) {
-			return;
-		}
 
 		if (empty($post)) {
 			$saveMode = '';
@@ -1106,7 +1124,6 @@ class Actions
 	public function getSubscribersCsvFile()
 	{
 		global $wpdb;
-
 		$query = AdminHelper::subscribersRelatedQuery();
 		if (isset($_GET['orderby']) && !empty($_GET['orderby'])) {
 			if (isset($_GET['order']) && !empty($_GET['order'])) {
@@ -1130,12 +1147,14 @@ class Actions
 		foreach($subscribers as $values) {
 			foreach ($values as $key => $value) {
 				$content .= $value;
-				if ($key != 'subscriptionType') {
+				if ($key != 'subscriptionTitle') {
 					$content .= ',';
 				}
 			}
 			$content .= "\n";
 		}
+
+		$content = apply_filters('sgpbSubscribersContent', $content);
 
 		header('Pragma: public');
 		header('Expires: 0');

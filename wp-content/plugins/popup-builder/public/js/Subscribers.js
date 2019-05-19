@@ -3,7 +3,10 @@ function SGPBSubscribers() {}
 SGPBSubscribers.prototype.init = function()
 {
 	this.openAddSubscriberPopup();
+	this.openImportSubscriberPopup();
+	this.subscriberFileUploader();
 	this.closeAddSubscriberPopup();
+	this.importSubscriber();
 	this.dataImport();
 	this.deleteSubscribers();
 	this.addSubscribers();
@@ -36,6 +39,154 @@ SGPBSubscribers.prototype.deleteSubscribers = function()
 			}
 		}
 	})
+};
+
+SGPBSubscribers.prototype.openImportSubscriberPopup = function()
+{
+	if (jQuery('.bulkactions').empty()) {
+		jQuery('.bulkactions').remove();
+	}
+	var that = this;
+	jQuery('.sgpb-import-subscriber').bind('click', function() {
+		jQuery('#sgpb-import-subscribers').addClass('sgpb-show-add-subscriber-popup');
+		SGPBSubscribers.prototype.escKeyClosePopup();
+		that.closePopup();
+	});
+};
+
+SGPBSubscribers.prototype.subscriberFileUploader = function()
+{
+	var uploadButton = jQuery('#js-import-subscriber-button');
+	var supportedAudioTypes = ['text/plain', 'text/x-csv', 'text/csv'];
+
+	if (!uploadButton.length) {
+		return false;
+	}
+	var uploader;
+	uploadButton.bind('click', function(e) {
+		e.preventDefault();
+
+		if (uploader) {
+			uploader.open();
+			return false;
+		}
+
+		/* Extend the wp.media object */
+		uploader = wp.media.frames.file_frame = wp.media({
+			titleFF : SGPB_JS_LOCALIZATION.changeSound,
+			button : {
+				text : SGPB_JS_LOCALIZATION.changeSound
+			},
+			library : {type : supportedAudioTypes},
+			multiple : false
+		});
+
+		/* When a file is selected, grab the URL and set it as the text field's value */
+		uploader.on('select', function() {
+			var attachment = uploader.state().get('selection').first().toJSON();
+			if (supportedAudioTypes.indexOf(attachment.mime) === -1) {
+				alert(SGPB_JS_LOCALIZATION.audioSupportAlertMessage);
+				return;
+			}
+			jQuery('#js-import-subscriber-file-url').val(attachment.url);
+		});
+		/* Open the uploader dialog */
+		uploader.open();
+	});
+};
+
+
+SGPBSubscribers.prototype.importSubscriber = function()
+{
+	var importSubscriber = jQuery('.sgpb-import-subscriber-to-list');
+	var that = this;
+
+	if (!importSubscriber.length) {
+		return false;
+	}
+
+	importSubscriber.bind('click', function() {
+		var popupSubscriptionList = jQuery('.js-sg-import-list').val();
+		var importListURL = jQuery('#js-import-subscriber-file-url').val();
+
+		var data = {
+			action: 'sgpb_import_subscribers',
+			nonce: SGPB_JS_PARAMS.nonce,
+			popupSubscriptionList: popupSubscriptionList,
+			importListURL: importListURL,
+			beforeSend: function() {
+				importSubscriber.prop('disabled', true);
+			}
+		};
+
+		jQuery.post(ajaxurl, data, function(response) {
+			importSubscriber.prop('disabled', false);
+			jQuery('.sgpb-add-subscriber-content-wrapper').html('');
+			jQuery('.sgpb-add-subscriber-content-wrapper').append(response);
+			that.closePopup();
+			that.disableSelectedValue();
+			jQuery('.sgpb-add-new-subscribers-wrapper').addClass('sgpb-to-center-window');
+			jQuery('.sgpb-add-new-subscribers-wrapper').css({'margin-top': 0});
+			that.saveImportValue();
+		});
+	});
+};
+
+SGPBSubscribers.prototype.disableSelectedValue = function() {
+	var selectOptioon = jQuery('.sgpb-our-fields-keys');
+
+	if (!selectOptioon.length) {
+		return false;
+	}
+
+	selectOptioon.bind('change', function() {
+		var currentVal = jQuery(this).val();
+		jQuery('.sgpb-our-fields-keys option[value="'+jQuery(this).attr('data-saved-value')+'"]').removeAttr('disabled');
+		jQuery(this).attr('data-saved-value', currentVal);
+		jQuery('.sgpb-our-fields-keys option[value="'+currentVal+'"]').not(jQuery(this)).attr('disabled', 'disabled');
+	});
+};
+
+SGPBSubscribers.prototype.saveImportValue = function()
+{
+	var importSubscriber = jQuery('.sgpb-import-subscriber-to-list');
+	var mapping = {};
+	var data = {
+		action: 'sgpb_save_imported_subscribers',
+		nonce: SGPB_JS_PARAMS.nonce,
+		popupSubscriptionList: jQuery('.sgpb-to-import-popup-id').val(),
+		importListURL:  jQuery('.sgpb-imported-file-url').val(),
+	};
+
+	jQuery('.sgpb-save-subscriber').bind('click', function() {
+		mapping = {};
+
+		var ourFields = jQuery('.sgpb-our-fields-keys');
+		ourFields.each(function () {
+			var currentValue = jQuery('option:selected', this).val();
+			if (currentValue) {
+				mapping[currentValue] = jQuery(this).attr('data-index');
+			}
+		});
+		data.namesMapping = mapping;
+		data.popupId = jQuery('.sgpb-to-import-popup-id').val();
+		data.beforeSend = function() {
+			jQuery('.sgpb-save-subscriber').prop('disabled', true);
+		};
+		jQuery.post(ajaxurl, data, function(response) {
+			window.location.reload();
+			jQuery('.sgpb-save-subscriber').prop('disabled', false);
+		});
+	});
+};
+
+SGPBSubscribers.prototype.closePopup = function ()
+{
+	jQuery('.sgpb-subscriber-popup-close-btn-js').bind('click', function() {
+		jQuery(this).parents('.sgpb-subscribers-popup').first().removeClass('sgpb-show-add-subscriber-popup');
+		jQuery('.sgpb-add-subscriber-input:selected').prop('selected', false);
+		jQuery('.sgpb-add-subscriber-input').val('');
+	});
 };
 
 SGPBSubscribers.prototype.openAddSubscriberPopup = function()

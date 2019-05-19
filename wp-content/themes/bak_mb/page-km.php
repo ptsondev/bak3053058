@@ -14,11 +14,11 @@
                             
                 <div id="ctkm">
                     
-                     <h3>Mừng xuân mới - rinh bếp mới về nhà</h3>                                         
-                        ✅  Nhiều combo bếp & thiết bị nhà bếp cao cấp<br />
-                        ✅  Khuyến mãi cực shock<br />
-                     ✅  Nhiều quà tặng hấp dẫn<br />
-                     ✅  Chương trình kéo dài đến hết 30/1/2019<br />
+                     <h3>Tưng bừng khuyến mãi đại lễ 30/4 - 1/5</h3>                                         
+                        ✅  Nhiều combo bếp - hút - lò nướng cao cấp<br />
+                        ✅  Khuyến mãi cực shock, chiết khấu lên đến 30%<br />
+                        ✅  Nhiều quà tặng hấp dẫn (áp dụng cho khách đến xem hàng trực tiếp tại showroom)<br />
+                        ✅  Chương trình kéo dài đến hết 10/5/2019<br />
                         
                   <img src="<?php echo PATH_TO_IMAGES; ?>b9-01.png" /><br /><br />
                     <img src="<?php echo PATH_TO_IMAGES; ?>b9-02.png" /><br /><br />

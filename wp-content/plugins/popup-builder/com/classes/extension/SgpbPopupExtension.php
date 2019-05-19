@@ -269,7 +269,7 @@ class SgpbPopupExtension implements SgpbIPopupExtension
 					6 => AdminHelper::defaultButtonImage('sgpb-theme-6')
 				),
 				'homePageUrl' => get_home_url().'/',
-				'isPreview' => is_preview(),
+				'isPreview' => isset($_GET['sg_popup_preview_id']),
 				'convertedIdsReverse' => AdminHelper::getReverseConvertIds(),
 				'dontShowPopupExpireTime' => SGPB_DONT_SHOW_POPUP_EXPIRY,
 				'conditionalJsClasses' => apply_filters('sgpbConditionalJsClasses', array())

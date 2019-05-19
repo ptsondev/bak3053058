@@ -150,11 +150,19 @@ class ConditionCreator
 				$status = false;
 			}
 
+			// unset old customOperator
+			$SGPB_DATA_CONFIG_ARRAY[$conditionName]['paramsData']['customOperator'] = '';
 			if (is_array($operatorAllowInConditions)) {
+
 				if (in_array($savedData['param'], $operatorAllowInConditions)) {
-					$SGPB_DATA_CONFIG_ARRAY[$conditionName]['paramsData']['operator'] = $conditionData['paramsData'][$savedData['param'].'Operator'];
+					$operator = '';
+					if (!empty($conditionData['paramsData'][$savedData['param'].'Operator'])) {
+						$operator = $conditionData['paramsData'][$savedData['param'].'Operator'];
+					}
+					$SGPB_DATA_CONFIG_ARRAY[$conditionName]['paramsData']['customOperator'] = $operator;
+					return true;
 				}
-				else if (!empty($savedData['tempParam']) && in_array($savedData['tempParam'], $operatorAllowInConditions)) {
+				if (!empty($savedData['tempParam']) && in_array($savedData['tempParam'], $operatorAllowInConditions)) {
 					$SGPB_DATA_CONFIG_ARRAY[$conditionName]['paramsData']['operator'] = $conditionData['paramsData'][$savedData['tempParam'].'Operator'];
 				}
 			}
@@ -313,6 +321,10 @@ class ConditionCreator
 			$data = $paramsData[$ruleName];
 		}
 
+		// if exists customOperator it takes the custom one
+        if ($ruleName == 'operator' && !empty($paramsData['customOperator'])) {
+            $data = $paramsData['customOperator'];
+        }
 
 		$optionAttr = array();
 		if (!empty($attrs[$ruleName])) {
@@ -442,6 +454,9 @@ class ConditionCreator
 		if (!empty($conditionAttrs[$titleKey])) {
 			$optionAttrs = $conditionAttrs[$titleKey];
 			if (!empty($optionAttrs['infoAttrs'])) {
+				// $conditionName => events, conditions, targets...
+				// $ruleName => param, operator, value (1-st, 2-nd, 3-rd columns)
+				$optionAttrs = apply_filters('sgpb'.$conditionName.$ruleName.'Param', $optionAttrs, $saveData);
 				$optionTitle = $optionAttrs['infoAttrs']['label'];
 				if (!empty($optionAttrs['infoAttrs']['labelAttrs'])) {
 					$labelAttributes = AdminHelper::createAttrs($optionAttrs['infoAttrs']['labelAttrs']);

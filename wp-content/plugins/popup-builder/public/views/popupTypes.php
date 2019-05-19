@@ -28,6 +28,24 @@ $labels = $SGPB_POPUP_TYPES['typeLabels'];
 			</div>
 		<?php endif; ?>
 		<div class="sgpb-wrapper">
+			<?php
+			$extensions = AdminHelper::getAllFreeExtensions();
+			foreach ($extensions['noActive'] as $extension) : ?>
+				<?php
+				$URL = '';
+				if (!empty($extension['url'])) {
+					$URL = $extension['url'];
+				}
+				$type = $extension['key'];
+				?>
+				<a class="create-popup-link popups-div sgpb-<?php echo $type; ?>-div" href="<?php echo esc_attr($URL); ?>" target="_blank">
+					<div class="sgpb-type-icon <?php echo $type; ?>-popup-pro"></div>
+					<div class="sgpb-type-text-wrapper">
+						<p class="sgpb-type-text"><?php echo ucfirst($extension['label']); ?></p>
+					</div>
+					<div class="sgpb-popup-type-free-pro-ribbon"></div>
+				</a>
+			<?php endforeach; ?>
 			<?php foreach ($popupTypes as $popupType): ?>
 				<?php $type = $popupType->getName(); ?>
 				<?php
@@ -78,6 +96,7 @@ $labels = $SGPB_POPUP_TYPES['typeLabels'];
 			</div>
 		</a>
 	</div>
+
 <?php
 $extensions = AdminHelper::getAllExtensions();
 if (!empty($extensions['noActive'])) : ?>
@@ -92,6 +111,9 @@ if (!empty($extensions['noActive'])) : ?>
 			</div>
 		</div>
 		<?php foreach ($extensions['noActive'] as $extension) : ?>
+			<?php if (isset($extension['availability']) && $extension['availability'] == 'free'): ?>
+				<?php continue; ?>
+			<?php endif; ?>
 			<?php
 			$URL = '';
 			if (!empty($extension['url'])) {

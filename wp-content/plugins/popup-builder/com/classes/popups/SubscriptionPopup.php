@@ -232,10 +232,10 @@ class SubscriptionPopup extends SGPopup
 			$submitStyles['color'] = $this->getFieldValue('sgpb-subs-btn-text-color');
 		}
 		if ($this->getFieldValue('sgpb-subs-btn-border-radius')) {
-			$submitStyles['border-radius'] = $this->getFieldValue('sgpb-subs-btn-border-radius');
+			$submitStyles['border-radius'] = AdminHelper::getCSSSafeSize($this->getFieldValue('sgpb-subs-btn-border-radius'));
 		}
 		if ($this->getFieldValue('sgpb-subs-btn-border-width')) {
-			$submitStyles['border-width'] = $this->getFieldValue('sgpb-subs-btn-border-width');
+			$submitStyles['border-width'] = AdminHelper::getCSSSafeSize($this->getFieldValue('sgpb-subs-btn-border-width'));
 		}
 		if ($this->getFieldValue('sgpb-subs-btn-border-color')) {
 			$submitStyles['border-color'] = $this->getFieldValue('sgpb-subs-btn-border-color');
@@ -372,6 +372,14 @@ class SubscriptionPopup extends SGPopup
 			return $validateObj;
 		}
 
+		if (empty($emailMessage)) {
+			$emailMessage = SGPB_SUBSCRIPTION_EMAIL_MESSAGE;
+		}
+
+		if (empty($requiredMessage)) {
+			$requiredMessage = SGPB_SUBSCRIPTION_VALIDATION_MESSAGE;
+		}
+		
 		$rules = 'rules: { ';
 		$messages = 'messages: { ';
 
@@ -507,6 +515,9 @@ class SubscriptionPopup extends SGPopup
 	{
 		$successMessage = $this->getOptionValue('sgpb-subs-success-message');
 		$errorMessage = $this->getOptionValue('sgpb-subs-error-message');
+		if (empty($errorMessage)) {
+			$errorMessage = SGPB_SUBSCRIPTION_ERROR_MESSAGE;
+		}
 		ob_start();
 		?>
 		<div class="subs-form-messages sgpb-alert sgpb-alert-success sg-hide-element">
@@ -539,8 +550,13 @@ class SubscriptionPopup extends SGPopup
 		apply_filters('sgpbSubscriptionForm', $this);
 		$popupContent = $this->getContent();
 		$formContent = $this->getFormContent();
+		$showToTop = $this->getOptionValue('sgpb-subs-show-form-to-top');
+		$content = $popupContent.$formContent;
 
-		return $popupContent.$formContent;
+		if ($showToTop) {
+			$content = $formContent.$popupContent;
+		}
+		return $content;
 	}
 
 	public function subscriptionForm($popupObj)
@@ -625,7 +641,9 @@ class SubscriptionPopup extends SGPopup
 	public static function getAllSubscriptions()
 	{
 		$popupArgs = array();
-		$popupArgs['type'] = 'subscription';
+		$popupArgs['type'][] = 'subscription';
+
+		$popupArgs = apply_filters('sgpbGetAllSubscriptionArgs', $popupArgs);
 		$allPopups = SGPopup::getAllPopups($popupArgs);
 
 		return $allPopups;

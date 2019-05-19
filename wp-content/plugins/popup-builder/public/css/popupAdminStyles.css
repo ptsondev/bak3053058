@@ -14,6 +14,10 @@
 	float: right;
 }
 
+.sgpb-clear {
+	clear: both;
+}
+
 .sgpb-popup-content-direction-right .sgpb-contact-admin-wrapper,
 .sgpb-popup-content-direction-right .sgpb-subscription-admin-wrapper,
 .sgpb-forms-preview-direction,
@@ -265,6 +269,12 @@
 .image-popup {
 	background-image: url("../img/imageTypeIcon.png");
 }
+
+.pdf-popup,
+.pdf-popup-pro {
+	background-image: url("../img/pdfTypeIcon.png");
+}
+
 .sgpb-image-div {
 	background-color: #87e37f !important;
 }
@@ -298,6 +308,14 @@
 	background-color: #ffac49 !important;
 }
 
+.sgpb-pdf-div {
+	background-color: #dc1d00 !important;
+}
+
+.sgpb-pdf-div:hover {
+	background-color: #ea7766 !important;
+}
+
 .fblike-popup {
 	background-image: url("../img/facebookTypeIcon.png");
 }
@@ -322,6 +340,19 @@
 	background-color: #d4a6e0 !important;
 }
 
+.gamification-popup,
+.gamification-popup-pro {
+	background-image: url("../img/gamificationIcon.png");
+}
+
+.sgpb-gamification-div {
+	background-color: #b084bc !important;
+}
+
+.sgpb-gamification-div:hover {
+	background-color: #d4a6e0 !important;
+}
+
 .pushNotification-popup,
 .pushNotification-popup-pro {
 	background-image: url("../img/pushNotificationTypeIcon.png");
@@ -341,6 +372,14 @@
 }
 
 .sgpb-extensions-wrapper .sgpb-iframe-div {
+	background-color: rgba(212, 166, 224, 0.4) !important;
+}
+
+.sgpb-free-extensions-wrapper .sgpb-pdf-div {
+	background-color: #ea7766 !important;
+}
+
+.sgpb-extensions-wrapper .sgpb-gamification-div {
 	background-color: rgba(212, 166, 224, 0.4) !important;
 }
 
@@ -770,7 +809,15 @@
 	background-size: cover;
 }
 
-
+.sgpb-popup-type-free-pro-ribbon {
+	background-image: url(../img/freeProbadge.png);
+	position: absolute;
+	top: -5px;
+	right: -5px;
+	width: 71px;
+	height: 40px;
+	background-size: cover;
+}
 
 /*condition builder*/
 .sg-rules-or {
@@ -880,7 +927,8 @@
 	text-align: center;
 }
 
-.sgpb-show-image-container {
+.sgpb-show-image-container,
+.sgpb-show-gamification-image-container {
 	width: 222px;
 	height: 127px;
 	background-color: #F8F8F8;
@@ -892,6 +940,7 @@
 
 .sgpb-show-button-image-container,
 .sgpb-show-sales-image-container,
+.sgpb-show-gamification-image-container,
 .sgpb-show-background-image-container {
 	background-color: #F8F8F8;
 	background-size: contain;
@@ -902,6 +951,7 @@
 }
 
 .sgpb-show-button-image-container,
+.sgpb-show-gamification-image-container,
 .sgpb-show-sales-image-container {
 	width: 35px;
 	height: 35px;
@@ -910,6 +960,10 @@
 .sgpb-show-background-image-container {
 	width: 300px;
 	height: 135px;
+}
+
+.sgpb-show-gamification-image-container {
+	margin-top: 0px;
 }
 
 .sgpb-no-image {
@@ -1057,6 +1111,7 @@ input:checked + .sgpb-slider:before {
 /* Subscribers page view */
 #sgpb-subscriber-data,
 #sgpb-add-new-subscriber,
+.sgpb-subscribers-popup,
 #sgpb-export-subscribers {
 	position: fixed;
 	top:0;
@@ -1099,7 +1154,8 @@ input:checked + .sgpb-slider:before {
 	overflow: auto;
 }
 
-.sgpb-add-subscriber-popup-btns {
+.sgpb-add-subscriber-popup-btns,
+.sgpb-subscriber-popup-btns {
 	width: 100%;
 }
 
@@ -1501,6 +1557,14 @@ input:checked + .sgpb-slider:before {
 	display: none;
 }
 
+#sgpb-custom-button-wrapper .col-md-6 .select2.select2-container:nth-child(n+3) {
+	display: none;
+}
+
+#sgpb-custom-button-wrapper {
+	overflow-x: hidden;
+}
+
 .sgpb-insert-popup-title-border {
 	width: 100%;
 	height: 1px;
@@ -1680,6 +1744,7 @@ input:checked + .sgpb-slider:before {
 
 .sgpb-pro-wrapper,
 .sgpb-free-wrapper,
+.sgpb-free-extensions-wrapper,
 .sgpb-extensions-wrapper {
 	max-width: 850px;
 	margin: 0 auto;
@@ -2156,4 +2221,36 @@ input:checked + .sgpb-slider:before {
 
 .sgpb-text-warning {
 	color: #007bff !important;
+}
+
+.sgpb-info-span {
+	color: #787878;
+	font-style: italic;
+	font-weight: lighter;
+}
+
+.sgpb-file-settings-available-wrapper,
+.sgpb-label-config-left {
+	border-right: 1px solid #CCCCCC;
+}
+
+.sgpb-file-settings-label {
+	text-align: center;
+}
+
+.sgpb-to-center-window {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+}
+
+.sgpb-import-subscribers-close {
+	margin-right: -8px !important;
+}
+
+.sgpb-custom-button-close-popup {
+	position: absolute;
+	right: -3px;
+	top: 6px;
 }

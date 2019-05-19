@@ -1,6 +1,8 @@
 <?php
 namespace sgpb;
+use \WP_Query;
 use \SgpbPopupConfig;
+use sgpb\PopupBuilderActivePackage;
 
 class Filters
 {
@@ -40,6 +42,17 @@ class Filters
 		add_filter('sgpbAdditionalMetaboxes', array($this, 'metaboxes'), 10, 1);
 		add_filter('sgpbOptionAvailable', array($this, 'filterOption'), 10, 1);
 		add_filter('export_wp_filename', array($this, 'exportFileName'), 10, 1);
+		add_filter('sgpbAdvancedOptionsDefaultValues', array($this, 'defaultAdvancedOptionsValues'), 10, 1);
+	}
+
+	public function defaultAdvancedOptionsValues($options = array())
+	{
+		$enablePopupOverlay = PopupBuilderActivePackage::canUseOption('sgpb-enable-popup-overlay');
+		if (!$enablePopupOverlay) {
+			$options['sgpb-enable-popup-overlay'] = 'on';
+		}
+
+		return $options;
 	}
 
 	public function excludePostToShowPrepare()
@@ -222,9 +235,99 @@ class Filters
 
 	public function editPopupPreviewLink($previewLink = '', $post = array())
 	{
-		if (get_option('theme_switched') === false) {
-			if (!empty($post) && $post->post_type == SG_POPUP_POST_TYPE) {
-				return home_url()."?popup_preview_id=".$post->ID;
+		if (!empty($post) && $post->post_type == SG_POPUP_POST_TYPE) {
+			$popupId = $post->ID;
+			$targets = get_post_meta($popupId, 'sg_popup_target_preview', true);
+			if ((isset($targets['sgpb-target'][0][0]['param']) && $targets['sgpb-target'][0][0]['param'] == 'not_rule') || !isset($targets['sgpb-target'][0][0]['param'])) {
+				$previewLink = home_url();
+				$previewLink .= '/?sg_popup_preview_id='.$popupId;
+
+				return $previewLink;
+			}
+			foreach ($targets['sgpb-target'][0] as $targetKey => $targetValue) {
+				if (!isset($targetValue['operator']) || $targetValue['operator'] == '!=') {
+					continue;
+				}
+				$previewLink = self::getPopupPreviewLink($targetValue, $popupId);
+				$previewLink .= '/?sg_popup_preview_id='.$popupId;
+			}
+		}
+
+		return $previewLink;
+	}
+
+	public static function getPopupPreviewLink($targetData, $popupId)
+	{
+		$previewLink = home_url();
+
+		if (empty($targetData['param'])) {
+			return $previewLink;
+		}
+		$targetParam = $targetData['param'];
+
+		if ($targetParam == 'everywhere') {
+			return $previewLink;
+		}
+
+		$args = array(
+			'orderby'   => 'rand'
+		);
+
+		// posts
+		if (strpos($targetData['param'], '_all')) {
+			if ($targetData['param'] == 'post_all') {
+				$args['post_type'] = 'post';
+			}
+			if ($targetData['param'] == 'page_all') {
+				$args['post_type'] = 'page';
+			}
+		}
+		if ($targetData['param'] == 'post_type' && !empty($targetData['value'])) {
+			$args['post_type'] = $targetData['value'];
+		}
+		if ($targetData['param'] == 'page_type' && !empty($targetData['value'])) {
+			$pageTypes = $targetData['value'];
+			foreach ($pageTypes as $pageType) {
+
+				if ($pageType == 'is_home_page') {
+					if (is_front_page() && is_home()) {
+						// default homepage
+						return get_home_url();
+					}
+					else if (is_front_page()) {
+						// static homepage
+						return get_home_url();
+					}
+				}
+				else if (function_exists($pageType)) {
+					if ($pageType == 'is_home') {
+						return get_home_url();
+					}
+					else if ($pageType == 'is_search') {
+						return get_search_link();
+					}
+					else if ($pageType == 'is_shop') {
+						return get_home_url().'/shop/';
+					}
+				}
+			}
+		}
+		if (isset($args['post_type'])) {
+			$the_query = new WP_Query($args);
+			foreach ($the_query->posts as $post) {
+				$postId = $post->ID;
+				if (get_permalink($postId)) {
+					return get_permalink($postId);
+				}
+			}
+		}
+		// selected post/page/custom_post_types...
+		if (strpos($targetData['param'], '_selected') && !empty($targetData['value'])) {
+			$value = array_keys($targetData['value']);
+			if (!empty($value[0])) {
+				if (get_permalink($value[0])) {
+					return get_permalink($value[0]);
+				}
 			}
 		}
 

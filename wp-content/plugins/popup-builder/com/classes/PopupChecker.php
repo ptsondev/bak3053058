@@ -108,7 +108,14 @@ class PopupChecker
 		if ($isPostInForbidden) {
 			return $insertedModes;
 		}
+
+		if (!empty($target['forbidden']) && empty($target['permissive'])) {
+			$insertedModes['option_event'] = true;
+			return $insertedModes;
+		}
+
 		$isPermissive = $this->isPermissive($target);
+
 		//If permissive for current page check conditions
 		if ($isPermissive) {
 			$conditions = $this->divideConditionsData();
@@ -158,6 +165,7 @@ class PopupChecker
 				if ($isPermissiveConditions) {
 					return $isPermissiveConditions;
 				}
+
 			}
 
 			return false;
@@ -464,17 +472,20 @@ class PopupChecker
 	{
 		$permissive = array();
 		$forbidden = array();
-
+		$permissiveOperators = array('==');
+		$forbiddenOperators = array('!=');
+		$permissiveOperators = apply_filters('sgpbAdditionalPermissiveOperators', $permissiveOperators);
+		$forbiddenOperators = apply_filters('sgpbAdditionalForbiddenOperators', $forbiddenOperators);
 		if (!empty($targetData)) {
 			foreach ($targetData as $data) {
 				if (empty($data['operator'])) {
 					break;
 				}
 
-				if ($data['operator'] == '==') {
+				if (in_array($data['operator'], $permissiveOperators)) {
 					$permissive[] = $data;
 				}
-				else {
+				else if (in_array($data['operator'], $forbiddenOperators)) {
 					$forbidden[] = $data;
 				}
 			}

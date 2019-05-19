@@ -118,6 +118,61 @@ $defaultConditions = $defaultData['freeConditions'];
 			<label><?php _e('Condition', SG_POPUP_TEXT_DOMAIN);?></label>
 		</div>
 		<div class="col-md-3">
+			<label><?php _e('Rule', SG_POPUP_TEXT_DOMAIN);?></label>
+		</div>
+		<div class="col-md-3">
+			<label><?php _e('Add the url', SG_POPUP_TEXT_DOMAIN);?></label>
+		</div>
+	</div>
+	<div class="row form-group">
+		<div class="col-md-3">
+			<?php echo AdminHelper::createSelectBox($defaultConditions, 'detect-by-url', array('class' => 'js-sg-select2')); ?>
+		</div>
+		<div class="col-md-3">
+			<?php echo AdminHelper::createSelectBox(array('starts-with' => __('Starts with', SG_POPUP_TEXT_DOMAIN)), 'starts-with', array('class' => 'js-sg-select2')); ?>
+		</div>
+		<div class="col-md-3">
+			<input type="text" class="sgpb-full-width-events form-control" value="<?php _e('https://', SG_POPUP_TEXT_DOMAIN);?>">
+		</div>
+		<div class="col-md-3">
+			<a href="<?php echo SG_POPUP_ADVANCED_TARGETING_URL;?>" target="_blank" class="btn btn-warning btn-xs sgpb-advanced-targeting-pro-label">
+				<?php _e('UNLOCK OPTION', SG_POPUP_TEXT_DOMAIN);?>
+			</a>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-3">
+			<label><?php _e('Condition', SG_POPUP_TEXT_DOMAIN);?></label>
+		</div>
+		<div class="col-md-3">
+			<label><?php _e('Rule', SG_POPUP_TEXT_DOMAIN);?></label>
+		</div>
+		<div class="col-md-3">
+			<label><?php _e('Add cookie name', SG_POPUP_TEXT_DOMAIN);?></label>
+		</div>
+	</div>
+	<div class="row form-group">
+		<div class="col-md-3">
+			<?php echo AdminHelper::createSelectBox($defaultConditions, 'cookie-detection', array('class' => 'js-sg-select2')); ?>
+		</div>
+		<div class="col-md-3">
+			<?php echo AdminHelper::createSelectBox(array('contains' => __('Contains', SG_POPUP_TEXT_DOMAIN)), 'contains', array('class' => 'js-sg-select2')); ?>
+		</div>
+		<div class="col-md-3">
+			<input type="text" class="sgpb-full-width-events form-control" placeholder="<?php _e('your_cookie_here', SG_POPUP_TEXT_DOMAIN);?>">
+		</div>
+		<div class="col-md-3">
+			<a href="<?php echo SG_POPUP_ADVANCED_TARGETING_URL;?>" target="_blank" class="btn btn-warning btn-xs sgpb-advanced-targeting-pro-label">
+				<?php _e('UNLOCK OPTION', SG_POPUP_TEXT_DOMAIN);?>
+			</a>
+		</div>
+	</div>
+	
+	<div class="row">
+		<div class="col-md-3">
+			<label><?php _e('Condition', SG_POPUP_TEXT_DOMAIN);?></label>
+		</div>
+		<div class="col-md-3">
 			<label><?php _e('Is at least', SG_POPUP_TEXT_DOMAIN);?></label>
 		</div>
 	</div>

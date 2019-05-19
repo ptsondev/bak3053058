@@ -4,7 +4,7 @@
 Plugin Name: kk Star Ratings
 Plugin URI: https://github.com/kamalkhan/kk-star-ratings
 Description: Renewed from the ground up(as of v2.0), clean, animated and light weight ratings feature for your blog. With kk Star Ratings, you can <strong>allow your blog posts to be rated by your blog visitors</strong>. It also includes a <strong>widget</strong> which you can add to your sidebar to show the top rated post. Wait! There is more to it. Enjoy the extensive options you can set to customize this plugin.
-Version: 2.6.3
+Version: 2.6.4
 Author: Kamal Khan
 Author URI: http://bhittani.com
 License: GPLv2 or later
@@ -63,6 +63,7 @@ if(!class_exists('BhittaniPlugin_kkStarRatings')) :
             $Params['ajaxurl'] = admin_url('admin-ajax.php');
             $Params['func'] = 'kksr_ajax';
             $Params['msg'] = parent::get_options('kksr_init_msg');
+            $Params['suffix_votes'] = parent::get_options('kksr_suffix_votes');
             $Params['fuelspeed'] = (int) parent::get_options('kksr_js_fuelspeed');
             $Params['thankyou'] = parent::get_options('kksr_js_thankyou');
             $Params['error_msg'] = parent::get_options('kksr_js_error');
@@ -151,7 +152,8 @@ if(!class_exists('BhittaniPlugin_kkStarRatings')) :
             $opt_show_in_pages = 0; // 1|0
             $opt_unique = 0; // 1|0
             $opt_position = 'top-left'; // 'top-left', 'top-right', 'bottom-left', 'bottom-right'
-            $opt_legend = '[avg] ([per]) [total] vote[s]'; // [total]=total ratings, [avg]=average, [per]=percentage [s]=singular/plural
+	        $kksr_sufix_votes = 's'; // 's' in english for voteS
+            $opt_legend = '[avg] ([per]) [total] vote[suffix]'; // [total]=total ratings, [avg]=average, [per]=percentage [suffix]=singular/plural
             $opt_init_msg = 'Rate this post'; // string
             $opt_column = 1; // 1|0
 
@@ -164,6 +166,7 @@ if(!class_exists('BhittaniPlugin_kkStarRatings')) :
             $Options['kksr_show_in_pages'] = isset($Old_plugin['show_in_pages']) ? $Old_plugin['show_in_pages'] : $opt_show_in_pages;
             $Options['kksr_unique'] = isset($Old_plugin['unique']) ? $Old_plugin['unique'] : $opt_unique;
             $Options['kksr_position'] = isset($Old_plugin['position']) ? $Old_plugin['position'] : $opt_position;
+	        $Options['kksr_suffix_votes'] = isset($Old_plugin['kksr_suffix_votes']) ? $Old_plugin['kksr_suffix_votes'] : $kksr_sufix_votes;
             $Options['kksr_legend'] = isset($Old_plugin['legend']) ? $Old_plugin['legend'] : $opt_legend;
             $Options['kksr_init_msg'] = isset($Old_plugin['init_msg']) ? $Old_plugin['init_msg'] : $opt_init_msg;
             $Options['kksr_column'] = isset($Old_plugin['column']) ? $Old_plugin['column'] : $opt_column;
@@ -697,10 +700,12 @@ if(!class_exists('BhittaniPlugin_kkStarRatings')) :
                 return parent::get_options('kksr_init_msg');
             }
 
+            $pluralSuffix = parent::get_options('kksr_suffix_votes');
+
             $leg = str_replace('[total]', '<span itemprop="ratingCount">'.$votes.'</span>', $legend);
             $leg = str_replace('[avg]', '<span itemprop="ratingValue">'.$avg.'</span>', $leg);
             $leg = str_replace('[per]',  $per .'%', $leg);
-            $leg = str_replace('[s]', $votes == 1 ? '' : 's', $leg);
+            $leg = str_replace('[suffix]', $votes == 1 ? '' : $pluralSuffix, $leg);
             $leg = str_replace('[best]', $best, $leg);
 
             return $leg;
@@ -728,10 +733,13 @@ if(!class_exists('BhittaniPlugin_kkStarRatings')) :
         }
     }
 
-    $kkStarRatings_obj = new BhittaniPlugin_kkStarRatings('bhittani_plugin_kksr', 'kk Star Ratings', '2.6.3');
+    $kkStarRatings_obj = new BhittaniPlugin_kkStarRatings('bhittani_plugin_kksr', 'kk Star Ratings', '2.6.4');
 
     // Setup
     register_activation_hook(__FILE__, array($kkStarRatings_obj, 'activate'));
+
+    //Uninstall
+	// TODO: include 'register_uninstall_hook() '
 
     // Scripts
     add_action('wp_enqueue_scripts', array($kkStarRatings_obj, 'js'));
